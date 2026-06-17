@@ -19,13 +19,14 @@ var cellHeights = []
 for (i=1; i < timesNum.length; i++) {
     var startTime = timesNum[i-1]-timesNum[0]
     var endTime = timesNum[i]-timesNum[0]
-    cellHeights.push((endTime-startTime)/totalTimeRatio*(height-20))
+    cellHeights.push((endTime-startTime)/totalTimeRatio*(height-50))
 }
+console.log(cellHeights)
 
-var tableHTML
-for (i=1; i < timesNum.length; i++) {
+var tableHTML = ''
+for (i=0; i < timesNum.length-1; i++) {
     tableHTML += `
-    <tr>
+    <tr style="height:` + cellHeights[i] + `">
         <td>
             test
         </td>
