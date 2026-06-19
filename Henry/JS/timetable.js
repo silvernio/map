@@ -35,8 +35,8 @@ function styling() {
         tableHTML += `
         <tr style="height:` + cellHeights[i] + `">
             <td id ="tableCell`+i+`">
-                test
-                <input type = "color" id="tableColour`+i+`" style = "height: `+(cellHeights[i]-3)+`px; float:right; outline: none; padding: 0; background: none;"></input>
+                <input type = "button" id="tableButton`+i+`" value = "sgyrytrfaw" style = "width:`+((width-20)/3-54)+`px;height:`+(cellHeights[i]-3)+`; border:none;+float:left; outline: none; padding: 0;"></input>
+                <input type = "color" id="tableColour`+i+`" style = "height: `+(cellHeights[i]-3)+`px; float:right; outline: none; border:none; padding: 0; background:none;"></input>
             </td>
         </tr>
         `
@@ -84,15 +84,47 @@ function styling() {
 
 var tableColours = []
 var tableCells = []
+var tableButtons = []
 for (let i = 0; i < timesNum.length-1; i++) {
-    tableColours.push(document.getElementById("tableColour"+i)) // This ID was made in styling. It's the colour picker.
-    tableCells.push(document.getElementById("tableCell"+i)) // This ID was made in styling. It's the table cell.
+    // All of these HTML IDs were made in styling
+    tableColours.push(document.getElementById("tableColour"+i)) // The colour pickers.
+    tableCells.push(document.getElementById("tableCell"+i)) // The table cells.
+    tableButtons.push(document.getElementById("tableButton"+i)) // The table buttons.
 }
+
 
 for (let i = 0; i < tableColours.length; i++) {
     tableColours[i].addEventListener("input", function() { // Adds an event listener to every colour picker
         tableCells[i].style.backgroundColor = tableColours[i].value // Sets the table cell's background to the colour picked in the colour picker
-    })    
+        tableColours[i].style.backgroundColor = tableColours[i].value
+        tableButtons[i].style.backgroundColor = tableColours[i].value
+        // console.log(tableColours[i])
+        let hex = tableColours[i].value
+        let rgb = hexToRGBConverter(hex)
+        
+        // Detect brightness of rgb. Formula gotten from online.
+        console.log(tableButtons[i].style.color)
+        console.log("asd")
+        if (0.2126*rgb[0] + 0.7152*rgb[1] + 0.0722*rgb[2] >= 100) {
+            // console.log(tableButtons[i].style)
+            tableButtons[i].style.color = "rgb(0, 0, 0)"
+            // console.log(0.2126*rgb[0] + 0.7152*rgb[1] + 0.0722*rgb[2])
+        }
+        else {
+            tableButtons[i].style.color = "rgb(255, 255, 255)"
+            // console.log(tableButtons[i].style.color)
+        }
+        // console.log(rgb)
+        // if (tableColours)
+    })
 }
+
+// Function copied from a previous project
+function hexToRGBConverter(hex) { // This converts hex codes to rgb values and sets the colour array to the rgba values
+    const r = parseInt(hex.slice(1, 3), 16); // These 3 lines get the rgb values from the hex code
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return [r, g, b]
+};
 
 styleHTML.innerHTML = styles
