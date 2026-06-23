@@ -17,10 +17,12 @@ for (i=0;  i < timesString.length; i++) {
 var totalTimeRatio = timesNum[timesNum.length-1]-timesNum[0]
 
 var cellHeights = [] // Uses totalTimeRatio to determine the cell heights
+var cellText = []
 for (i=1; i < timesNum.length; i++) {
     var startTime = timesNum[i-1]-timesNum[0] // When the subject starts in relation to the start of the day
     var endTime = timesNum[i]-timesNum[0] // When the subject ends in relation to the start of the day
     cellHeights.push((endTime-startTime)/totalTimeRatio*(height-50)) // Gets the ratio by using above variables
+    cellText.push(["Module " + i + "<br> Lesson name " + i + "<br>" + timesString[i-1] + " - " + timesString[i] + "<br> Mr John"])
 }
 
 var tableHTML = ''
@@ -35,8 +37,8 @@ function styling() {
         tableHTML += `
         <tr style="height:` + cellHeights[i] + `">
             <td id ="tableCell`+i+`">
-                <input type = "button" id="tableButton`+i+`" value = "sgyrytrfaw" style = "width:`+((width-20)/3-54)+`px;height:`+(cellHeights[i]-3)+`; border:none;+float:left; outline: none; padding: 0;"></input>
-                <input type = "color" id="tableColour`+i+`" style = "height: `+(cellHeights[i]-3)+`px; float:right; outline: none; border:none; padding: 0; background:none;"></input>
+                <button id="tableButton`+i+`" style = "width:`+((width-20)/3-54)+`px;height:`+(cellHeights[i]-3)+`; border:none;+float:left; text-align: left; overflow-y: auto; outline: none; padding: 0;">`+cellText[i]+`</button>
+                <input type = "color" id="tableColour`+i+`" style = "height: `+(cellHeights[i]-3)+`px; float:right; border-radius:50px; border: 2px solid black; outline:none; padding:0; background:black;"></input>
             </td>
         </tr>
         `
@@ -68,17 +70,7 @@ function styling() {
         margin-left: auto; 
         margin-right: 0;
     }
-    th {
-        position: sticky;
-        top: 0;
-        background-color: grey;
-
-        box-shadow:
-            inset 0 1px 0 black,
-            inset 0 -1px 0 black,
-            inset 1px 0 0 black,
-            inset -1px 0 0 black;
-    }
+    
     `
 }
 
