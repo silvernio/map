@@ -1,4 +1,4 @@
-fetch("api.php", {
+fetch("/api.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
