@@ -116,3 +116,27 @@ function hexToRGBConverter(hex) { // This converts hex codes to rgb values and s
 };
 
 styleHTML.innerHTML = styles
+
+
+
+console.log("penis")
+
+
+
+
+
+fetch("/api.php", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ request: 'students' })  // Send a request to get crash type data
+})
+    //convert the response to json
+    .then(response => response.text())
+    //then do something with the data
+    .then(data => {
+        console.log(data)
+    })
+    //catch any errors and log them to the console
+    .catch(error => console.error('Error:', error));
