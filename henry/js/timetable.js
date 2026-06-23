@@ -57,9 +57,6 @@ function styling() {
         overflow-y: auto;
         overflow-x: auto;
     }
-    tr, td {
-        border: 1px solid black;
-    }
     table {
         height:`+String(height-20)+`px;
         width:`+String((width-20)/3)+`px;
@@ -70,7 +67,6 @@ function styling() {
         margin-left: auto; 
         margin-right: 0;
     }
-    
     `
 }
 

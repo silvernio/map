@@ -9,3 +9,6 @@ th {
         inset 1px 0 0 black,
         inset -1px 0 0 black;
 }
+tr, td {
+    border: 1px solid black;
+}
