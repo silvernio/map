@@ -130,7 +130,7 @@ fetch("/api.php", {
     headers: {
         "Content-Type": "application/json"
     },
-    body: JSON.stringify({ request: 'students' })  // Send a request to get crash type data
+    body: JSON.stringify({ request: 'lessons', student_id:1 })  // Send a request to get crash type data
 })
     //convert the response to json
     .then(response => response.json())
