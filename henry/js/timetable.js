@@ -133,7 +133,7 @@ fetch("/api.php", {
     body: JSON.stringify({ request: 'students' })  // Send a request to get crash type data
 })
     //convert the response to json
-    .then(response => response.text())
+    .then(response => response.json())
     //then do something with the data
     .then(data => {
         console.log(data)
