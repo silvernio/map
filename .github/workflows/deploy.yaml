@@ -1,0 +1,14 @@
+name: Deploy
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    deploy:
+        runs-on: self-hosted
+        environment: production
+        steps:
+            - name: Pull changes
+              run: git -C /home/friends/map pull
