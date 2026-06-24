@@ -126,7 +126,7 @@ async function getData() {
     // Put this in a FOR loop later
     var studentIds = []
 
-    const studentsResponse = await fetch("api.php", {
+    const studentsResponse = await fetch("/api.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -149,7 +149,7 @@ async function getData() {
 
     }
 
-    const response = await fetch("api.php", {
+    const response = await fetch("/api.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
