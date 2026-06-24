@@ -31,7 +31,7 @@ https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js
 
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
-      <a href="/index.php" class="navbar-item">
+      <a href="/" class="navbar-item">
         Home
       </a>
 
