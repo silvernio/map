@@ -1,4 +1,4 @@
-<?php include '/header.php' ?>
+<?php include './header.php' ?>
 
     <h1>From Sam</h1>
     <h1>Henry's here, with the HTM Lads!</h1>
