@@ -120,7 +120,7 @@ styleHTML.innerHTML = styles
 
 
 console.log("ploopy")
-asoikjdoiuiwer()
+getData()
 
 async function getData() {
     // Put this in a FOR loop later
