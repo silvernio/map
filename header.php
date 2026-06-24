@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Car Crash Data</title>
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"> -->
-    <link rel="stylesheet" href="../libraries/bulma.min.css">
     <script src="
 https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js
 "></script>
+    <link rel="stylesheet" href="./style.css">
 <body>
     <!-- nav -->
 <nav class="navbar" role="navigation" aria-label="main navigation">
