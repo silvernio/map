@@ -136,7 +136,7 @@ async function getData() {
 
     const studentsData = await studentsResponse.json()
     
-    if (data.message) {
+    if (studentsData.message) {
         console.log("CRITICAL FAILIURE")
         console.log(studentsData)
     }
