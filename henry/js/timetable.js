@@ -120,23 +120,50 @@ styleHTML.innerHTML = styles
 
 
 console.log("ploopy")
+asoikjdoiuiwer()
 
+async function getData() {
+    // Put this in a FOR loop later
+    var studentIds = []
 
-
-
-
-fetch("/api.php", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ request: 'lessons', student_id:1 })  // Send a request to get crash type data
-})
-    //convert the response to json
-    .then(response => response.json())
-    //then do something with the data
-    .then(data => {
-        console.log(data)
+    const studentsResponse = await fetch("api.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({request: 'students'})  // Send a request to get crash type data
     })
-    //catch any errors and log them to the console
-    .catch(error => console.error('Error:', error));
+
+    const studentsData = await studentsResponse.json()
+    
+    if (data.message) {
+        console.log("CRITICAL FAILIURE")
+        console.log(studentsData)
+    }
+    else {
+        for (let i = 0; i < studentsData.length; i++) {
+            // console.log(studentsData[i].student_id)
+            studentIds.push(studentsData[i].student_id)
+        }
+        // console.log(studentsData.student_id)
+
+    }
+
+    const response = await fetch("api.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({request: 'lessons', student_id: studentIds[0]})  // Send a request to get crash type data
+    })
+
+    const data = await response.json()
+    
+    if (data.message) {
+        console.log("CRITICAL FAILIURE")
+        console.log(data)
+    }
+    else {
+        console.log(data)
+    }
+}
