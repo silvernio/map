@@ -10,7 +10,7 @@
     <script src="
 https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js
 "></script>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="style.css">
 <body>
     <!-- nav -->
 <nav class="navbar" role="navigation" aria-label="main navigation">
