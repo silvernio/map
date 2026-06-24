@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Car Crash Data</title>
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"> -->
-    <link rel="stylesheet" href="../libraries/bulma.min.css">
     <script src="
 https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js
 "></script>
+    <link rel="stylesheet" href="style.css">
 <body>
     <!-- nav -->
 <nav class="navbar" role="navigation" aria-label="main navigation">
@@ -31,31 +31,22 @@ https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js
 
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
-      <a href="home.php" class="navbar-item">
+      <a href="/index.php" class="navbar-item">
         Home
       </a>
 
-      <a href="dashboard.php" class="navbar-item">
-        Dashboard
+      <a href="/henry/" class="navbar-item">
+        Timetable
       </a>
-      <a href="add_crash.php" class="navbar-item">
-        Add Crash
+      <a href="/silver/" class="navbar-item">
+        Map Editor
       </a>
-      <a href="view_data.php" class="navbar-item">
-        View Data
+      <a href="/sam/" class="navbar-item">
+        Sam
       </a>
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          More
-        </a>
-
-        <div class="navbar-dropdown">
-          <a href="import.php" class="navbar-item">
-            Import CSV
-          </a>
-          
-        </div>
-      </div>
+      <a href="/rivergem/" class="navbar-item">
+        Andrew
+      </a>
     </div>
 
     <div class="navbar-end">
@@ -68,9 +59,4 @@ https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js
       </div>
     </div>
   </div>
-</nav>    
-</body>
-</html>
-    
-</body>
-</html>
+</nav>
