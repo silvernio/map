@@ -1,10 +1,5 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test</title>
-</head>
-<body>
+<?php include '/header.php' ?>
+
     <h1>From Sam</h1>
     <h1>Henry's here, with the HTM Lads!</h1>
     <h1>Silver's here too!</h1>
