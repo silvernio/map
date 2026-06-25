@@ -17,7 +17,11 @@
   </div>
 
   <div id="navbarBasicExample" class="navbar-menu">
+
+    <h1>Map thingo</h1>
+
     <div class="navbar-start">
+      
       <a href="/" class="navbar-item">
         Home
       </a>

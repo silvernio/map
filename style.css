@@ -23,3 +23,16 @@ nav a {
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+nav h1 {
+    position: relative;
+    right: 25px;
+    font-size: 25px;
+    margin-left: 0;
+    margin-right: 5px;
+}
+
+.navbar-menu {
+    display: flex;
+    align-items: center;
+}

@@ -1,8 +1,12 @@
-<?php require __DIR__ . "/../header.php" ?>
+<?php require __DIR__ . "/../header-head.php" ?>
 
-<h1>Editor</h1>
+<link rel="stylesheet" href="style.css">
 
-<div id="sidebar"></div>
+<?php require __DIR__ . "/../header-body.php" ?>
+
+<div id="sidebar">
+    <h1>Editor</h1>
+</div>
 
 <canvas id="canvas"></canvas>
 
