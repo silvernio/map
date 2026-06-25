@@ -2,7 +2,8 @@ const styleHTML = document.getElementById("style");
 const timetableHTML = document.getElementById("timetable")
 
 var width = window.innerWidth
-var height = window.innerHeight
+var height = window.innerHeight - 50
+console.log(height)
 
 // Time is a placeholder for first iterations. Will later get from the server
 var timesString = ["8:30", "8:40", "9:20", "10:00", "10:20", "11:00", "11:40", "12:00", "12:40", "13:20", "14:00", "14:40", "15:20"]
@@ -35,7 +36,7 @@ function styling() {
     // Adds all table cells to the table at the appropriate height. Cell has id "tableCell"+i and colour picker has id "tableColour"+i
     for (i=0; i < timesNum.length-1; i++) {
         tableHTML += `
-        <tr style="height:` + cellHeights[i] + `">
+        <tr style="height:` + cellHeights[i] + `px">
             <td id ="tableCell`+i+`">
                 <button id="tableButton`+i+`" style = "width:`+((width-20)/3-54)+`px;height:`+(cellHeights[i]-3)+`; border:none;+float:left; text-align: left; overflow-y: auto; outline: none; padding: 0;">`+cellText[i]+`</button>
                 <input type = "color" id="tableColour`+i+`" style = "height: `+(cellHeights[i]-3)+`px; float:right; border-radius:50px; border: 2px solid black; outline:none; padding:0; background:black;"></input>
