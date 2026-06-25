@@ -1,3 +1,5 @@
+console.log('working')
+
 fetch("/api.php", {
         method: "POST",
         headers: {
