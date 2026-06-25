@@ -1,4 +1,4 @@
-<?php include "../header.php" ?>
+<?php require __DIR__ . "/../header.php" ?>
 
 <h1>Editor</h1>
 
