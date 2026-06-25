@@ -1,6 +1,4 @@
 <?php include "../header.php";?>
-"hello hello hello"
-
 <head>
 </head>
 
@@ -10,7 +8,7 @@
         <table id="timetable">
             <tr>
                 <th>
-                    test
+                    Timetable
                 </th>
             </tr>
         </table>
