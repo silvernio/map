@@ -2,7 +2,7 @@ const styleHTML = document.getElementById("style");
 const timetableHTML = document.getElementById("timetable")
 
 var width = window.innerWidth
-var height = window.innerHeight - 50
+var height = window.innerHeight - 20
 console.log(height)
 
 // Time is a placeholder for first iterations. Will later get from the server
@@ -22,9 +22,12 @@ var cellText = []
 for (i=1; i < timesNum.length; i++) {
     var startTime = timesNum[i-1]-timesNum[0] // When the subject starts in relation to the start of the day
     var endTime = timesNum[i]-timesNum[0] // When the subject ends in relation to the start of the day
-    cellHeights.push((endTime-startTime)/totalTimeRatio*(height-50)) // Gets the ratio by using above variables
+    cellHeights.push((endTime-startTime)/totalTimeRatio*(height-50) - 0) // Gets the ratio by using above variables
     cellText.push(["Module " + i + "<br> Lesson name " + i + "<br>" + timesString[i-1] + " - " + timesString[i] + "<br> Mr John"])
 }
+
+var pla = 100
+console.log(pla)
 
 var tableHTML = ''
 var styles = ''
@@ -37,9 +40,11 @@ function styling() {
     for (i=0; i < timesNum.length-1; i++) {
         tableHTML += `
         <tr style="height:` + cellHeights[i] + `px">
-            <td id ="tableCell`+i+`">
-                <button id="tableButton`+i+`" style = "width:`+((width-20)/3-54)+`px;height:`+(cellHeights[i]-3)+`; border:none;+float:left; text-align: left; overflow-y: auto; outline: none; padding: 0;">`+cellText[i]+`</button>
-                <input type = "color" id="tableColour`+i+`" style = "height: `+(cellHeights[i]-3)+`px; float:right; border-radius:50px; border: 2px solid black; outline:none; padding:0; background:black;"></input>
+            <td id ="tableCell`+i+`" style = "width:`+((width-50)/3-pla)+`px;">
+                <button id="tableButton`+i+`" style = "width:`+((width-50)/3-pla)+`px; height:`+(cellHeights[i])+`; border:none;+float:left; text-align: left; overflow-y: auto; outline: none; padding: 0;">`+cellText[i]+`</button>
+            </td>
+            <td>
+                <input type = "color" id="tableColour`+i+`" style =  width:`+50+`px; height: `+(cellHeights[i])+`px; float:left; border-radius:50px; border: 2px solid black; outline:none; padding:0; background:black;"></input>
             </td>
         </tr>
         `
@@ -60,7 +65,7 @@ function styling() {
     }
     table {
         height:`+String(height-20)+`px;
-        width:`+String((width-20)/3)+`px;
+        width:`+String((width-90)/3)+`px;
         
         border-collapse: collapse;
         white-space:nowrap;

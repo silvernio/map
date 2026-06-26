@@ -1,10 +1,10 @@
-<?php include "../header.php";?>
+<title>Timetable</title>
 
 <style id="style"></style>
 <div class="tableWrapper" style="border: 1px solid black;">
     <table id="timetable">
         <tr>
-            <th>
+            <th colspan = 2>
                 Timetable
             </th>
         </tr>
