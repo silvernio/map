@@ -10,5 +10,7 @@
 
 <canvas id="canvas"></canvas>
 
+<script type="module" src="script.js"></script>
+
 </body>
 </html>
