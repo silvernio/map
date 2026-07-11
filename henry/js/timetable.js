@@ -2,7 +2,7 @@ const styleHTML = document.getElementById("style");
 const timetableHTML = document.getElementById("timetable")
 
 var width = window.innerWidth
-var height = window.innerHeight - 20
+var height = window.innerHeight
 console.log(height)
 
 // Time is a placeholder for first iterations. Will later get from the server
@@ -22,12 +22,14 @@ var cellText = []
 for (i=1; i < timesNum.length; i++) {
     var startTime = timesNum[i-1]-timesNum[0] // When the subject starts in relation to the start of the day
     var endTime = timesNum[i]-timesNum[0] // When the subject ends in relation to the start of the day
-    cellHeights.push((endTime-startTime)/totalTimeRatio*(height-50) - 0) // Gets the ratio by using above variables
+    cellHeights.push((endTime-startTime)/totalTimeRatio*(height-50)) // Gets the ratio by using above variables
     cellText.push(["Module " + i + "<br> Lesson name " + i + "<br>" + timesString[i-1] + " - " + timesString[i] + "<br> Mr John"])
 }
 
-var pla = 100
-console.log(pla)
+console.log("MIN: "+Math.min(...cellHeights))
+
+// var pla = 100
+// console.log(pla)
 
 var tableHTML = ''
 var styles = ''
@@ -35,16 +37,25 @@ var styles = ''
 // CSS is in JS because it needs to be defined by variables
 // Styling is important because things like colour coding are helpful for organisation apps like this
 styling()
+
+{/* <td>
+    <input type = "color" id="tableColour`+i+`" style =  width:`+50+`px; height: `+(cellHeights[i])+`px; float:left; border-radius:50px; border: 2px solid black; outline:none; padding:0; background:black;"></input>
+</td> */}
+
+{/* <td>
+    <input type="color" id="tableColour`+i+`"style="width:100%; height:100%; margin:0; padding:0; border:none; appearance:none; -webkit-appearance:none; background:none;"></input>
+</td> */}
+
 function styling() {
     // Adds all table cells to the table at the appropriate height. Cell has id "tableCell"+i and colour picker has id "tableColour"+i
     for (i=0; i < timesNum.length-1; i++) {
         tableHTML += `
-        <tr style="height:` + cellHeights[i] + `px">
-            <td id ="tableCell`+i+`" style = "width:`+((width-50)/3-pla)+`px;">
-                <button id="tableButton`+i+`" style = "width:`+((width-50)/3-pla)+`px; height:`+(cellHeights[i])+`; border:none;+float:left; text-align: left; overflow-y: auto; outline: none; padding: 0;">`+cellText[i]+`</button>
+        <tr style="height:` + cellHeights[i] + `px ">
+            <td id ="tableCell`+i+`" style = "width:`+((width-50)/3-100)+`px;">
+                <button id="tableButton`+i+`" style = "width:`+((width-50)/3-100)+`px; height:`+(cellHeights[i])+`; border:none; float:left; text-align: left; overflow-y: auto; outline: none; padding: 0;">`+cellText[i]+`</button>
             </td>
             <td>
-                <input type = "color" id="tableColour`+i+`" style =  width:`+50+`px; height: `+(cellHeights[i])+`px; float:left; border-radius:50px; border: 2px solid black; outline:none; padding:0; background:black;"></input>
+                <input type="color" id="tableColour`+i+`"style="width:100%; height:100%; margin:0; padding:0; border:none; appearance:none; -webkit-appearance:none; background:none;"></input>
             </td>
         </tr>
         `
@@ -54,8 +65,8 @@ function styling() {
     // Adds all css styling
     styles = `
     .tableWrapper {
-        height:`+String(height-20)+`px;
-        width:`+String((width-20)/3)+`px;
+        height:`+String(height-0)+`px;
+        width:`+String((width-45)/3)+`px;
 
         margin-left: auto;
         margin-right: 0;

@@ -1,3 +1,4 @@
+</head>
 <body>
     <!-- nav -->
 <nav class="navbar" role="navigation" aria-label="main navigation">

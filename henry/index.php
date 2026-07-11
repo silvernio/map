@@ -1,3 +1,6 @@
+<br>
+<?php include '../header.php'; ?>
+
 <title>Timetable</title>
 
 <style id="style"></style>
