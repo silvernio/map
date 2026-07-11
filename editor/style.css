@@ -6,8 +6,18 @@
     position: absolute;
     top: 50px;
     left: 0;
+    z-index: 3;
 }
 
 h1 {
     text-align: center;
+}
+
+#canvas {
+    position: absolute;
+    left: 300px;
+    top: 50px;
+    width: calc(100% - 300px);
+    height: calc(100% - 50px);
+    z-index: -1.
 }
