@@ -19,27 +19,32 @@ async function getCellText() {
     await getLessons(studentIds)
 
     for (i=0; i < lessons.length; i++) {
-        for (j=0; j < timesString.length-1; j++) {
+        for (j=0; j < timesString.length; j++) {
             if (lessons[i][1] == timesString[j]) {
                 lessons[i].unshift(j)
             }
         }
     }
-    console.log(lessons)
-}
 
-// console.log(lessons)
-// console.log(lessons.length)
-// for (i=0; i < lessons.length; i++) {
-//     for (j=0; j < timesString.length-1; j++) {
-//         console.log("hey")
-//         console.log(lessons)
-//         console.log(lessons[i][1])
-//         if (lessons[i][1] == timesString[j]) {
-//             lessons[i].unshift(j)
-//         }
-//     }
-// }
+    allLessons = []
+    for (i = 0; i < timesString.length - 1; i++) {
+        allLessons.push(null)
+    }
+    console.log(allLessons)
+    for (i = 0; i < allLessons.length; i++) {
+        for (j = 0; j < lessons.length; j++) {
+            // console.log(lessons[i][0])
+            if (lessons[j][0] == i) {
+                allLessons[i] = ("Module " + lessons[j][0] + "<br>" + lessons[j][1] + "<br>" + lessons[j][2] + " - " + lessons[j][3] + "<br>" + lessons[j][4])
+            }
+        }
+    }
+
+    // WORKING HERE. ADD PLACEHOLDER AS A BACKUP/ERROR AVOIDANCE.
+
+    console.log(allLessons)
+    // console.log(lessons)
+}
 
 // console.log(lessons)
 
@@ -49,6 +54,7 @@ var totalTimeRatio = timesNum[timesNum.length-1]-timesNum[0]
 var cellHeights = [] // Uses totalTimeRatio to determine the cell heights
 var cellText = []
 for (i=1; i < timesNum.length; i++) {
+    // if (lessons[])
     var startTime = timesNum[i-1]-timesNum[0] // When the subject starts in relation to the start of the day
     var endTime = timesNum[i]-timesNum[0] // When the subject ends in relation to the start of the day
     cellHeights.push((endTime-startTime)/totalTimeRatio*(height-50)) // Gets the ratio by using above variables
