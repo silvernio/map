@@ -30,6 +30,11 @@
         $sql = "SELECT * FROM classrooms WHERE map_id = " . $map_id;
     }
 
+    else if ($request == 'teacher' && isset($data['teacher_id'])) {
+        $teacher_id = $data['teacher_id'];
+        $sql = "SELECT * FROM teachers WHERE teacher_id = " . $teacher_id;
+    }
+
     else {
         echo json_encode(['message' => 'Invalid request']);
         exit;

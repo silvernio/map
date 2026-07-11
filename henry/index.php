@@ -16,7 +16,9 @@
 
 <!-- <input type = "color"></input> -->
 
+<script src="js/timetable_data.js"></script>
 <script src="js/timetable.js"></script>
+
 <link rel="stylesheet" href="css/styles.css">
 </body>
 </html>

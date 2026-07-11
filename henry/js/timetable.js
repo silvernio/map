@@ -3,16 +3,45 @@ const timetableHTML = document.getElementById("timetable")
 
 var width = window.innerWidth
 var height = window.innerHeight
-console.log(height)
 
 // Time is a placeholder for first iterations. Will later get from the server
-var timesString = ["8:30", "8:40", "9:20", "10:00", "10:20", "11:00", "11:40", "12:00", "12:40", "13:20", "14:00", "14:40", "15:20"]
+var timesString = ["08:30", "08:40", "09:20", "10:00", "10:20", "11:00", "11:40", "12:00", "12:40", "13:20", "14:00", "14:40", "15:20"]
 var timesNum = [] // Stores the time as 'total number of minutes' as an integer
 
 for (i=0;  i < timesString.length; i++) {
     var splitTimes = timesString[i].split(":") // Splits the time into hours and minutes
     timesNum.push(parseInt(splitTimes[0]) * 60 + parseInt(splitTimes[1])) // Hours * 60 + minutes
 }
+
+getCellText()
+async function getCellText() {
+    var studentIds = await getAllStudents()
+    await getLessons(studentIds)
+
+    for (i=0; i < lessons.length; i++) {
+        for (j=0; j < timesString.length-1; j++) {
+            if (lessons[i][1] == timesString[j]) {
+                lessons[i].unshift(j)
+            }
+        }
+    }
+    console.log(lessons)
+}
+
+// console.log(lessons)
+// console.log(lessons.length)
+// for (i=0; i < lessons.length; i++) {
+//     for (j=0; j < timesString.length-1; j++) {
+//         console.log("hey")
+//         console.log(lessons)
+//         console.log(lessons[i][1])
+//         if (lessons[i][1] == timesString[j]) {
+//             lessons[i].unshift(j)
+//         }
+//     }
+// }
+
+// console.log(lessons)
 
 // The difference between the starting and ending time
 var totalTimeRatio = timesNum[timesNum.length-1]-timesNum[0]
@@ -26,8 +55,6 @@ for (i=1; i < timesNum.length; i++) {
     cellText.push(["Module " + i + "<br> Lesson name " + i + "<br>" + timesString[i-1] + " - " + timesString[i] + "<br> Mr John"])
 }
 
-console.log("MIN: "+Math.min(...cellHeights))
-
 // var pla = 100
 // console.log(pla)
 
@@ -37,14 +64,6 @@ var styles = ''
 // CSS is in JS because it needs to be defined by variables
 // Styling is important because things like colour coding are helpful for organisation apps like this
 styling()
-
-{/* <td>
-    <input type = "color" id="tableColour`+i+`" style =  width:`+50+`px; height: `+(cellHeights[i])+`px; float:left; border-radius:50px; border: 2px solid black; outline:none; padding:0; background:black;"></input>
-</td> */}
-
-{/* <td>
-    <input type="color" id="tableColour`+i+`"style="width:100%; height:100%; margin:0; padding:0; border:none; appearance:none; -webkit-appearance:none; background:none;"></input>
-</td> */}
 
 function styling() {
     // Adds all table cells to the table at the appropriate height. Cell has id "tableCell"+i and colour picker has id "tableColour"+i
@@ -103,24 +122,17 @@ for (let i = 0; i < tableColours.length; i++) {
         tableCells[i].style.backgroundColor = tableColours[i].value // Sets the table cell's background to the colour picked in the colour picker
         tableColours[i].style.backgroundColor = tableColours[i].value
         tableButtons[i].style.backgroundColor = tableColours[i].value
-        // console.log(tableColours[i])
+        
         let hex = tableColours[i].value
         let rgb = hexToRGBConverter(hex)
         
         // Detect brightness of rgb. Formula gotten from online.
-        console.log(tableButtons[i].style.color)
-        console.log("asd")
         if (0.2126*rgb[0] + 0.7152*rgb[1] + 0.0722*rgb[2] >= 100) {
-            // console.log(tableButtons[i].style)
             tableButtons[i].style.color = "rgb(0, 0, 0)"
-            // console.log(0.2126*rgb[0] + 0.7152*rgb[1] + 0.0722*rgb[2])
         }
         else {
             tableButtons[i].style.color = "rgb(255, 255, 255)"
-            // console.log(tableButtons[i].style.color)
         }
-        // console.log(rgb)
-        // if (tableColours)
     })
 }
 
@@ -133,54 +145,3 @@ function hexToRGBConverter(hex) { // This converts hex codes to rgb values and s
 };
 
 styleHTML.innerHTML = styles
-
-
-
-console.log("ploopy")
-getData()
-
-async function getData() {
-    // Put this in a FOR loop later
-    var studentIds = []
-
-    const studentsResponse = await fetch("/api.php", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({request: 'students'})  // Send a request to get crash type data
-    })
-
-    const studentsData = await studentsResponse.json()
-    
-    if (studentsData.message) {
-        console.log("CRITICAL FAILIURE")
-        console.log(studentsData)
-    }
-    else {
-        for (let i = 0; i < studentsData.length; i++) {
-            // console.log(studentsData[i].student_id)
-            studentIds.push(studentsData[i].student_id)
-        }
-        // console.log(studentsData.student_id)
-
-    }
-
-    const response = await fetch("/api.php", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({request: 'lessons', student_id: studentIds[0]})  // Send a request to get crash type data
-    })
-
-    const data = await response.json()
-    
-    if (data.message) {
-        console.log("CRITICAL FAILIURE")
-        console.log(data)
-    }
-    else {
-        console.log(data)
-    }
-}
