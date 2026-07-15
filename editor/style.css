@@ -19,5 +19,40 @@ h1 {
     top: 50px;
     width: calc(100% - 300px);
     height: calc(100% - 50px);
-    z-index: -1.
+    z-index: -1;
+}
+
+#roomManage {
+    opacity: 0;
+    position: absolute;
+    transition: opacity 0.5s ease;
+    background-color: rgb(201, 201, 201);
+    z-index: 1;
+    display: flex;
+    flex-direction: flex;
+    border-radius: 10px;
+    border: 2.5px solid black;
+    width: 100px;
+}
+
+#roomManage button {
+    display: block;
+    margin: 2.5px;
+    border-radius: 5px;
+    width: calc(100% - 5px);
+}
+
+#roomManage input {
+    display: block;
+    margin: 2.5px;
+    border-radius: 5px;
+    width: calc(100% - 12.5px);
+}
+
+#createRoomBtn {
+    background-color: #87d594;
+}
+
+#cancelRoomBtn {
+    background-color: #d58787;
 }

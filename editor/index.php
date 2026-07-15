@@ -10,6 +10,14 @@
 
 <canvas id="canvas"></canvas>
 
+<div id="roomManage">
+    <div id="roomCreate">
+        <input id="roomNameInput" type="text" placeholder="Name">
+        <button id="createRoomBtn">Create</button>
+        <button id="cancelRoomBtn">Cancel</button>
+    </div>
+</div>
+
 <script type="module" src="script.js"></script>
 
 </body>
