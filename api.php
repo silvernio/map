@@ -25,9 +25,9 @@
         $sql = "SELECT * FROM enrolments INNER JOIN lessons ON enrolments.lesson_id = lessons.lesson_id INNER JOIN teachers ON lessons.teacher_id = teachers.teacher_id INNER JOIN classrooms ON lessons.classroom_id = classrooms.classroom_id WHERE enrolments.student_id = " . $student_id;
     }
 
-    else if ($request == 'classrooms' && isset($data['map_id'])) {
+    else if ($request == 'rooms' && isset($data['map_id'])) {
         $map_id = $data['map_id'];
-        $sql = "SELECT * FROM classrooms WHERE map_id = " . $map_id;
+        $sql = "SELECT * FROM rooms WHERE map_id = " . $map_id;
     }
 
     else if ($request == 'teacher' && isset($data['teacher_id'])) {

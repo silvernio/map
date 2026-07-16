@@ -12,6 +12,44 @@ const dimensions = { width: 2122, height: 1478 };
 
 let lastTime = 0;
 
+const mapNameInput = document.getElementById("mapName");
+const mapLoadBtn = document.getElementById("mapLoad");
+
+let loadedMap = mapNameInput.value;
+
+const rooms = [];
+
+async function loadMap() {
+     const roomsData = await fetch("/api.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ request: 'rooms', map_id: loadedMap })  // Send a request to get all the rooms with the map id
+    })
+        //convert the response to json
+        .then(response => response.json())
+        //catch any errors and log them to the console
+        .catch(error => console.error('Error:', error));
+
+    if (!roomsData) return;
+
+    rooms.length = 0;
+
+    for (const room of roomsData) {
+        rooms.push({name: room.name, points: JSON.parse(room.points)})
+    }
+}
+
+loadMap();
+
+mapLoadBtn.onclick = () => {
+    if (mapNameInput.value.length == 0) return;
+    loadedMap = mapNameInput.value;
+
+    loadMap();
+}
+
 function canvasToMap(x, y) {
     return [(x + camera.x) / camera.zoom - canvas.width / 2, (y + camera.y) / camera.zoom - canvas.height / 2];
 }
@@ -39,6 +77,62 @@ function update(timestamp) {
     ctx.translate(canvas.width / 2, canvas.height / 2);
 
     ctx.drawImage(bg, -dimensions.width / 2, -dimensions.height / 2, dimensions.width, dimensions.height);
+
+     let i = 0;
+    for (const room of rooms) {
+        const min = [null, null];
+        const max = [null, null];
+
+        for (const point of room.points) {
+            min[0] = min[0] != null ? Math.min(min[0], point[0]) : point[0];
+            min[1] = min[1] != null ? Math.min(min[1], point[1]) : point[1];
+
+            max[0] = max[0] != null ? Math.max(max[0], point[0]) : point[0];
+            max[1] = max[1] != null ? Math.max(max[1], point[1]) : point[1];
+        }
+
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+
+        ctx.beginPath();
+        let start = true;
+        for (const point of room.points) {
+            if (start) {
+                ctx.moveTo(point[0], point[1])
+            } else {
+                ctx.lineTo(point[0], point[1])
+            }
+            start = false;
+        }
+        ctx.lineTo(room.points[0][0], room.points[0][1]);
+
+        ctx.setLineDash([])
+
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "black";
+        ctx.stroke();
+
+        ctx.beginPath();
+        for (const point of room.points) {
+            ctx.moveTo(point[0], point[1]);
+            ctx.arc(point[0], point[1], 5, 0, Math.PI * 2);
+        }
+        ctx.fillStyle = "black";
+        ctx.fill();
+
+        i++;
+
+        if (room.points.length > 2) {
+            const centre = [(min[0] + max[0]) / 2, (min[1] + max[1]) / 2];
+
+            ctx.font = "20px Arial";
+            ctx.textAlign = "center";
+            ctx.strokeStyle = "white";
+            ctx.lineWidth = 5;
+            ctx.strokeText(room.name, ...centre);
+            ctx.fillText(room.name, ...centre);
+        }
+    }
 
     ctx.restore();
 }
@@ -76,48 +170,9 @@ canvas.addEventListener("mouseup", (e) => {
 
     mouse.down = false;
 
-    const d = Math.hypot(moved.x, moved.y);
+    // const d = Math.hypot(moved.x, moved.y);
     moved.x = 0;
     moved.y = 0;
-
-    if (d < 10) {
-        if (!creatingRoom) {
-            let interacted = false;
-            let i = 0;
-            const hadSelected = selectedRoom != null;
-            selectedRoom = null;
-            for (const room of rooms) {
-                if (room.hovered) {
-                    interacted = true;
-                    selectedRoom = i;
-                    roomCreateDIV.style.display = "none";
-                    roomSelectDIV.style.display = "block";
-
-                    roomNameEdit.value = room.name;
-                }
-                i++
-            }
-
-            if (interacted || hadSelected) return;
-
-            roomCreateDIV.style.display = "block";
-            roomSelectDIV.style.display = "none";
-
-            creatingRoom = true;
-            const point = canvasToMap(mouse.x, mouse.y);
-            rooms.push({ name: "", min: [...point], max: [...point], points: [point], done: false, hover: 0, hovered: false });
-        } else if (rooms.length > 0 && !rooms[rooms.length - 1].done) {
-            const room = rooms[rooms.length - 1];
-
-            const m = canvasToMap(mouse.x, mouse.y);
-            const d = Math.hypot(room.points[0][0] - m[0], room.points[0][1] - m[1]);
-            if (d < 10 && room.points.length > 2) {
-                room.done = true;
-            } else {
-                room.points.push(m);
-            }
-        }
-    }
 })
 
 canvas.addEventListener("wheel", (e) => {

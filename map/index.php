@@ -8,8 +8,8 @@
     <h1>Map</h1>
 
     <div>
-        <span>Map Name</span>
-        <input id="mapName" type="text" value="test">
+        <span>Map ID</span>
+        <input id="mapName" type="text" value="4">
     </div>
     
     <button id="mapLoad">Load</button>
