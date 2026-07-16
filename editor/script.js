@@ -1,20 +1,4 @@
 
-fetch("/api.php", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ request: 'students' })  // Send a request to get crash type data
-})
-    //convert the response to json
-    .then(response => response.json())
-    //then do something with the data
-    .then(data => {
-        console.log(data)
-    })
-    //catch any errors and log them to the console
-    .catch(error => console.error('Error:', error));
-
 const canvas = document.getElementById("canvas");
 
 const ctx = canvas.getContext("2d");
@@ -35,6 +19,9 @@ const roomSelectDIV = document.getElementById("roomSelect");
 
 const roomNameEdit = document.getElementById("roomNameEdit");
 const roomDeleteBtn = document.getElementById("deleteRoomBtn");
+
+const mapNameInput = document.getElementById("mapName");
+const mapSaveBtn = document.getElementById("mapSave");
 
 // console.log(bg);
 
@@ -61,6 +48,12 @@ function update(timestamp) {
 
     const dt = (timestamp - lastTime) / 1000;
     lastTime = timestamp;
+
+    //
+
+    mapSaveBtn.disabled = mapNameInput.value.length == 0;
+
+    //
 
     camera.x = lerp5(camera.x, tcamera.x, dt * 25);
     camera.y = lerp5(camera.y, tcamera.y, dt * 25);
@@ -326,6 +319,28 @@ canvas.addEventListener("wheel", (e) => {
     }
     e.preventDefault();
 }, { passive: false })
+
+//
+
+mapSaveBtn.onclick = () => {
+    fetch("/insert.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ request: 'map', map_name: mapNameInput.value, map_rooms: rooms.map(room => { return { name: room.name, points: JSON.stringify(room.points) } }) })  // Send a request to insert a new map
+    })
+        //convert the response to text
+        .then(response => response.text())
+        //show the response
+        .then(data => {
+            console.log(data)
+        })
+        //catch any errors and log them to the console
+        .catch(error => console.error('Error:', error));
+}
+
+//
 
 function lerpn(
     start,

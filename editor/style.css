@@ -60,3 +60,20 @@ h1 {
 .roomManageDiv {
     display: none;
 }
+
+#sidebar div {
+    display: flex;
+    width: 100%;
+    margin: 10px;
+    gap: 10px;
+}
+
+#sidebar button {
+    width: calc(100% - 20px);
+    margin: 10px;
+    border-radius: 5px;
+}
+
+#mapSave {
+    background-color: #87d594;
+}

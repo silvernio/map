@@ -6,6 +6,13 @@
 
 <div id="sidebar">
     <h1>Editor</h1>
+
+    <div>
+        <span>Map Name</span>
+        <input id="mapName" type="text">
+    </div>
+    
+    <button id="mapSave">Save</button>
 </div>
 
 <canvas id="canvas"></canvas>
