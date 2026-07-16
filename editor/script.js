@@ -210,9 +210,6 @@ cancelRoomBtn.onclick = () => {
     roomNameInput.value = "";
 }
 
-const mouse = { x: 0, y: 0, down: false }
-const moved = { x: 0, y: 0 }
-
 roomNameInput.oninput = () => {
     if (!creatingRoom || rooms.length == 0) return;
 
@@ -231,6 +228,9 @@ roomDeleteBtn.onclick = () => {
     rooms.splice(selectedRoom, 1);
     selectedRoom = null;
 }
+
+const mouse = { x: 0, y: 0, down: false }
+const moved = { x: 0, y: 0 }
 
 canvas.addEventListener("mousedown", (e) => {
     mouse.x = e.offsetX;

@@ -27,11 +27,16 @@
         Home
       </a>
 
+      <a href="/map/" class="navbar-item">
+        Map
+      </a>
+
       <a href="/henry/" class="navbar-item">
         Timetable
       </a>
+
       <a href="/editor/" class="navbar-item">
-        Map Editor
+        Editor
       </a>
       <a href="/sam/" class="navbar-item">
         Sam
