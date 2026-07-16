@@ -53,6 +53,10 @@ h1 {
     background-color: #87d594;
 }
 
-#cancelRoomBtn {
+#cancelRoomBtn, #deleteRoomBtn {
     background-color: #d58787;
+}
+
+.roomManageDiv {
+    display: none;
 }

@@ -1,3 +1,4 @@
+
 fetch("/api.php", {
     method: "POST",
     headers: {
@@ -29,6 +30,12 @@ const createRoomBtn = document.getElementById("createRoomBtn");
 const cancelRoomBtn = document.getElementById("cancelRoomBtn");
 const roomNameInput = document.getElementById("roomNameInput");
 
+const roomCreateDIV = document.getElementById("roomCreate");
+const roomSelectDIV = document.getElementById("roomSelect");
+
+const roomNameEdit = document.getElementById("roomNameEdit");
+const roomDeleteBtn = document.getElementById("deleteRoomBtn");
+
 // console.log(bg);
 
 // document.body.appendChild(bg)
@@ -37,6 +44,7 @@ const rooms = [];
 
 const dimensions = { width: 2122, height: 1478 };
 
+let selectedRoom = null;
 let creatingRoom = false;
 let lastTime = 0;
 
@@ -79,8 +87,10 @@ function update(timestamp) {
     // }
 
     // ctx.fill();
+    roomManage.style.opacity = (creatingRoom || selectedRoom != null) ? 1 : 0;
 
-    roomManage.style.opacity = creatingRoom ? 1 : 0;
+    const m = canvasToMap(mouse.x, mouse.y);
+    // console.log(m);
 
     let i = 0;
     for (const room of rooms) {
@@ -88,11 +98,11 @@ function update(timestamp) {
         const max = [null, null];
 
         for (const point of room.points) {
-            min[0] = min[0] ? Math.min(min[0], point[0]) : point[0];
-            min[1] = min[1] ? Math.min(min[1], point[1]) : point[1];
+            min[0] = min[0] != null ? Math.min(min[0], point[0]) : point[0];
+            min[1] = min[1] != null ? Math.min(min[1], point[1]) : point[1];
 
-            max[0] = max[0] ? Math.max(max[0], point[0]) : point[0];
-            max[1] = max[1] ? Math.max(max[1], point[1]) : point[1];
+            max[0] = max[0] != null ? Math.max(max[0], point[0]) : point[0];
+            max[1] = max[1] != null ? Math.max(max[1], point[1]) : point[1];
         }
 
         room.min[0] = lerp5(room.min[0], min[0], dt * 15);
@@ -100,10 +110,14 @@ function update(timestamp) {
         room.max[0] = lerp5(room.max[0], max[0], dt * 15);
         room.max[1] = lerp5(room.max[1], max[1], dt * 15);
 
+        const hovered = room.done && !creatingRoom && m[0] >= min[0] && m[0] <= max[0] && m[1] >= min[1] && m[1] <= max[1];
+        room.hovered = hovered;
+        room.hover = lerp5(room.hover, (hovered || selectedRoom == i) ? 1 : 0, dt * 15);
+
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
 
-        if (creatingRoom && i == rooms.length - 1) {
+        if ((creatingRoom && i == rooms.length - 1) || selectedRoom == i) {
             const p = mapToCanvas(room.min[0], room.min[1]);
 
             const size = roomManage.getBoundingClientRect();
@@ -140,9 +154,16 @@ function update(timestamp) {
         }
 
         ctx.setLineDash([])
+
+        ctx.lineWidth = 5 + 5 * room.hover;
+        ctx.strokeStyle = "lightblue";
+        ctx.stroke();
+
         ctx.lineWidth = 5;
         ctx.strokeStyle = "black";
         ctx.stroke();
+
+
 
         ctx.beginPath();
         for (const point of room.points) {
@@ -152,7 +173,6 @@ function update(timestamp) {
         ctx.fillStyle = "black";
         ctx.fill();
 
-        const m = canvasToMap(mouse.x, mouse.y);
         const d = Math.hypot(room.points[0][0] - m[0], room.points[0][1] - m[1]);
         if (d < 10 && room.points.length > 2 && !room.done) {
             ctx.beginPath();
@@ -162,8 +182,18 @@ function update(timestamp) {
             ctx.stroke();
         }
 
-
         i++;
+
+        if (room.points.length > 2) {
+            const centre = [(room.min[0] + room.max[0]) / 2, (room.min[1] + room.max[1]) / 2];
+
+            ctx.font = "20px Arial";
+            ctx.textAlign = "center";
+            ctx.strokeStyle = "white";
+            ctx.lineWidth = 5;
+            ctx.strokeText(room.name, ...centre);
+            ctx.fillText(room.name, ...centre);
+        }
     }
 
     ctx.restore();
@@ -175,8 +205,6 @@ createRoomBtn.onclick = () => {
     if (!creatingRoom || rooms.length == 0) return;
 
     creatingRoom = false;
-
-    rooms[rooms.length - 1].name = roomNameInput.value;
 
     roomNameInput.value = "";
 }
@@ -191,6 +219,25 @@ cancelRoomBtn.onclick = () => {
 
 const mouse = { x: 0, y: 0, down: false }
 const moved = { x: 0, y: 0 }
+
+roomNameInput.oninput = () => {
+    if (!creatingRoom || rooms.length == 0) return;
+
+    rooms[rooms.length - 1].name = roomNameInput.value;
+}
+
+roomNameEdit.oninput = () => {
+    if (selectedRoom == null) return;
+
+    rooms[selectedRoom].name = roomNameEdit.value;
+}
+
+roomDeleteBtn.onclick = () => {
+    if (selectedRoom == null) return;
+
+    rooms.splice(selectedRoom, 1);
+    selectedRoom = null;
+}
 
 canvas.addEventListener("mousedown", (e) => {
     mouse.x = e.offsetX;
@@ -226,9 +273,30 @@ canvas.addEventListener("mouseup", (e) => {
 
     if (d < 10) {
         if (!creatingRoom) {
+            let interacted = false;
+            let i = 0;
+            const hadSelected = selectedRoom != null;
+            selectedRoom = null;
+            for (const room of rooms) {
+                if (room.hovered) {
+                    interacted = true;
+                    selectedRoom = i;
+                    roomCreateDIV.style.display = "none";
+                    roomSelectDIV.style.display = "block";
+
+                    roomNameEdit.value = room.name;
+                }
+                i++
+            }
+
+            if (interacted || hadSelected) return;
+
+            roomCreateDIV.style.display = "block";
+            roomSelectDIV.style.display = "none";
+
             creatingRoom = true;
             const point = canvasToMap(mouse.x, mouse.y);
-            rooms.push({ name: "New", min: [...point], max: [...point], points: [point], done: false });
+            rooms.push({ name: "", min: [...point], max: [...point], points: [point], done: false, hover: 0, hovered: false });
         } else if (rooms.length > 0 && !rooms[rooms.length - 1].done) {
             const room = rooms[rooms.length - 1];
 

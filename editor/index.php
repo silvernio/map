@@ -11,10 +11,14 @@
 <canvas id="canvas"></canvas>
 
 <div id="roomManage">
-    <div id="roomCreate">
+    <div id="roomCreate" class="roomManageDiv">
         <input id="roomNameInput" type="text" placeholder="Name">
         <button id="createRoomBtn">Create</button>
         <button id="cancelRoomBtn">Cancel</button>
+    </div>
+    <div id="roomSelect" class="roomManageDiv">
+         <input id="roomNameEdit" type="text" placeholder="Name">
+        <button id="deleteRoomBtn">Delete</button>
     </div>
 </div>
 
