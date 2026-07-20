@@ -12,5 +12,5 @@ ALTER TABLE `rooms` CHANGE `classroom_id` `room_id` INT(11) NOT NULL AUTO_INCREM
 DROP TABLE `students`;
 DROP TABLE `teachers`;
 CREATE TABLE `map`.`accounts` (`account_id` VARCHAR(256) NOT NULL , `first_name` VARCHAR(50) NOT NULL , `last_name` VARCHAR(50) NOT NULL , `email` VARCHAR(256) NOT NULL , UNIQUE `unique_id` (`account_id`)) ENGINE = InnoDB;
-ALTER TABLE `accounts` ADD `is_teacher` BOOLEAN NOT NULL DEFAULT FALSE AFTER `email`;
+ALTER TABLE `accounts` ADD `is_teacher` INT(1) NOT NULL DEFAULT FALSE AFTER `email`;
 RENAME TABLE `map`.`enrolments` TO `map`.`attendance`;

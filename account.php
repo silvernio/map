@@ -50,11 +50,43 @@
 
         $name = $payload['name'];
 
+        $first_name = $payload['given_name'];
+
+        $last_name = $payload['family_name'];
+
+        $is_admin = false;
+
+        $is_admin_int = (int)$is_admin;
+
         $sql = "SELECT * FROM accounts WHERE account_id = " . $google_id;
 
+        $result = $conn->query($sql);
 
+        if ($result && $result->num_rows > 0) {
+            $account = $result->fetch_assoc(); // fetch the first row of the result
+            echo json_encode(['message' => 'Success!', 'account' => $account]);
+            exit;
+        }
+        // Else, insert new account
+        $stmt = $conn->prepare("INSERT INTO accounts (account_id, first_name, last_name, email, is_teacher) VALUES (?, ?, ?, ?, ?)");
 
-        echo json_encode(['message' => 'Hello, ' . $name, 'obj' => $payload]);
+        $stmt->bind_param('ssssi', $google_id, $first_name, $last_name, $email, $is_admin_int);
+
+        $success = $stmt->execute();
+
+        if (!$success) {
+            echo json_encode(['message' => 'Error creating account for ' . $name]);
+            $stmt->close();
+            $conn->close();
+            exit;
+        }
+
+        $stmt->close();
+        $conn->close();
+
+        $account = ['account_id' => $google_id, 'first_name' => $first_name, 'last_name' => $last_name, 'email' => $email, 'is_teacher' => $is_admin_int];
+
+        echo json_encode(['message' => 'Successfully signed up!', 'account' => $account]);
     }
 
     else {
