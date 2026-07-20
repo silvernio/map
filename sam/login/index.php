@@ -15,6 +15,8 @@
          data-auto_prompt="false">
     </div>
 
+    <input type="checkbox" name="admin" id="isAdminCheckbox">
+
     <div class="g_id_signin"
          data-type="standard"
          data-size="large"

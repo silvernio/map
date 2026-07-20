@@ -48,7 +48,9 @@
 
         $name = $payload['name'];
 
-        echo json_encode(['message' => 'Hello, ' . $name]);
+        $sql = "SELECT * FROM accounts WHERE account_id = " . $google_id;
+
+        echo json_encode(['message' => 'Hello, ' . $name, 'obj' => $payload]);
     }
 
     else {
