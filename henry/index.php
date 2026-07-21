@@ -1,5 +1,4 @@
 <br>
-<?php include '../header.php'; ?>
 
 <title>Timetable</title>
 

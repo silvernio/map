@@ -26,6 +26,7 @@ async function getAllStudents() {
     else {
         for (let i = 0; i < data.length; i++) {
             studentIds.push(data[i].student_id)
+            console.log(studentIds[i])
         }
     }
 
