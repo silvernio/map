@@ -18,7 +18,7 @@ async function getAllStudents() {
         body: JSON.stringify({request: 'students'})  // Send a request to get crash type data
     })
 
-    const data = await response.json()
+    const data = await response.text()
     
     if (data.message) {
         console.log(data)
