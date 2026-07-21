@@ -22,7 +22,8 @@
 
     else if ($request == 'lessons' && isset($data['student_id'])) {
         $student_id = $data['student_id'];
-        $sql = "SELECT * FROM enrolments INNER JOIN lessons ON enrolments.lesson_id = lessons.lesson_id INNER JOIN teachers ON lessons.teacher_id = teachers.teacher_id INNER JOIN classrooms ON lessons.classroom_id = classrooms.classroom_id WHERE enrolments.student_id = " . $student_id;
+
+        $sql = "SELECT * FROM attendance INNER JOIN lessons ON attendance.lesson_id = lessons.lesson_id";
     }
 
     else if ($request == 'rooms' && isset($data['map_id'])) {
@@ -32,7 +33,7 @@
 
     else if ($request == 'teacher' && isset($data['teacher_id'])) {
         $teacher_id = $data['teacher_id'];
-        $sql = "SELECT * FROM teachers WHERE teacher_id = " . $teacher_id;
+        $sql = "SELECT * FROM accounts WHERE account_id = " . $teacher_id;
     }
 
     else {
