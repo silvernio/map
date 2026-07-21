@@ -17,7 +17,7 @@
     // Requests
 
     if ($request == 'students') {
-        $sql = "SELECT * FROM students";
+        $sql = "SELECT * FROM accounts WHERE is_teacher = 0";
     }
 
     else if ($request == 'lessons' && isset($data['student_id'])) {
