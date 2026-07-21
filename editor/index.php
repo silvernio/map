@@ -5,7 +5,8 @@
 <?php require __DIR__ . "/../header-body.php" ?>
 
 <div id="actions">
-    <input type="text" value="New Map">
+    <input type="text" value="New Map" id="mapName" list="mapList">
+    <datalist id="mapList"></datalist>
 
     <button id="saveBtn">Save</button>
 

@@ -27,8 +27,11 @@ const roomList = document.getElementById("rooms");
 
 const roomElements = [];
 
-// const mapNameInput = document.getElementById("mapName");
-// const mapSaveBtn = document.getElementById("mapSave");
+const mapNameInput = document.getElementById("mapName");
+const saveBtn = document.getElementById("saveBtn");
+const loadBtn = document.getElementById("loadBtn");
+
+const mapList = document.getElementById("mapList");
 
 // console.log(bg);
 
@@ -42,23 +45,30 @@ let selectedRoom = null;
 let creatingRoom = false;
 let lastTime = 0;
 
-function getMaps() {
-    fetch("/apij.php", {
+async function getMaps() {
+    return await fetch("/api.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ request: 'maps', })
+        body: JSON.stringify({ request: 'maps' })
     })
-        //convert the response to json
         .then(response => response.json())
-        //show the response
-        .then(data => {
-            console.log(data)
-        })
-        //catch any errors and log them to the console
-        .catch(error => console.error('Error:', error));
 }
+
+async function updateMapList() {
+    const maps = await getMaps();
+
+    mapList.innerHTML = "";
+
+    for (const map of maps) {
+        const option = document.createElement("option");
+        option.textContent = map.name;
+        mapList.appendChild(option);
+    }
+}
+
+updateMapList();
 
 function updateList() {
     roomList.innerHTML = "";
@@ -368,23 +378,57 @@ canvas.addEventListener("wheel", (e) => {
 
 //
 
-// mapSaveBtn.onclick = () => {
-//     fetch("/insert.php", {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({ request: 'map', map_name: mapNameInput.value, map_rooms: rooms.map(room => { return { name: room.name, points: JSON.stringify(room.points) } }) })  // Send a request to insert a new map
-//     })
-//         //convert the response to text
-//         .then(response => response.text())
-//         //show the response
-//         .then(data => {
-//             console.log(data)
-//         })
-//         //catch any errors and log them to the console
-//         .catch(error => console.error('Error:', error));
-// }
+saveBtn.onclick = () => {
+    fetch("/insert.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ request: 'map', map_name: mapNameInput.value, map_rooms: rooms.map(room => { return { name: room.name, points: JSON.stringify(room.points) } }) })  // Send a request to insert a new map
+    })
+        //convert the response to text
+        .then(response => response.text())
+        //show the response
+        .then(data => {
+            console.log(data)
+        })
+        //catch any errors and log them to the console
+        .catch(error => console.error('Error:', error));
+
+    updateMapList();
+}
+
+loadBtn.onclick = async () => {
+    const maps = await getMaps();
+
+    if (!maps.map(map => map.name).includes(mapNameInput.value)) return;
+
+    const index = maps.find(map => map.name == mapNameInput.value).id;
+
+    loadMap(index);
+}
+
+async function loadMap(id) {
+     const roomsData = await fetch("/api.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ request: 'rooms', map_id: id })  // Send a request to get all the rooms with the map id
+    })
+        //convert the response to json
+        .then(response => response.json())
+        //catch any errors and log them to the console
+        .catch(error => console.error('Error:', error));
+
+    if (!roomsData) return;
+
+    rooms.length = 0;
+
+    for (const room of roomsData) {
+        rooms.push({name: room.room_name, points: JSON.parse(room.points)})
+    }
+}
 
 //
 

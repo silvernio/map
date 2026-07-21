@@ -24,7 +24,7 @@
         $map_id = $conn->insert_id;
     
         foreach ($data['map_rooms'] as $room) {
-            $sql = "INSERT INTO `rooms` (`room_id`, `name`, `points`, `map_id`) VALUES (NULL, '" . $room['name'] . "', '" . $room['points'] . "', '" . $map_id . "');";
+            $sql = "INSERT INTO `rooms` (`room_id`, `room_name`, `points`, `map_id`) VALUES (NULL, '" . $room['name'] . "', '" . $room['points'] . "', '" . $map_id . "');";
             $conn->query($sql);
         }
 
