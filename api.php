@@ -24,6 +24,10 @@
         $sql = "SELECT * FROM maps";
     }
 
+    else if ($request == 'subjects') {
+        $sql = "SELECT * FROM subjects";
+    }
+
     else if ($request == 'lessons' && isset($data['student_id'])) {
         $student_id = $data['student_id'];
 
