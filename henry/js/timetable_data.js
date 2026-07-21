@@ -25,8 +25,7 @@ async function getAllStudents() {
     }
     else {
         for (let i = 0; i < data.length; i++) {
-            studentIds.push(data[i].student_id)
-            console.log(studentIds[i])
+            studentIds.push(data[i].account_id)
         }
     }
 
@@ -49,6 +48,7 @@ async function getLessons(studentIds) {
         console.log(data)
     }
     else {
+        // console.log(data)
         for (i = 0; i < data.length; i++) {
             var teacherName = await getLessonTeacher(data[i].teacher_id)
             lessons.push([data[i].lesson_name, data[i].start_time, data[i].finish_time, teacherName])            
@@ -63,7 +63,7 @@ async function getLessonTeacher(teacherIds) {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({request: 'teacher', teacher_id: teacherIds[0]})  // Send a request to get data for the FIRST STUDENT IN THE DB
+        body: JSON.stringify({request: 'teacher', teacher_id: teacherIds})  // Send a request to get data for the FIRST STUDENT IN THE DB
     })
 
     const data = await response.json()
@@ -72,6 +72,7 @@ async function getLessonTeacher(teacherIds) {
         console.log(data)
     }
     else {
+        console.log(data)
         return data[0].teacher_first_name + " " + data[0].teacher_last_name
     }
 }

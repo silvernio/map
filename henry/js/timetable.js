@@ -19,6 +19,9 @@ async function getCellText() {
     var studentIds = await getAllStudents()
     await getLessons(studentIds)
 
+    console.log(studentIds)
+    console.log(lessons)
+
     for (i=0; i < lessons.length; i++) {
         for (j=0; j < timesString.length; j++) {
             if (lessons[i][1] == timesString[j]) {
@@ -30,7 +33,7 @@ async function getCellText() {
     for (i = 0; i < timesString.length - 1; i++) {
         allLessons.push(null)
     }
-    console.log(allLessons)
+
     for (i = 0; i < allLessons.length; i++) {
         for (j = 0; j < lessons.length; j++) {
             // console.log(lessons[i][0])
@@ -50,7 +53,7 @@ async function getCellText() {
 
     // WORKING HERE. ADD PLACEHOLDER AS A BACKUP/ERROR AVOIDANCE.
 
-    console.log(allLessons)
+
     // console.log(lessons)
 }
 
