@@ -1,4 +1,10 @@
-// 4. This function triggers automatically after a successful sign-in
+const pfpImg = document.getElementById('pfpImage');
+
+pfpImg.onerror = () => {
+    pfpImg.src = 'default_pfp.png';
+}
+
+// This function triggers automatically after a successful sign-in
 function googleLogIn(response) {
     console.log('google response', response);
 
@@ -12,9 +18,12 @@ function googleLogIn(response) {
         body: JSON.stringify({ provider: 'google', token: response.credential }) 
     })
         //convert the response to json
-        .then(response => response.text())
+        .then(response => response.json())
         //then do something with the data
         .then(data => {
+            if (data.picture) {
+                pfpImg.src = data.picture;
+            }
             console.log(data)
         })
         //catch any errors and log them to the console

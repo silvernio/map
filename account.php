@@ -54,6 +54,8 @@
 
         $last_name = $payload['family_name'];
 
+        $picture = $payload['picture'];
+
         $is_admin = false;
 
         $is_admin_int = (int)$is_admin;
@@ -64,7 +66,7 @@
 
         if ($result && $result->num_rows > 0) {
             $account = $result->fetch_assoc(); // fetch the first row of the result
-            echo json_encode(['message' => 'Success!', 'account' => $account]);
+            echo json_encode(['message' => 'Successfully logged in!', 'account' => $account, 'picture' => $picture]);
             exit;
         }
         // Else, insert new account
@@ -86,7 +88,7 @@
 
         $account = ['account_id' => $google_id, 'first_name' => $first_name, 'last_name' => $last_name, 'email' => $email, 'is_teacher' => $is_admin_int];
 
-        echo json_encode(['message' => 'Successfully signed up!', 'account' => $account]);
+        echo json_encode(['message' => 'Successfully signed up!', 'account' => $account, 'picture' => $picture]);
     }
 
     else {
