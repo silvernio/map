@@ -20,6 +20,10 @@
         $sql = "SELECT * FROM accounts WHERE is_teacher = 0";
     }
 
+    else if ($request == 'maps') {
+        $sql = "SELECT * FROM maps";
+    }
+
     else if ($request == 'lessons' && isset($data['student_id'])) {
         $student_id = $data['student_id'];
 

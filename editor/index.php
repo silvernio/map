@@ -4,15 +4,18 @@
 
 <?php require __DIR__ . "/../header-body.php" ?>
 
-<div id="sidebar">
-    <h1>Editor</h1>
+<div id="actions">
+    <input type="text" value="New Map">
 
-    <div>
-        <span>Map Name</span>
-        <input id="mapName" type="text">
-    </div>
-    
-    <button id="mapSave">Save</button>
+    <button id="saveBtn">Save</button>
+
+    <button id="loadBtn">Load</button>
+
+</div>
+
+<div id="sidebar">
+    <h1>Rooms</h1>
+    <div id="rooms"></div>
 </div>
 
 <canvas id="canvas"></canvas>

@@ -6,6 +6,9 @@ const ctx = canvas.getContext("2d");
 const bg = new Image();
 bg.src = "image.png";
 
+const topOffset = 90;
+const sideOffset = 300;
+
 const camera = { x: 0, y: 0, zoom: 1 };
 const tcamera = { x: 0, y: 0, zoom: 1 };
 
@@ -20,8 +23,12 @@ const roomSelectDIV = document.getElementById("roomSelect");
 const roomNameEdit = document.getElementById("roomNameEdit");
 const roomDeleteBtn = document.getElementById("deleteRoomBtn");
 
-const mapNameInput = document.getElementById("mapName");
-const mapSaveBtn = document.getElementById("mapSave");
+const roomList = document.getElementById("rooms");
+
+const roomElements = [];
+
+// const mapNameInput = document.getElementById("mapName");
+// const mapSaveBtn = document.getElementById("mapSave");
 
 // console.log(bg);
 
@@ -34,6 +41,40 @@ const dimensions = { width: 2122, height: 1478 };
 let selectedRoom = null;
 let creatingRoom = false;
 let lastTime = 0;
+
+function getMaps() {
+    fetch("/apij.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ request: 'maps', })
+    })
+        //convert the response to json
+        .then(response => response.json())
+        //show the response
+        .then(data => {
+            console.log(data)
+        })
+        //catch any errors and log them to the console
+        .catch(error => console.error('Error:', error));
+}
+
+function updateList() {
+    roomList.innerHTML = "";
+
+    let i = 0;
+    for (const room of rooms) {
+        const e = document.createElement("div");
+        e.textContent = room.name;
+        roomList.appendChild(e);
+
+        e.onclick = () => {
+            selectedRoom = i;
+        }
+        i++
+    }
+}
 
 function canvasToMap(x, y) {
     return [(x + camera.x) / camera.zoom - canvas.width / 2, (y + camera.y) / camera.zoom - canvas.height / 2];
@@ -51,7 +92,7 @@ function update(timestamp) {
 
     //
 
-    mapSaveBtn.disabled = mapNameInput.value.length == 0;
+    // mapSaveBtn.disabled = mapNameInput.value.length == 0;
 
     //
 
@@ -118,7 +159,7 @@ function update(timestamp) {
             p[0] = Math.max(p[0], size.width + 20);
             p[1] = Math.max(p[1], 10);
             roomManage.style.right = (canvas.width - p[0] + 10) + "px";
-            roomManage.style.top = (p[1] + 50) + "px";
+            roomManage.style.top = (p[1] + topOffset) + "px";
 
             createRoomBtn.disabled = !room.done || roomNameInput.value.length == 0;
 
@@ -208,18 +249,21 @@ cancelRoomBtn.onclick = () => {
     rooms.splice(rooms.length - 1, 1);
     creatingRoom = false;
     roomNameInput.value = "";
+    updateList();
 }
 
 roomNameInput.oninput = () => {
     if (!creatingRoom || rooms.length == 0) return;
 
     rooms[rooms.length - 1].name = roomNameInput.value;
+    updateList();
 }
 
 roomNameEdit.oninput = () => {
     if (selectedRoom == null) return;
 
     rooms[selectedRoom].name = roomNameEdit.value;
+    updateList()
 }
 
 roomDeleteBtn.onclick = () => {
@@ -227,6 +271,7 @@ roomDeleteBtn.onclick = () => {
 
     rooms.splice(selectedRoom, 1);
     selectedRoom = null;
+    updateList();
 }
 
 const mouse = { x: 0, y: 0, down: false }
@@ -290,6 +335,7 @@ canvas.addEventListener("mouseup", (e) => {
             creatingRoom = true;
             const point = canvasToMap(mouse.x, mouse.y);
             rooms.push({ name: "", min: [...point], max: [...point], points: [point], done: false, hover: 0, hovered: false });
+            updateList();
         } else if (rooms.length > 0 && !rooms[rooms.length - 1].done) {
             const room = rooms[rooms.length - 1];
 
@@ -306,7 +352,7 @@ canvas.addEventListener("mouseup", (e) => {
 
 canvas.addEventListener("wheel", (e) => {
     if (e.ctrlKey) {
-        const f = 1 - e.deltaY / 50;
+        const f = Math.exp(-Math.min(Math.max(e.deltaY, -15), 15) * 0.015);
 
         tcamera.zoom *= f;
         tcamera.x = (tcamera.x + mouse.x) * f - mouse.x;
@@ -322,23 +368,23 @@ canvas.addEventListener("wheel", (e) => {
 
 //
 
-mapSaveBtn.onclick = () => {
-    fetch("/insert.php", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ request: 'map', map_name: mapNameInput.value, map_rooms: rooms.map(room => { return { name: room.name, points: JSON.stringify(room.points) } }) })  // Send a request to insert a new map
-    })
-        //convert the response to text
-        .then(response => response.text())
-        //show the response
-        .then(data => {
-            console.log(data)
-        })
-        //catch any errors and log them to the console
-        .catch(error => console.error('Error:', error));
-}
+// mapSaveBtn.onclick = () => {
+//     fetch("/insert.php", {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json"
+//         },
+//         body: JSON.stringify({ request: 'map', map_name: mapNameInput.value, map_rooms: rooms.map(room => { return { name: room.name, points: JSON.stringify(room.points) } }) })  // Send a request to insert a new map
+//     })
+//         //convert the response to text
+//         .then(response => response.text())
+//         //show the response
+//         .then(data => {
+//             console.log(data)
+//         })
+//         //catch any errors and log them to the console
+//         .catch(error => console.error('Error:', error));
+// }
 
 //
 

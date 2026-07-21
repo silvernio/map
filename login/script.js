@@ -18,12 +18,12 @@ function googleLogIn(response) {
         body: JSON.stringify({ provider: 'google', token: response.credential }) 
     })
         //convert the response to json
-        .then(response => response.json())
+        .then(response => response.text())
         //then do something with the data
         .then(data => {
-            if (data.picture) {
-                pfpImg.src = data.picture;
-            }
+            // if (data.picture) {
+            //     pfpImg.src = data.picture;
+            // }
             console.log(data)
         })
         //catch any errors and log them to the console
