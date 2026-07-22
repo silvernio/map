@@ -47,13 +47,7 @@
     </div>
 
     <div class="navbar-end">
-      <div class="navbar-item">
-        <div class="buttons">
-            <!-- <a class="button is-light">
-              Log in
-            </a> -->
-        </div>
-      </div>
+      <?php require __DIR__ . '/profile.php'?>
     </div>
   </div>
 </nav>

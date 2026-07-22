@@ -17,7 +17,7 @@
 
     <input type="checkbox" name="admin" id="isAdminCheckbox">
     <br>
-    <img id="pfpImage" src="default_pfp.png" alt="User profile picture" style="aspect-ratio: 1; border-radius: 50%; width: 50px;">
+    <img id="pfpImage" src="../default_pfp.png" alt="User profile picture" style="aspect-ratio: 1; border-radius: 50%; width: 50px;">
 
     <div class="g_id_signin"
          data-type="standard"

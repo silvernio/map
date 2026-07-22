@@ -1,9 +1,13 @@
 const pfpImg = document.getElementById('pfpImage');
 
 pfpImg.onerror = () => {
-    pfpImg.src = 'default_pfp.png';
+    pfpImg.src = '../default_pfp.png';
 }
 
+const bigButton = document.getElementById('bigButton');
+
+bigButton.onclick = () => {console.log('big')}
+ 
 // This function triggers automatically after a successful sign-in
 function googleLogIn(response) {
     console.log('google response', response);
