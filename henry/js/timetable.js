@@ -13,15 +13,18 @@ for (i=0;  i < timesString.length; i++) {
     timesNum.push(parseInt(splitTimes[0]) * 60 + parseInt(splitTimes[1])) // Hours * 60 + minutes
 }
 
-let allLessons = []
+let allLessons = [] // The text which is stored in the table cells
+
 getCellText()
+
 async function getCellText() {
     var studentIds = await getAllStudents()
     await getLessons(studentIds)
 
-    console.log(studentIds)
-    console.log(lessons)
+    // console.log(studentIds)
+    // console.log(lessons)
 
+    // Checks for the lesson time of all lessons by using nested FOR loops and saves it as a lesson number, e.g, lesson 1
     for (i=0; i < lessons.length; i++) {
         for (j=0; j < timesString.length; j++) {
             if (lessons[i][1] == timesString[j]) {
@@ -30,13 +33,14 @@ async function getCellText() {
         }
     }
 
+    // Fill up the array with null so it can later be changed at specific indexes
     for (i = 0; i < timesString.length - 1; i++) {
         allLessons.push(null)
     }
 
+    // Uses same nested FOR loops as earlier, but checks for the lesson number instead of time
     for (i = 0; i < allLessons.length; i++) {
         for (j = 0; j < lessons.length; j++) {
-            // console.log(lessons[i][0])
             if (lessons[j][0] == i) {
                 allLessons[i] = ("Module " + lessons[j][0] + "<br>" + lessons[j][1] + "<br>" + lessons[j][2] + " - " + lessons[j][3] + "<br>" + lessons[j][4])
             }
@@ -44,20 +48,14 @@ async function getCellText() {
     }
 
     for (i = 0; i < allLessons.length; i++) {
+        // Only runs if the DB had no data, because all indexes with data have already been changed to have text
         if (allLessons[i] == null) {
             allLessons[i] = "NO DATA"
         }
     }
 
     await styling()
-
-    // WORKING HERE. ADD PLACEHOLDER AS A BACKUP/ERROR AVOIDANCE.
-
-
-    // console.log(lessons)
 }
-
-// console.log(lessons)
 
 // The difference between the starting and ending time
 var totalTimeRatio = timesNum[timesNum.length-1]-timesNum[0]
@@ -65,23 +63,17 @@ var totalTimeRatio = timesNum[timesNum.length-1]-timesNum[0]
 var cellHeights = [] // Uses totalTimeRatio to determine the cell heights
 // var cellText = []
 for (i=1; i < timesNum.length; i++) {
-    // if (lessons[])
     var startTime = timesNum[i-1]-timesNum[0] // When the subject starts in relation to the start of the day
     var endTime = timesNum[i]-timesNum[0] // When the subject ends in relation to the start of the day
     cellHeights.push((endTime-startTime)/totalTimeRatio*(height-50)) // Gets the ratio by using above variables
-    // cellText.push(["Module " + i + "<br> Lesson name " + i + "<br>" + timesString[i-1] + " - " + timesString[i] + "<br> Mr John"])
 }
-
-// var pla = 100
-// console.log(pla)
 
 var tableHTML = ''
 var styles = ''
+
 // All CSS styling in a single function to make it collapsable for organisation
 // CSS is in JS because it needs to be defined by variables
 // Styling is important because things like colour coding are helpful for organisation apps like this
-// styling()
-
 async function styling() {
     // Adds all table cells to the table at the appropriate height. Cell has id "tableCell"+i and colour picker has id "tableColour"+i
     for (i=0; i < timesNum.length-1; i++) {
