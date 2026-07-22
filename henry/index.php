@@ -13,6 +13,10 @@
     </table>
 </div>
 
+<a href="change-timetable/" class="navbar-item">
+    Change Timetable
+</a>
+
 <!-- <input type = "color"></input> -->
 
 <script src="js/timetable_data.js"></script>
