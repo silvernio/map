@@ -5,13 +5,35 @@
 <?php require __DIR__ . "/../header-body.php" ?>
 
 <div id="actions">
+      <details>
+        <summary>File</summary>
+
+        <button id="newBtn">New</button>
+        <button id="saveBtn">Save</button>
+
+        <details>
+            <summary>Load</summary>
+            <div id="maps">
+                <button>School</button>
+                <button>Cool</button>
+            </div>
+        </details>
+
+        <button id="deleteBtn">Delete</button>
+    </details>
+
     <input type="text" value="New Map" id="mapName" list="mapList">
-    <datalist id="mapList"></datalist>
+    
+    <details>
+        <summary>Background</summary>
 
-    <button id="saveBtn">Save</button>
-
-    <button id="loadBtn">Load</button>
-
+        <form action="insert.php">
+            <input type="file" name="Background" id="bg">
+            <br>
+            *work in progress
+        </form>
+        
+    </details>
 </div>
 
 <div id="sidebar">

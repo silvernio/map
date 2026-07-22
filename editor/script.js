@@ -29,9 +29,10 @@ const roomElements = [];
 
 const mapNameInput = document.getElementById("mapName");
 const saveBtn = document.getElementById("saveBtn");
-const loadBtn = document.getElementById("loadBtn");
+const newBtn = document.getElementById("newBtn");
+const deleteBtn = document.getElementById("deleteBtn");
 
-const mapList = document.getElementById("mapList");
+const mapList = document.getElementById("maps");
 
 // console.log(bg);
 
@@ -44,6 +45,8 @@ const dimensions = { width: 2122, height: 1478 };
 let selectedRoom = null;
 let creatingRoom = false;
 let lastTime = 0;
+
+let currentMap = null;
 
 async function getMaps() {
     return await fetch("/api.php", {
@@ -62,9 +65,15 @@ async function updateMapList() {
     mapList.innerHTML = "";
 
     for (const map of maps) {
-        const option = document.createElement("option");
+        const option = document.createElement("button");
         option.textContent = map.name;
         mapList.appendChild(option);
+
+        option.onclick = () => {
+            loadMap(map.id);
+            currentMap = map.id;
+            mapNameInput.value = map.name
+        }
     }
 }
 
@@ -131,6 +140,7 @@ function update(timestamp) {
     // }
 
     // ctx.fill();
+    deleteBtn.style.display = currentMap != null ? "block" : "none";
     roomManage.style.opacity = (creatingRoom || selectedRoom != null) ? 1 : 0;
 
     const m = canvasToMap(mouse.x, mouse.y);
@@ -378,13 +388,42 @@ canvas.addEventListener("wheel", (e) => {
 
 //
 
-saveBtn.onclick = () => {
-    fetch("/insert.php", {
+saveBtn.onclick = async () => {
+    await fetch("/insert.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ request: 'map', map_name: mapNameInput.value, map_rooms: rooms.map(room => { return { name: room.name, points: JSON.stringify(room.points) } }) })  // Send a request to insert a new map
+        body: JSON.stringify({ request: currentMap != null ? 'map_update' : 'map', map_id: currentMap != null ? currentMap : undefined, map_name: mapNameInput.value, map_rooms: rooms.map(room => { return { name: room.name, points: JSON.stringify(room.points) } }) })  // Send a request to insert a new map
+    })
+        //convert the response to text
+        .then(response => response.json())
+        //show the response
+        .then(data => {
+            console.log(data)
+            if (currentMap == null) currentMap = data.map_id;
+        })
+        //catch any errors and log them to the console
+        .catch(error => console.error('Error:', error));
+
+    updateMapList();
+}
+
+newBtn.onclick = async () => {
+    rooms.length = 0;
+    currentMap = null;
+    mapNameInput.value = "New Map";
+}
+
+deleteBtn.onclick = async () => {
+    if (currentMap == null) return;
+
+     await fetch("/insert.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ request: 'map_delete', map_id: currentMap  }) 
     })
         //convert the response to text
         .then(response => response.text())
@@ -396,16 +435,10 @@ saveBtn.onclick = () => {
         .catch(error => console.error('Error:', error));
 
     updateMapList();
-}
 
-loadBtn.onclick = async () => {
-    const maps = await getMaps();
-
-    if (!maps.map(map => map.name).includes(mapNameInput.value)) return;
-
-    const index = maps.find(map => map.name == mapNameInput.value).id;
-
-    loadMap(index);
+    rooms.length = 0;
+    currentMap = null;
+    mapNameInput.value = "New Map";
 }
 
 async function loadMap(id) {
@@ -421,12 +454,13 @@ async function loadMap(id) {
         //catch any errors and log them to the console
         .catch(error => console.error('Error:', error));
 
-    if (!roomsData) return;
+    console.log(id, roomsData);
+    if (!roomsData || roomsData.message == "No data found") return;
 
     rooms.length = 0;
 
     for (const room of roomsData) {
-        rooms.push({name: room.room_name, points: JSON.parse(room.points)})
+        rooms.push({name: room.room_name, points: JSON.parse(room.points), min: [0, 0], max: [0, 0], done: true, hover: 0, hovered: false})
     }
 }
 
