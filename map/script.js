@@ -1,3 +1,6 @@
+
+import "../henry/new/timetable.js";
+
 const canvas = document.getElementById("canvas");
 
 const ctx = canvas.getContext("2d");
@@ -12,20 +15,53 @@ const dimensions = { width: 2122, height: 1478 };
 
 let lastTime = 0;
 
-const mapNameInput = document.getElementById("mapName");
-const mapLoadBtn = document.getElementById("mapLoad");
+const mapSelect = document.getElementById("mapSelect");
 
-let loadedMap = mapNameInput.value;
+let loadedMap = null;
 
 const rooms = [];
 
-async function loadMap() {
+async function getMaps() {
+    return await fetch("/api.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ request: 'maps' })
+    })
+        .then(response => response.json())
+}
+
+async function updateMapList() {
+    const maps = await getMaps();
+
+    mapSelect.innerHTML = "";
+
+    for (const map of maps) {
+        const option = document.createElement("option");
+        option.value = map.id;
+        option.textContent = map.name;
+        mapSelect.appendChild(option);
+    }
+
+    mapSelect.value = maps[0].id;
+
+    loadMap(maps[0].id)
+}
+
+mapSelect.onchange = () => {
+    loadMap(mapSelect.value)
+}
+
+updateMapList();
+
+async function loadMap(id) {
      const roomsData = await fetch("/api.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ request: 'rooms', map_id: loadedMap })  // Send a request to get all the rooms with the map id
+        body: JSON.stringify({ request: 'rooms', map_id: id })  // Send a request to get all the rooms with the map id
     })
         //convert the response to json
         .then(response => response.json())
@@ -37,17 +73,8 @@ async function loadMap() {
     rooms.length = 0;
 
     for (const room of roomsData) {
-        rooms.push({name: room.name, points: JSON.parse(room.points)})
+        rooms.push({name: room.room_name, points: JSON.parse(room.points)})
     }
-}
-
-loadMap();
-
-mapLoadBtn.onclick = () => {
-    if (mapNameInput.value.length == 0) return;
-    loadedMap = mapNameInput.value;
-
-    loadMap();
 }
 
 function canvasToMap(x, y) {
