@@ -5,16 +5,11 @@
 <?php require __DIR__ . "/../header-body.php" ?>
 
 <div id="sidebar">
-    <div>
+    <div class="element">
         <span>Map</span>
         <select name="map" id="mapSelect"></select>
     </div>
-
-    <h2>Timetable</h2>
-    <p>do this soon</p>
-</div>
-
-<!-- HENRY STUFF STARTS HERE -->
+    
     <style id="style"></style>
     <div class="tableWrapper" style="border: 1px solid black;">
         <table id="timetable">
@@ -25,6 +20,10 @@
             </tr>
         </table>
     </div>
+</div>
+
+<!-- HENRY STUFF STARTS HERE -->
+    
 
 <!-- <script src="../henry/js/timetable_data.js"></script>
 <script src="../henry/js/timetable.js"></script>

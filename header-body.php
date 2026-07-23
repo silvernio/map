@@ -19,7 +19,7 @@
 
   <div id="navbarBasicExample" class="navbar-menu">
 
-    <h1>Map thingo</h1>
+    <h1>MapNav</h1>
 
     <div class="navbar-start">
       
