@@ -5,35 +5,31 @@
 <?php require __DIR__ . "/../header-body.php" ?>
 
 <div id="sidebar">
-    <h1>Map</h1>
-
     <div>
-        <span>Map ID</span>
-        <input id="mapName" type="text" value="4">
+        <span>Map</span>
+        <select name="map" id="mapSelect"></select>
     </div>
-    
-    <button id="mapLoad">Load</button>
+
+    <h2>Timetable</h2>
+    <p>do this soon</p>
 </div>
 
 <!-- HENRY STUFF STARTS HERE -->
-<title>Timetable</title>
+    <style id="style"></style>
+    <div class="tableWrapper" style="border: 1px solid black;">
+        <table id="timetable">
+            <tr>
+                <th colspan=2>
+                    Timetable
+                </th>
+            </tr>
+        </table>
+    </div>
 
-<style id="style"></style>
-<div class="tableWrapper" style="border: 1px solid black;">
-    <table id="timetable">
-        <tr>
-            <th colspan = 2>
-                Timetable
-            </th>
-        </tr>
-    </table>
-</div>
-
-
-<script src="../henry/js/timetable_data.js"></script>
+<!-- <script src="../henry/js/timetable_data.js"></script>
 <script src="../henry/js/timetable.js"></script>
 
-<link rel="stylesheet" href="../henry/css/styles.css">
+<link rel="stylesheet" href="../henry/css/styles.css"> -->
 
 <!-- HENRY STUFF ENDS HERE -->
 
@@ -42,4 +38,5 @@
 <script type="module" src="script.js"></script>
 
 </body>
+
 </html>
