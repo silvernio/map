@@ -8,7 +8,7 @@
 
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-<div id="profileWindow" style="position: absolute; right: -500px; top: 60px; border: 2px solid black; border-radius: 5px; padding: 10px; aspect-ratio: 0.6; transition: all 1s;">
+<div id="profileWindow" style="position: absolute; right: -500px; top: 60px; border: 2px solid black; border-radius: 5px; padding: 10px; aspect-ratio: 0.6; transition: all 1s; background-color:white;">
     <h2 id="profileTitle">Log In / Sign Up</h2>
 
     <p id="profileMessage" style="display: none; border-radius: 5px; background-color:antiquewhite; padding: 5px; border: 2px solid bisque;">Successfully logged in!</p>
