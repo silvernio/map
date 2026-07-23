@@ -35,8 +35,6 @@ bigButton.onclick = () => {
 }
 
 function googleLogIn(response) {
-    console.log('google response', response);
-
     fetch("/account.php", {
         method: "POST",
         headers: {
@@ -65,15 +63,14 @@ function googleLogIn(response) {
 
                 profileName.innerText = account.first_name;
 
+                profileName.style.color = 'black';
+
                 profileInfo.innerText = `${account.first_name} ${account.last_name} (${isTeacherString})`
 
                 profileInfo.style.display = 'block';
             }
             if (data.picture) {
-                console.log(data.picture)
                 profileImg.src = data.picture;
-
-                console.log(profileImg)
             }
         })
         //catch any errors and log them to the console
@@ -81,9 +78,9 @@ function googleLogIn(response) {
 }
 
 async function getAccount() {
-    let response = await fetch('/profile_api.php')
+    let response = await fetch('/profile_api.php');
 
-    let account = await response.json()
+    let account = await response.json();
 
     return account;
 }
@@ -93,14 +90,16 @@ async function onLoad() {
 
     if (!account.picture) return;
 
-    let isTeacherString = (account.is_teacher == '1' ? 'Teacher' : 'Student')
-    profileTitle.innerText = 'Account'
+    let isTeacherString = (account.is_teacher == '1' ? 'Teacher' : 'Student');
+    profileTitle.innerText = 'Account';
 
     signInBtn.style.display = 'none';
 
     profileName.innerText = account.first_name;
 
-    profileInfo.innerText = `${account.first_name} ${account.last_name} (${isTeacherString})`
+    profileName.style.color = 'black';
+
+    profileInfo.innerText = `${account.first_name} ${account.last_name} (${isTeacherString})`;
 
     profileInfo.style.display = 'block';
     profileImg.src = account.picture;
