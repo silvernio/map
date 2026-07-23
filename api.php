@@ -40,6 +40,25 @@
         $sql = "SELECT * FROM accounts WHERE account_id = " . $teacher_id;
     }
 
+    // Searches for data input page(s):
+    else if($request == "searchAccounts"){ // Searches the location with 'LIKE' commands
+        if(isset($data["search"])){ // Check to see if value sent is set
+
+            // Escape the search value to prevent SQL injection using db connection's real_escape_string method
+            $search = $conn->real_escape_string($data["search"]);
+
+            // Searches the DB for search value
+            $sql = "SELECT * FROM accounts WHERE first_name LIKE '%$search%' OR last_name LIKE '%$search%'";
+        }
+        else{ // If no value is set
+            echo json_encode(["message" => "Invalid request"]);
+            exit;
+        }
+    }
+    else if ($request == 'allLessons') {
+        $sql = "SELECT * FROM lessons";
+    }
+
     else {
         echo json_encode(['message' => 'Invalid request']);
         exit;
