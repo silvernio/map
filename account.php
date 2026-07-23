@@ -66,7 +66,14 @@
 
         if ($result && $result->num_rows > 0) {
             $account = $result->fetch_assoc(); // fetch the first row of the result
-            echo json_encode(['message' => 'Successfully logged in!', 'account' => $account, 'picture' => $picture]);
+
+            $profile = ['account' => $account, 'picture' => $picture];
+            
+            setcookie('profile', json_encode($profile), time() + 3600, '/');
+
+            $profile['message'] = 'Successfully logged in!';
+
+            echo json_encode($profile);
             exit;
         }
         // Else, insert new account
@@ -88,7 +95,13 @@
 
         $account = ['account_id' => $google_id, 'first_name' => $first_name, 'last_name' => $last_name, 'email' => $email, 'is_teacher' => $is_admin_int];
 
-        echo json_encode(['message' => 'Successfully signed up!', 'account' => $account, 'picture' => $picture]);
+        $profile = ['account' => $account, 'picture' => $picture];
+
+        setcookie('profile', json_encode($profile), time() + 3600, '/');
+
+        $profile['message'] = 'Successfully signed up!';
+
+        echo json_encode($profile);
     }
 
     else {

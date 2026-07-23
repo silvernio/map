@@ -79,3 +79,31 @@ function googleLogIn(response) {
         //catch any errors and log them to the console
         .catch(error => console.error('Error:', error));
 }
+
+async function getAccount() {
+    let response = await fetch('/profile_api.php')
+
+    let account = await response.json()
+
+    return account;
+}
+
+async function onLoad() {
+    let account = await getAccount();
+
+    if (!account.picture) return;
+
+    let isTeacherString = (account.is_teacher == '1' ? 'Teacher' : 'Student')
+    profileTitle.innerText = 'Account'
+
+    signInBtn.style.display = 'none';
+
+    profileName.innerText = account.first_name;
+
+    profileInfo.innerText = `${account.first_name} ${account.last_name} (${isTeacherString})`
+
+    profileInfo.style.display = 'block';
+    profileImg.src = account.picture;
+}
+
+onLoad();
