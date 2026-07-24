@@ -25,7 +25,7 @@ async function getCellText() {
     // console.log(lessons)
 
     // Checks for the lesson time of all lessons by using nested FOR loops and saves it as a lesson number, e.g, lesson 1
-    for (i=0; i < lessons.length; i++) {
+    for (let i=0; i < lessons.length; i++) {
         for (j=0; j < timesString.length; j++) {
             if (lessons[i][1] == timesString[j]) {
                 lessons[i].unshift(j)
@@ -34,20 +34,20 @@ async function getCellText() {
     }
 
     // Fill up the array with null so it can later be changed at specific indexes
-    for (i = 0; i < timesString.length - 1; i++) {
+    for (let i = 0; i < timesString.length - 1; i++) {
         allLessons.push(null)
     }
 
     // Uses same nested FOR loops as earlier, but checks for the lesson number instead of time
-    for (i = 0; i < allLessons.length; i++) {
-        for (j = 0; j < lessons.length; j++) {
+    for (let i = 0; i < allLessons.length; i++) {
+        for (let j = 0; j < lessons.length; j++) {
             if (lessons[j][0] == i) {
                 allLessons[i] = ("Module " + lessons[j][0] + "<br>" + lessons[j][1] + "<br>" + lessons[j][2] + " - " + lessons[j][3] + "<br>" + lessons[j][4])
             }
         }
     }
 
-    for (i = 0; i < allLessons.length; i++) {
+    for (let i = 0; i < allLessons.length; i++) {
         // Only runs if the DB had no data, because all indexes with data have already been changed to have text
         if (allLessons[i] == null) {
             allLessons[i] = "NO DATA"
@@ -76,7 +76,7 @@ var styles = ''
 // Styling is important because things like colour coding are helpful for organisation apps like this
 async function styling() {
     // Adds all table cells to the table at the appropriate height. Cell has id "tableCell"+i and colour picker has id "tableColour"+i
-    for (i=0; i < timesNum.length-1; i++) {
+    for (let i=0; i < timesNum.length-1; i++) {
         tableHTML += `
         <tr style="height:` + cellHeights[i] + `px ">
             <td id ="tableCell`+i+`" style = "width:`+((width-50)/3-100)+`px;">

@@ -55,8 +55,25 @@
             exit;
         }
     }
+
     else if ($request == 'allLessons') {
         $sql = "SELECT * FROM lessons";
+    }
+
+    else if ($request == 'getAccountId') {
+        $first_name = $conn->real_escape_string($data["first_name"]);
+        $last_name = $conn->real_escape_string($data["last_name"]);
+
+        $sql = "SELECT account_id FROM accounts WHERE first_name = '" . $first_name . "' AND last_name = '" . $last_name . "'";
+    }
+
+    else if($request == 'getLessonId') {
+        $lesson_name = $conn->real_escape_string($data["module"]);
+        $teacher_id = $conn->real_escape_string($data["teacher_id"]);
+        $start_time = $conn->real_escape_string($data["start_time"]);
+        $day = $conn->real_escape_string($data["day"]);
+
+        $sql = "SELECT lesson_id FROM lessons WHERE lesson_name = '" . $lesson_name . "' AND teacher_id = '" . $teacher_id . "' AND start_time = '" . $start_time . "' AND day = '" . $day . "'";
     }
 
     else {

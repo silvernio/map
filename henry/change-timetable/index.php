@@ -1,5 +1,7 @@
 <title>Add To Timetable</title>
 
+<?php include '../../header.php' ?>
+
 <table style="width:80%">
         <tr>
             <th>Field Name</th>
@@ -10,13 +12,13 @@
             <th><br></th> 
         </tr>
 
-        <tr>
+        <!-- <tr>
             <th>Student Name</th>
             <th>
                 <input list="studentDatalist" id="students">
                 <datalist id="studentDatalist"></datalist>
             </th>
-        </tr>
+        </tr> -->
         
         <tr>
             <th>Teacher Name</th>
@@ -63,8 +65,6 @@
                     <option value="Wednesday">Wednesday</option>
                     <option value="Thursday">Thursday</option>
                     <option value="Friday">Friday</option>
-                    <option value="Saturday">Saturday</option>
-                    <option value="Sunday">Sunday</option>
                 </select>
             </th>
         </tr>

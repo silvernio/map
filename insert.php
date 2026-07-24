@@ -56,6 +56,10 @@
         echo json_encode(["message" => "Map and rooms deleted successfully!"]);
     }
 
+    else if ($request == 'updateTimetable' && isset($data['input'])) {
+        // $crashes = $conn->prepare("INSERT INTO attendance (location_id, units, casualties, fatalities, serious_injuries, mild_injuries, year, month, day, time, area_speed, crash_type_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    }
+
     else {
         echo json_encode(['message' => 'Invalid request']);
         $conn->close();

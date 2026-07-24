@@ -42,7 +42,7 @@ async function getLessons(studentIds) {
         console.log(data)
     }
     else {
-        for (i = 0; i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) {
             var teacherName = await getLessonTeacher(data[i].teacher_id)
             lessons.push([data[i].lesson_name, data[i].start_time, data[i].finish_time, teacherName]) // Outputs relevant info for timetable
         }
