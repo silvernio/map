@@ -2,10 +2,8 @@
 
 <?php require __DIR__ . '/header.php' ?>
 
-    <h1>From Sam</h1>
-    <h1>Henry's here, with the HTM Lads!</h1>
-    <h1>Silver's here too!</h1>
+    <p>Welcome to MapNav, a software designed for creation and management of maps and timetables.</p>
 
-    <p>This is like, a super epic map editing and viewing website!</p>
+    <img src="/home.png" alt="">
 </body>
 </html>

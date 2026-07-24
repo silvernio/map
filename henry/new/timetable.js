@@ -3,8 +3,8 @@ import { getAllStudents, getLessons } from "./timetable_api.js";
 const styleHTML = document.getElementById("style");
 const timetableHTML = document.getElementById("timetable")
 
-var width = window.innerWidth
-var height = window.innerHeight - 300
+var width = 280
+var height = window.innerHeight - 250
 
 // Time is a placeholder for first iterations. Will later get from the server
 var timesString = ["08:30", "08:40", "09:20", "10:00", "10:20", "11:00", "11:40", "12:00", "12:40", "13:20", "14:00", "14:40", "15:20"]
@@ -67,7 +67,7 @@ var cellHeights = [] // Uses totalTimeRatio to determine the cell heights
 for (let i=1; i < timesNum.length; i++) {
     var startTime = timesNum[i-1]-timesNum[0] // When the subject starts in relation to the start of the day
     var endTime = timesNum[i]-timesNum[0] // When the subject ends in relation to the start of the day
-    cellHeights.push((endTime-startTime)/totalTimeRatio*(height-50)) // Gets the ratio by using above variables
+    cellHeights.push((endTime-startTime)/totalTimeRatio*(height-80)) // Gets the ratio by using above variables
 }
 
 var tableHTML = ''
@@ -81,8 +81,8 @@ async function styling() {
     for (let i=0; i < timesNum.length-1; i++) {
         tableHTML += `
         <tr style="height:` + cellHeights[i] + `px ">
-            <td id ="tableCell`+i+`" style = "width:`+((width-50)/3-100)+`px;">
-                <button id="tableButton`+i+`" style = "width:`+((width-50)/3-100)+`px; height:`+(cellHeights[i])+`; border:none; float:left; text-align: left; overflow-y: auto; outline: none; padding: 0;">`+allLessons[i]+`</button>
+            <td id ="tableCell`+i+`" style = "width: `+(width - 60)+`px;">
+                <button id="tableButton`+i+`" style = "width: `+(width - 70)+`px; height:`+(cellHeights[i])+`; border:none; float:left; text-align: left; overflow-y: auto; outline: none; padding: 0;">`+allLessons[i]+`</button>
             </td>
             <td>
                 <input type="color" id="tableColour`+i+`"style="width:100%; height:100%; margin:0; padding:0; border:none; appearance:none; -webkit-appearance:none; background:none;"></input>
@@ -95,24 +95,19 @@ async function styling() {
     // Adds all css styling
     styles = `
     .tableWrapper {
-        height:`+String(height-0)+`px;
-        width:`+String((width-45)/3)+`px;
-
-        margin-left: auto;
-        margin-right: 0;
+        height:`+String(height-10)+`px;
+        width: `+width+`px;
 
         overflow-y: auto;
         overflow-x: auto;
+        display: block;
     }
     table {
-        height:`+String(height-20)+`px;
-        width:`+String((width-90)/3)+`px;
+        height:`+String(height-80)+`px;
+        width:`+String(width)+`px;
         
         border-collapse: collapse;
         white-space:nowrap;
-
-        margin-left: auto; 
-        margin-right: 0;
     }
     `
 

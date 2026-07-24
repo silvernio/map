@@ -11,3 +11,4 @@
 https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js
 "></script>
     <link rel="stylesheet" href="/style.css">
+    <link rel="shortcut icon" href="/icon.png" type="image/x-png">

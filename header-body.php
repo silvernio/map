@@ -19,7 +19,8 @@
 
   <div id="navbarBasicExample" class="navbar-menu">
 
-    <h1>Map thingo</h1>
+    <img id="icon-img" src="/icon.png" alt="Icon">
+    <h1>MapNav</h1>
 
     <div class="navbar-start">
       
@@ -38,12 +39,12 @@
       <a href="/editor/" class="navbar-item">
         Editor
       </a>
-      <a href="/sam/" class="navbar-item">
+      <!-- <a href="/sam/" class="navbar-item">
         Sam
-      </a>
-      <a href="/rivergem/" class="navbar-item">
+      </a> -->
+      <!-- <a href="/rivergem/" class="navbar-item">
         Andrew
-      </a>
+      </a> -->
     </div>
 
     <div class="navbar-end">
