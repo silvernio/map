@@ -4,6 +4,6 @@
 
     <p>Welcome to MapNav, a software designed for creation and management of maps and timetables.</p>
 
-    <img src="/home.png" alt="">
+    <img id="main-img" src="/htmlads.png" alt="">
 </body>
 </html>
