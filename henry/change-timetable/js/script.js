@@ -144,32 +144,46 @@ async function addToDB() {
     }
 
     var lessonId
+    // console.log(times)
     let startTime = times[module.value-1]
     // console.log(startTime)
-    const response = await fetch("/api.php", { // Gets the API script
-        method: "POST", // Post is used because it's more private
-        headers: {
-            "Content-Type": "application/json" // Determines the format to be JSON
-        },
-        body: JSON.stringify({request: "getLessonId", module: module.value, teacher_id: teacherIdEntry, start_time: startTime, day: day.value}) // Requests account ID from the api 
-    })
+    // console.log(startTime)
 
-    const data = await response.json()
+    console.log(subjectInput.value, teacherIdEntry, startTime, day.value)
+
+    var data
+    try {
+        const response = await fetch("/api.php", { // Gets the API script
+            method: "POST", // Post is used because it's more private
+            headers: {
+                "Content-Type": "application/json" // Determines the format to be JSON
+            },
+            body: JSON.stringify({request: "getLessonId", module: subjectInput.value, teacher_id: teacherIdEntry, start_time: startTime, day: day.value}) // Requests account ID from the api 
+        })
+    
+        data = await response.json()
+    }
+    catch (error) {
+        alert("Lesson does not exits in database. Ask teacher or admin for support, or try inputting data again.")
+        console.log(error)
+    }
 
     // WORKING HERE
+    console.log(data)
 
     if (data.message) { // Checks if there is an error message
         console.log(data)
+        alert("Lesson does not exits in database. Ask teacher or admin for support, or try inputting data again.")
         return;
     }
     else {
-        accountId = data[0].account_id
+        lessonId = data[0].lesson_id
     }
 
-    // console.log(accountId)
+    console.log(accountId, lessonId)
 
     var input = [accountId, teacherIdEntry, subjectInput.value, module.value, day.value]
-    console.log(input)
+    // console.log(input)
 
     fetch("/php/insert.php", {
         method: "POST",
