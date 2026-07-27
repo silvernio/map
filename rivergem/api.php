@@ -19,47 +19,25 @@ if ($request === "subjects") {
     exit;
 }
 
-if ($request === "addEquipment") {
-    $listName = $data["Listname"] ?? "";
-    $items    = $data["items"] ?? [];
 
-    if ($listName === "" || !is_array($items) || count($items) === 0) {
-        echo json_encode(["success" => false, "error" => "Missing subject or items."]);
-        exit;
-    }
+//equipment add
+else if ($request === "getequipment") {
 
-    $listName = intval($listName);
-
-    $stmt = $conn->prepare("SELECT subject_id FROM subjects WHERE subject_id = ?");
-    $stmt->bind_param("i", $listName);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if (!($row = $result->fetch_assoc())) {
-        echo json_encode(["success" => false, "error" => "Subject not found."]);
-        exit;
-    }
-
-    $subjectId = $row["subject_id"];
-    $stmt->close();
-
-    $stmt = $conn->prepare("INSERT INTO equipment (item_name, subject_id) VALUES (?, ?)");
-    if (!$stmt) {
-        echo json_encode(["success" => false, "error" => $conn->error]);
-        exit;
-    }
-
-    foreach ($items as $item) {
-        $item = trim($item);
-        if ($item !== "") {
-            $stmt->bind_param("si", $item, $subjectId);
-            $stmt->execute();
+$result = $conn->query("SELECT subjects.subject_name,subjects.subject_year,equipment.item_name FROM subjects LEFT JOIN equipment ON subjects.subject_id=equipment.subject_id");
+    $subjects = [];
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $subjects[] = $row;
         }
     }
-    $stmt->close();
-
-    echo json_encode(["success" => true]);
+    echo json_encode($subjects); // plain array, matches your JS's for-loop
     exit;
-}
+   
+} 
+    
+    
 
-echo json_encode(["success" => false, "error" => "Unknown request"]);
+
+
+echo json_encode(["success" => false, "error" => "Unknown request"]); 
+//show added data on the

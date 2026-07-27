@@ -21,13 +21,13 @@ console.log(listName)
         .map(input => input.value);
 
     console.log(items);
-    console.log(JSON.stringify(items));
-    fetch("api.php", {
+    //Slet itemslist=(JSON.stringify(items));
+    fetch("/insert.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ request: 'addEquipment' ,items:items,listName:listName})  // Send a request to get crash type data
+        body: JSON.stringify({ request: 'addEquipment' ,items:items,ListName:listName})  // Send a request to get crash type data
     })
 
         .then(response => response.json())
@@ -39,7 +39,7 @@ console.log(listName)
     const subjects=document.getElementById("subjects")  
 
     function getsubjects (){
-        fetch("api.php", {
+        fetch("/api.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -58,4 +58,39 @@ console.log(listName)
         //catch any errors and log them to the console
         .catch(error => console.error('Error:', error));
     } 
-    getsubjects()
+    getsubjects() 
+
+    function showewquipment() { 
+        etch("/api.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ request: 'get equipment' })  // Send a request to get crash type data
+    })
+        .then(response => response.JSON())
+        .then(data => {  
+
+            for (const of data) {
+
+            }
+            console.log(data);
+            if (data.message) {
+                dataOutput.innerHTML = '<tr><td colspan="3">' + data.message + '</td></tr>';
+                return;
+            } else {
+                printList(data);
+            }
+        }) 
+         data.forEach(row => {
+        console.log(row)
+     //apneds data into table cells(tr) expanding the table without reloading the page 
+        dataOutput.innerHTML += `
+        <tr>
+            <td>${row.Crash_Id}</td>
+            <td>${row.suburb}</td> 
+            <td>${row.Total_units}</td>  
+        <tr> `
+     });
+
+}
