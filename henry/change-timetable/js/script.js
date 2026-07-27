@@ -13,41 +13,6 @@ const day = document.getElementById("day");
 
 const times = ["8:40", "9:20", "10:20", "11:00", "12:00", "12:40", "14:00", "14:40"]
 
-// STUDENT DATALIST IS TEMPORARY - WILL LATER GO INFO FROM SIGNED IN ACCOUNT
-// var studentIdEntry // Output of the function below
-
-// studentInput.addEventListener("input", function() { // Activates whenever the user types in the searchbox for locations
-//     let search = studentInput.value // User input
-
-//     fetch("/api.php", {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({request: "searchAccounts", search: search})  // Sends an api request to get all locations which contain 'search'
-//     })
-
-//     .then(response => response.json())
-//     .then(data => {
-//         if (data.message) {
-//             return;
-//         }
-//         else { // If there is no error message
-//             // console.log(data)
-//             studentDatalist.innerHTML = "" // Resets the output, because '+=' is used later.
-
-//             for (let i = 0; i < data.length; i++) { // Note that high number of options results in lag and user confusion
-//                 if (data[i].is_teacher == 0) {
-//                     let studentName = (data[i].first_name + "," + data[i].last_name);
-
-//                     studentDatalist.innerHTML += "<option value="+studentName+"></option>" // Adds the option to the output
-//                 }
-//             }
-//             studentIdEntry = data[0].account_id // Stores the current selection for later use
-//         }
-//     })
-// })
-
 var teacherIdEntry // Output of the function below
 teacherInput.addEventListener("input", function() { // Activates whenever the user types in the searchbox for locations
     let search = teacherInput.value // User input
@@ -180,12 +145,12 @@ async function addToDB() {
         lessonId = data[0].lesson_id
     }
 
-    console.log(accountId, lessonId)
+    // console.log(accountId, lessonId)
 
-    var input = [accountId, teacherIdEntry, subjectInput.value, module.value, day.value]
+    var input = [String(accountId), lessonId]
     // console.log(input)
 
-    fetch("/php/insert.php", {
+    fetch("/insert.php", {
         method: "POST",
         body: JSON.stringify({request: "updateTimetable", input: input})
     })
