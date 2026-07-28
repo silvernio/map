@@ -57,7 +57,19 @@
     }
 
     else if ($request == 'updateTimetable' && isset($data['input'])) {
-        // $crashes = $conn->prepare("INSERT INTO attendance (location_id, units, casualties, fatalities, serious_injuries, mild_injuries, year, month, day, time, area_speed, crash_type_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $input = $data["input"];
+
+        $update = $conn->prepare("INSERT INTO attendance (student_id, lesson_id) VALUES (?, ?)");
+        $update->bind_param("si", $input[0], $input[1]);
+
+        $success = $update->execute();
+        if (!$success) {
+            echo json_encode(['message' => 'Data failed to insert']);
+        }
+        $update->close();
+        echo json_encode([ // Return a success message to the console as JSON, as well as info for debugging
+            "message" => "Data successfully inserted",
+        ]);
     }
 
     else {
