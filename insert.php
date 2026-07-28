@@ -7,6 +7,8 @@
     // Get the raw POST data and decode it as JSON
     $data = json_decode($raw, true);
 
+   error_log("RAW DATA: " . print_r($data, true));
+
     if (!isset($data['request'])) {
         echo json_encode(['message' => 'No request given']);
         exit;
@@ -15,6 +17,56 @@
     $request = $data['request'];
 
     // Insert Requests
+if ($request === "addEquipment") {
+    $listName = $data["ListName"] ?? "";
+    $items = $data["items"] ?? []; 
+    
+
+    // if ($listName === "" || !is_array($items) || count($items) === 0) {
+    //     echo json_encode(["success" => false, "error" => "Missing subject or items."]);
+    //     exit;
+    // }
+   
+    $listName = intval($listName);  
+    
+    
+
+    $stmt = $conn->prepare("SELECT subject_id FROM subjects WHERE subject_id = ?");
+    $stmt->bind_param("i", $listName);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if (!($row = $result->fetch_assoc())) {
+        echo json_encode(["success" => false, "error" => "Subject not found."]);
+        exit;
+    }
+
+    $subjectId = $row["subject_id"];
+    $stmt->close();
+
+    $stmt = $conn->prepare("INSERT INTO equipment (item_name, subject_id) VALUES (?, ?)");
+    if (!$stmt) {
+        echo json_encode(["success" => false, "error" => $conn->error]);
+        exit;
+    }
+
+    foreach ($items as $item) {
+        $item = trim($item);
+        if ($item !== "") {
+            $stmt->bind_param("si", $item, $subjectId);
+            $stmt->execute();
+        }
+    }  
+
+   
+    
+
+    $stmt->close();
+
+    echo json_encode(["success" => true]);
+    exit;
+}
+
 
     if ($request == 'map' && isset($data['map_name']) && isset($data['map_rooms'])) {
         // first, insert a new map
@@ -77,6 +129,6 @@
         $conn->close();
         exit;
     }
-
+     
     $conn->close();
 ?>

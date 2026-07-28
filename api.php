@@ -24,6 +24,10 @@
         $sql = "SELECT * FROM maps";
     }
 
+    else if ($request == 'subjects') {
+        $sql = "SELECT * FROM subjects";
+    }
+
     else if ($request == 'lessons' && isset($data['student_id'])) {
         $student_id = $data['student_id'];
 
@@ -76,9 +80,21 @@
         $sql = "SELECT lesson_id FROM lessons WHERE lesson_name = '" . $lesson_name . "' AND teacher_id = '" . $teacher_id . "' AND start_time = '" . $start_time . "' AND day = '" . $day . "'";
     }
 
-    else {
-        echo json_encode(['message' => 'Invalid request']);
-        exit;
+    else if ($request == 'getequipment') {
+    $sql = "SELECT subjects.subject_name,subjects.subject_year,equipment.item_name FROM subjects LEFT JOIN equipment ON subjects.subject_id=equipment.subject_id";
+    // $subjects = [];
+    // if ($result) {
+    //     while ($row = $result->fetch_assoc()) {
+    //         $subjects[] = $row;
+    //     }
+    // }
+    // echo json_encode($subjects); // plain array, matches your JS's for-loop
+    // exit;
+    // } 
+
+    // else {
+    //     echo json_encode(['message' => 'Invalid request']);
+    //     exit;
     }
 
     $result = $conn->query($sql);
