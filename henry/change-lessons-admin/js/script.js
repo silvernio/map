@@ -1,13 +1,27 @@
-// const studentInput = document.getElementById("students");
-// const studentDatalist = document.getElementById("studentDatalist");
+const allHTML = document.getElementById("everything")
+// allHTML.remove()
+setup()
+async function setup() {
+    let account = await getAccount()
+    // console.log(account)
+    if (!account.first_name) {
+        alert("You are not signed in.")
+    }
+    else if (account.is_teacher == 0) {
+        alert("You not an admin/teacher.")
+    }
+    else if (account.is_teacher == 1) {
+        document.body.appendChild(allHTML)
+    }
+}
 
 const teacherInput = document.getElementById("teachers");
 const teacherDatalist = document.getElementById("teacherDatalist");
 
+const classroomInput = document.getElementById("classroomInput");
+const classroomDatalist = document.getElementById("classroomDatalist");
 
-const subjectInput = document.getElementById("subjects");
-const subjectDatalist = document.getElementById("subjectDatalist");
-
+const lessonName = document.getElementById("lessonName");
 const module = document.getElementById("module");
 const day = document.getElementById("day");
 
@@ -46,37 +60,36 @@ teacherInput.addEventListener("input", function() { // Activates whenever the us
     })
 })
 
-var subjectNames = []
-getLessons() // Only needs to be ran once, because it is not dynamic with user input
-function getLessons() {
-    fetch("/api.php", { // Gets the API script
-        method: "POST", // Post is used because it's more private
-        headers: {
-            "Content-Type": "application/json" // Determines the format to be JSON
-        },
-        body: JSON.stringify({request: "allLessons"}) // Requests all lessons from the api 
-    })
+// var subjectNames = []
+// getLessons() // Only needs to be ran once, because it is not dynamic with user input
+// function getLessons() {
+//     fetch("/api.php", { // Gets the API script
+//         method: "POST", // Post is used because it's more private
+//         headers: {
+//             "Content-Type": "application/json" // Determines the format to be JSON
+//         },
+//         body: JSON.stringify({request: "allLessons"}) // Requests all lessons from the api 
+//     })
 
-    .then(response => response.json()) // Returns the search response as an object named 'data'
-    .then(data => {
-        if (data.message) { // Checks if there is an error message
-            return;
-        }
-        else {
-            for (let i = 0; i < data.length; i ++) {
-                subjectNames.push(data[i].lesson_name)
-            }
-            subjectNames = removeDuplicates(subjectNames)
+//     .then(response => response.json()) // Returns the search response as an object named 'data'
+//     .then(data => {
+//         if (data.message) { // Checks if there is an error message
+//             return;
+//         }
+//         else {
+//             for (let i = 0; i < data.length; i ++) {
+//                 subjectNames.push(data[i].lesson_name)
+//             }
+//             subjectNames = removeDuplicates(subjectNames)
 
-            subjectDatalist.innerHTML = ""
-            for (let i = 0; i < subjectNames.length; i++) {
-                subjectDatalist.innerHTML += "<option value="+subjectNames[i]+"></option>" // Adds the option to the output
-            }
-        }
-    })
-}
+//             subjectDatalist.innerHTML = ""
+//             for (let i = 0; i < subjectNames.length; i++) {
+//                 subjectDatalist.innerHTML += "<option value="+subjectNames[i]+"></option>" // Adds the option to the output
+//             }
+//         }
+//     })
+// }
 
-// Removes duplicates in the parsed array with the Set method
 function removeDuplicates(array) {
     const uniqueArray = [...new Set(array)];
     return uniqueArray
@@ -87,7 +100,7 @@ async function addToDB() {
 
     let account = await getAccount()
     if (!account.first_name) {
-        alert("Please sign in.")
+        return
     }
     else {
         const response = await fetch("/api.php", { // Gets the API script
@@ -110,7 +123,10 @@ async function addToDB() {
     }
 
     var lessonId
+    // console.log(times)
     let startTime = times[module.value-1]
+    // console.log(startTime)
+    // console.log(startTime)
 
     console.log(subjectInput.value, teacherIdEntry, startTime, day.value)
 
@@ -147,26 +163,14 @@ async function addToDB() {
 
     var input = [String(accountId), lessonId]
     // console.log(input)
-    var errors
 
-    await fetch("/insert.php", {
+    fetch("/insert.php", {
         method: "POST",
         body: JSON.stringify({request: "updateTimetable", input: input})
     })
-    .then(response => response.json())
-    .then(text => {
-        errors = text
-    })
-    console.log(errors.message)
-    if (errors.message == `Data successfully inserted`) {
-        alert("Lesson added!")
-    }
-    else {
-        alert("Lesson failed to be added.")
-    }
-
-    // .then(text => console.log(text)) // Log success or error message
-    // .catch(error => console.error("Error:", error));
+    .then(response => response.text())
+    .then(text => console.log(text)) // Log success or error message
+    .catch(error => console.error("Error:", error));
 
     // console.log(input)
 }
