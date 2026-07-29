@@ -15,6 +15,8 @@ for (let i = 0; i < timesString.length; i++) {
     timesNum.push(parseInt(splitTimes[0]) * 60 + parseInt(splitTimes[1])) // Hours * 60 + minutes
 }
 
+export const currentLessons = []
+export const lessonColours = []
 let allLessons = [] // The text which is stored in the table cells
 
 getCellText()
@@ -35,9 +37,14 @@ export async function getCellText() {
         }
     }
 
+    currentLessons.length = 0;
+    lessonColours.length = 0;
+
     // Fill up the array with null so it can later be changed at specific indexes
     for (let i = 0; i < timesString.length - 1; i++) {
         allLessons.push(null)
+        currentLessons.push(null)
+        lessonColours.push(null)
     }
 
     // Uses same nested FOR loops as earlier, but checks for the lesson number instead of time
@@ -50,6 +57,7 @@ export async function getCellText() {
                 ${lessons[j][2]} - ${lessons[j][3]} <br> 
                 ${lessons[j][4]}
                 `
+                currentLessons[i] = lessons[j];
             }
         }
     }
@@ -78,7 +86,7 @@ for (let i = 1; i < timesNum.length; i++) {
 var tableHTML = ''
 var styles = ''
 
-var hovered = null;
+export const hovered = {v: null};
 
 // All CSS styling in a single function to make it collapsable for organisation
 // CSS is in JS because it needs to be defined by variables
@@ -88,8 +96,8 @@ async function styling() {
     for (let i = 0; i < timesNum.length - 1; i++) {
         tableHTML += `
         <tr style="height:` + cellHeights[i] + `px ">
-            <td class="tableCell" id ="tableCell`+ i + `" style = "width: ` + (width - 60) + `px;">
-                <button id="tableButton`+ i + `" style = "width: ` + (width - 70) + `px; height:` + (cellHeights[i]) + `; border:none; float:left; text-align: left; overflow-y: auto; outline: none; padding: 0;">` + allLessons[i] + `</button>
+            <td class="tableCell" id="tableCell`+ i + `" style = "width: ` + (width - 60) + `px;">
+                <button class="tableButton" id="tableButton`+ i + `" style = "width: ` + (width - 70) + `px; height:` + (cellHeights[i]) + `; border:none; float:left; text-align: left; overflow-y: auto; outline: none; padding: 0;">` + allLessons[i] + `</button>
             </td>
             <td>
                 <input type="color" id="tableColour`+ i + `"style="width:100%; height:100%; margin:0; padding:0; border:none; appearance:none; -webkit-appearance:none; background:none;"></input>
@@ -98,16 +106,15 @@ async function styling() {
         `
 
         setTimeout(() => {
-            document.querySelector(`#tableCell${i}`).onpointerover = () => {
-                hovered = i;
-                console.log(hovered);
+            document.getElementById(`tableButton${i}`).onpointerover = () => {
+                hovered.v = i;
             }
 
-             document.querySelector(`#tableCell${i}`).onpointerout = () => {
-                hovered = null;
+             document.getElementById(`tableButton${i}`).onpointerout = () => {
+                hovered.v = null;
             }
 
-            document.querySelector(`#tableCell${i}`).onclick = () => {
+            document.getElementById(`tableButton${i}`).onclick = () => {
                 console.log("cell " + i)
             }
         })
@@ -150,7 +157,10 @@ async function fillingCells() {
 
 
     for (let i = 0; i < tableColours.length; i++) {
+        tableColours[i].value = "#cccccc";
         tableColours[i].addEventListener("input", function () { // Adds an event listener to every colour picker
+            lessonColours[i] = tableColours[i].value;
+
             tableCells[i].style.backgroundColor = tableColours[i].value // Sets the table cell's background to the colour picked in the colour picker
             tableColours[i].style.backgroundColor = tableColours[i].value
             tableButtons[i].style.backgroundColor = tableColours[i].value
@@ -166,6 +176,7 @@ async function fillingCells() {
                 tableButtons[i].style.color = "rgb(255, 255, 255)"
             }
         })
+        tableColours[i].dispatchEvent(new Event("input"));
     }
 
     styleHTML.innerHTML = styles
