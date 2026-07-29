@@ -70,7 +70,7 @@ export async function getCellText() {
             allLessons[i] = "" //"NO DATA"
         }
     }
-
+    console.log(allLessons)
     await styling()
 }
 
