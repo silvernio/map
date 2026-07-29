@@ -40,12 +40,12 @@
         Map Editor
       </a>
 
-      <a href="/editor/" class="navbar-item">
+      <a href="/henry/change-timetable/" class="navbar-item">
         Add Lessons
       </a>
 
       <!-- PLACEHOLDER, this should probably be removed in favour of a cleaner admin-only system -->
-      <a href="/editor/" class="navbar-item">
+      <a href="/henry/change-lessons-admin/" class="navbar-item">
         Add Lessons (admin)
       </a>
 
