@@ -52,7 +52,7 @@ export async function getCellText() {
     // Uses same nested FOR loops as earlier, but checks for the lesson number instead of time
     for (let i = 0; i < allLessons.length; i++) {
         for (let j = 0; j < lessons.length; j++) {
-            if (lessons[j][0] == i) {
+            if (lessons[j][0] == i+1) {
                 console.log(lessons[j])
                 allLessons[i] = `
                 Module ${lessons[j][0]} <br> 
