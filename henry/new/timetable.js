@@ -36,7 +36,9 @@ export async function getCellText() {
     for (let i = 0; i < lessons.length; i++) {
         for (let j = 0; j < startTimeString.length + 1; j++) {
             if (lessons[i][1] == startTimeString[j]) {
+                console.log(lessons[i])
                 lessons[i].unshift(j)
+                console.log(lessons[i])
             }
         }
     }
