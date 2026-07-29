@@ -49,6 +49,8 @@ export async function getCellText() {
         lessonColours.push(null)
     }
 
+    console.log(lessons)
+
     // Uses same nested FOR loops as earlier, but checks for the lesson number instead of time
     for (let i = 0; i < allLessons.length; i++) {
         for (let j = 0; j < lessons.length; j++) {
