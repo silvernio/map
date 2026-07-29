@@ -7,7 +7,7 @@ var width = 280
 var height = window.innerHeight - 250
 
 // Time is a placeholder for first iterations. Will later get from the server
-var timesString = ["08:30", "08:40", "09:20", "10:00", "10:20", "11:00", "11:40", "12:00", "12:40", "13:20", "14:00", "14:40", "15:20"]
+var timesString = ["08:40", "09:20", "10:00", "10:20", "11:00", "11:40", "12:00", "12:40", "13:20", "14:00", "14:40", "15:20"]
 var timesNum = [] // Stores the time as 'total number of minutes' as an integer
 
 for (let i = 0; i < timesString.length; i++) {
@@ -80,6 +80,9 @@ var cellHeights = [] // Uses totalTimeRatio to determine the cell heights
 for (let i = 1; i < timesNum.length; i++) {
     var startTime = timesNum[i - 1] - timesNum[0] // When the subject starts in relation to the start of the day
     var endTime = timesNum[i] - timesNum[0] // When the subject ends in relation to the start of the day
+    if (startTime != "10:00" && startTime != "11:40" && startTime != "13:20") {
+        cellHeights.push((endTime - startTime) / totalTimeRatio * (height - 80)) // Gets the ratio by using above variables
+    }
     cellHeights.push((endTime - startTime) / totalTimeRatio * (height - 80)) // Gets the ratio by using above variables
 }
 
