@@ -48,7 +48,7 @@
     </div>
 
     <div class="navbar-end">
-      <?php require __DIR__ . '/profile.php'?>
+      <?php require __DIR__ . '/profile/profile.php'?>
     </div>
   </div>
 </nav>
