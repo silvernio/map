@@ -78,3 +78,6 @@ COMMIT;
 
 -- 21/07/26 - Silver - Fix sam's room
 UPDATE `rooms` SET `points` = '\"[[5, 3], [2, 3], [2, 1], [5, 1]]\"' WHERE `rooms`.`room_id` = 1;
+
+-- 29/07/26 - Silver - Rename classroom column
+ALTER TABLE `lessons` CHANGE `classroom_id` `room_id` INT(11) NOT NULL;
