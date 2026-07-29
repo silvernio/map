@@ -37,8 +37,18 @@
       </a>
 
       <a href="/editor/" class="navbar-item">
-        Editor
+        Map Editor
       </a>
+
+      <a href="/editor/" class="navbar-item">
+        Add Lessons
+      </a>
+
+      <!-- PLACEHOLDER, this should probably be removed in favour of a cleaner admin-only system -->
+      <a href="/editor/" class="navbar-item">
+        Add Lessons (admin)
+      </a>
+
       <!-- <a href="/sam/" class="navbar-item">
         Sam
       </a> -->
