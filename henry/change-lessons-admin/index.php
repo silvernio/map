@@ -25,17 +25,17 @@
         </tr>
 
         <tr>
-            <th>Room</th>
+            <th>Subject</th>
             <th>
-                <input list="classroomDatalist" id="classrooms">
-                <datalist id="classroomDatalist"></datalist>
+                <input id="lessonName"></input>
             </th>
         </tr>
 
         <tr>
-            <th>Name</th>
+            <th>Room</th>
             <th>
-                <input id="lessonName"></input>
+                <input list="classroomDatalist" id="classrooms">
+                <datalist id="classroomDatalist"></datalist>
             </th>
         </tr>
 
