@@ -99,10 +99,7 @@ async function addToDB() {
     var accountId
 
     let account = await getAccount()
-    if (!account.first_name) {
-        return
-    }
-    else {
+    if (true) { // This IF statement is just so I can make 'data' a local variable and re-use it later because I'm lazy
         const response = await fetch("/api.php", { // Gets the API script
             method: "POST", // Post is used because it's more private
             headers: {
@@ -110,7 +107,6 @@ async function addToDB() {
             },
             body: JSON.stringify({request: "getAccountId", first_name: account.first_name, last_name: account.last_name}) // Requests account ID from the api 
         })
-    
         const data = await response.json()
 
         if (data.message) { // Checks if there is an error message

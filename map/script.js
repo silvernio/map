@@ -1,5 +1,6 @@
 
 import "../henry/new/timetable.js";
+import { currentLessons, hovered, lessonColours } from "../henry/new/timetable.js";
 
 const canvas = document.getElementById("canvas");
 
@@ -56,7 +57,7 @@ mapSelect.onchange = () => {
 updateMapList();
 
 async function loadMap(id) {
-     const roomsData = await fetch("/api.php", {
+    const roomsData = await fetch("/api.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -73,16 +74,16 @@ async function loadMap(id) {
     rooms.length = 0;
 
     for (const room of roomsData) {
-        rooms.push({name: room.room_name, points: JSON.parse(room.points)})
+        rooms.push({ name: room.room_name, points: JSON.parse(room.points), id: room.room_id, hovered: 0, colour: null })
     }
 }
 
 function canvasToMap(x, y) {
-    return [(x + camera.x) / camera.zoom - canvas.width / 2, (y + camera.y) / camera.zoom - canvas.height / 2];
+    return [camera.x + (x - canvas.width / 2) / camera.zoom, camera.y + (y - canvas.height / 2) / camera.zoom];
 }
 
 function mapToCanvas(x, y) {
-    return [(x + canvas.width / 2) * camera.zoom - camera.x, (y + canvas.height / 2) * camera.zoom - camera.y];
+    return [canvas.width / 2 + (x - camera.x) * camera.zoom, canvas.height / 2 + (y - camera.y) * camera.zoom];
 }
 
 function update(timestamp) {
@@ -99,13 +100,17 @@ function update(timestamp) {
     canvas.height = canvas.clientHeight;
 
     ctx.save();
-    ctx.translate(-camera.x, -camera.y);
+    ctx.translate(-camera.x * camera.zoom, -camera.y * camera.zoom);
     ctx.scale(camera.zoom, camera.zoom);
-    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.translate(canvas.width / 2 / camera.zoom, canvas.height / 2 / camera.zoom);
 
     ctx.drawImage(bg, -dimensions.width / 2, -dimensions.height / 2, dimensions.width, dimensions.height);
 
-     let i = 0;
+    const hoveredRoom = hovered.v != null ? currentLessons[hovered.v][6] : null
+
+    let hoverCentre = null;
+
+    let i = 0;
     for (const room of rooms) {
         const min = [null, null];
         const max = [null, null];
@@ -117,6 +122,13 @@ function update(timestamp) {
             max[0] = max[0] != null ? Math.max(max[0], point[0]) : point[0];
             max[1] = max[1] != null ? Math.max(max[1], point[1]) : point[1];
         }
+
+        // console.log(roo)
+        const isHovered = hoveredRoom == room.id;
+
+        if (isHovered) room.colour = lessonColours[hovered.v];
+
+        room.hovered = lerp5(room.hovered, isHovered ? 1 : 0, dt * 15);
 
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
@@ -135,6 +147,16 @@ function update(timestamp) {
 
         ctx.setLineDash([])
 
+        ctx.globalAlpha = room.hovered * 0.8;
+        ctx.fillStyle = room.colour;
+        ctx.fill();
+
+        ctx.globalAlpha = 1;
+
+        ctx.lineWidth = 5 + 5 * room.hovered;
+        ctx.strokeStyle = room.colour;
+        ctx.stroke();
+
         ctx.lineWidth = 5;
         ctx.strokeStyle = "black";
         ctx.stroke();
@@ -152,6 +174,10 @@ function update(timestamp) {
         if (room.points.length > 2) {
             const centre = [(min[0] + max[0]) / 2, (min[1] + max[1]) / 2];
 
+            if (isHovered) {
+                hoverCentre = centre;
+            }
+
             ctx.font = "20px Arial";
             ctx.textAlign = "center";
             ctx.strokeStyle = "white";
@@ -159,6 +185,14 @@ function update(timestamp) {
             ctx.strokeText(room.name, ...centre);
             ctx.fillText(room.name, ...centre);
         }
+    }
+
+    if (hoverCentre && Math.hypot(camera.x - hoverCentre[0], camera.y - hoverCentre[1]) > 100) {
+        const diff = [camera.x - hoverCentre[0], camera.y - hoverCentre[1]]
+        const l = Math.hypot(...diff);
+        const closest = [hoverCentre[0] + diff[0] / l * 100, hoverCentre[1] + diff[1] / l * 100];
+        tcamera.x = lerp5(tcamera.x, closest[0], dt * 10);
+        tcamera.y = lerp5(tcamera.y, closest[1], dt * 10);
     }
 
     ctx.restore();
@@ -181,10 +215,12 @@ canvas.addEventListener("mousemove", (e) => {
     mouse.y = e.offsetY;
 
     if (mouse.down) {
-        camera.x -= e.movementX;
-        camera.y -= e.movementY;
-        tcamera.x -= e.movementX;
-        tcamera.y -= e.movementY;
+        const dx = e.movementX / camera.zoom;
+        const dy = e.movementY / camera.zoom;
+        camera.x -= dx;
+        camera.y -= dy;
+        tcamera.x -= dx;
+        tcamera.y -= dy;
         moved.x -= e.movementX;
         moved.y -= e.movementY;
     }
@@ -204,16 +240,19 @@ canvas.addEventListener("mouseup", (e) => {
 
 canvas.addEventListener("wheel", (e) => {
     if (e.ctrlKey) {
-        const f = 1 - e.deltaY / 50;
+        const f = Math.max(1 - e.deltaY / 50, 0);
 
+        const lastZoom = tcamera.zoom;
         tcamera.zoom *= f;
-        tcamera.x = (tcamera.x + mouse.x) * f - mouse.x;
-        tcamera.y = (tcamera.y + mouse.y) * f - mouse.y;
 
-        // tcamera.x += (((mouse.x - w)))
+        const dx = e.offsetX - canvas.width / 2;
+        const dy = e.offsetY - canvas.height / 2;
+
+        tcamera.x += dx / lastZoom - dx / tcamera.zoom;
+        tcamera.y += dy / lastZoom - dy / tcamera.zoom;
     } else {
-        tcamera.x += e.deltaX;
-        tcamera.y += e.deltaY;
+        tcamera.x += e.deltaX / tcamera.zoom;
+        tcamera.y += e.deltaY / tcamera.zoom;
     }
     e.preventDefault();
 }, { passive: false })
