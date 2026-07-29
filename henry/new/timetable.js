@@ -53,6 +53,7 @@ export async function getCellText() {
     for (let i = 0; i < allLessons.length; i++) {
         for (let j = 0; j < lessons.length; j++) {
             if (lessons[j][0] == i) {
+                console.log(lessons[j])
                 allLessons[i] = `
                 Module ${lessons[j][0]} <br> 
                 ${lessons[j][1]} <strong> ${lessons[j][5]} </strong> <br> 
