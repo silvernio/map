@@ -13,9 +13,10 @@ var timesNum = [] // Stores the time as 'total number of minutes' as an integer
 
 for (let i = 0; i < timesString.length; i++) {
     var splitTimes = timesString[i].split(":") // Splits the time into hours and minutes
-    if (timesString[i] != "10:00" && timesString[i] != "11:40" && timesString[i] != "13:20") {
-        timesNum.push(parseInt(splitTimes[0]) * 60 + parseInt(splitTimes[1])) // Hours * 60 + minutes
-    }
+    // if (timesString[i] != "10:00" && timesString[i] != "11:40" && timesString[i] != "13:20") {
+    //     timesNum.push(parseInt(splitTimes[0]) * 60 + parseInt(splitTimes[1])) // Hours * 60 + minutes
+    // }
+    timesNum.push(parseInt(splitTimes[0]) * 60 + parseInt(splitTimes[1])) // Hours * 60 + minutes
 }
 
 export const currentLessons = []
@@ -33,7 +34,7 @@ export async function getCellText() {
 
     // Checks for the lesson time of all lessons by using nested FOR loops and saves it as a lesson number, e.g, lesson 1
     for (let i = 0; i < lessons.length; i++) {
-        for (let j = 0; j < timesNum.length; j++) {
+        for (let j = 0; j < startTimeString.length; j++) {
             console.log(lessons[i])
             if (lessons[i][1] == startTimeString[j]) {
                 lessons[i].unshift(j)
@@ -45,7 +46,7 @@ export async function getCellText() {
     lessonColours.length = 0;
 
     // Fill up the array with null so it can later be changed at specific indexes
-    for (let i = 0; i < timesNum.length - 1; i++) {
+    for (let i = 0; i < startTimeString.length - 1; i++) {
         allLessons.push(null)
         currentLessons.push(null)
         lessonColours.push(null)
@@ -100,7 +101,7 @@ export const hovered = {v: null};
 // Styling is important because things like colour coding are helpful for organisation apps like this
 async function styling() {
     // Adds all table cells to the table at the appropriate height. Cell has id "tableCell"+i and colour picker has id "tableColour"+i
-    for (let i = 0; i < timesNum.length - 1; i++) {
+    for (let i = 0; i < startTimeString.length - 1; i++) {
         tableHTML += `
         <tr style="height:` + cellHeights[i] + `px ">
             <td class="tableCell" id="tableCell`+ i + `" style = "width: ` + (width - 60) + `px;">
@@ -155,7 +156,7 @@ async function fillingCells() {
     var tableColours = []
     var tableCells = []
     var tableButtons = []
-    for (let i = 0; i < timesNum.length - 1; i++) {
+    for (let i = 0; i < startTimeString.length - 1; i++) {
         // All of these HTML IDs were made in styling
         tableColours.push(document.getElementById("tableColour" + i)) // The colour pickers.
         tableCells.push(document.getElementById("tableCell" + i)) // The table cells.
