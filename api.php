@@ -31,7 +31,7 @@
     else if ($request == 'lessons' && isset($data['student_id'])) {
         $student_id = $data['student_id'];
 
-        $sql = "SELECT * FROM attendance INNER JOIN lessons ON attendance.lesson_id = lessons.lesson_id WHERE student_id = " . $student_id;
+        $sql = "SELECT * FROM attendance INNER JOIN lessons ON attendance.lesson_id = lessons.lesson_id INNER JOIN rooms ON lessons.room_id = rooms.room_id WHERE student_id = " . $student_id;
     }
 
     else if ($request == 'rooms' && isset($data['map_id'])) {
