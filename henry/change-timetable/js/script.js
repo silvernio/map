@@ -76,6 +76,7 @@ function getLessons() {
     })
 }
 
+// Removes duplicates in the parsed array with the Set method
 function removeDuplicates(array) {
     const uniqueArray = [...new Set(array)];
     return uniqueArray
@@ -86,7 +87,7 @@ async function addToDB() {
 
     let account = await getAccount()
     if (!account.first_name) {
-        return
+        alert("Please sign in.")
     }
     else {
         const response = await fetch("/api.php", { // Gets the API script
@@ -109,10 +110,7 @@ async function addToDB() {
     }
 
     var lessonId
-    // console.log(times)
     let startTime = times[module.value-1]
-    // console.log(startTime)
-    // console.log(startTime)
 
     console.log(subjectInput.value, teacherIdEntry, startTime, day.value)
 
@@ -149,14 +147,26 @@ async function addToDB() {
 
     var input = [String(accountId), lessonId]
     // console.log(input)
+    var errors
 
-    fetch("/insert.php", {
+    await fetch("/insert.php", {
         method: "POST",
         body: JSON.stringify({request: "updateTimetable", input: input})
     })
-    .then(response => response.text())
-    .then(text => console.log(text)) // Log success or error message
-    .catch(error => console.error("Error:", error));
+    .then(response => response.json())
+    .then(text => {
+        errors = text
+    })
+    console.log(errors.message)
+    if (errors.message == `Data successfully inserted`) {
+        alert("Lesson added!")
+    }
+    else {
+        alert("Lesson failed to be added.")
+    }
+
+    // .then(text => console.log(text)) // Log success or error message
+    // .catch(error => console.error("Error:", error));
 
     // console.log(input)
 }

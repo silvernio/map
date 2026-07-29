@@ -1,19 +1,27 @@
 const allHTML = document.getElementById("everything")
-allHTML.remove()
-// document.body.appendChild(allHTML)
+// allHTML.remove()
+setup()
 async function setup() {
     let account = await getAccount()
+    // console.log(account)
     if (!account.first_name) {
-        allHTML.innerHTML = "You are no admin."
+        alert("You are not signed in.")
+    }
+    else if (account.is_teacher == 0) {
+        alert("You not an admin/teacher.")
+    }
+    else if (account.is_teacher == 1) {
+        document.body.appendChild(allHTML)
     }
 }
 
 const teacherInput = document.getElementById("teachers");
 const teacherDatalist = document.getElementById("teacherDatalist");
 
-const subjectInput = document.getElementById("subjects");
-const subjectDatalist = document.getElementById("subjectDatalist");
+const classroomInput = document.getElementById("classroomInput");
+const classroomDatalist = document.getElementById("classroomDatalist");
 
+const lessonName = document.getElementById("lessonName");
 const module = document.getElementById("module");
 const day = document.getElementById("day");
 
@@ -52,35 +60,35 @@ teacherInput.addEventListener("input", function() { // Activates whenever the us
     })
 })
 
-var subjectNames = []
-getLessons() // Only needs to be ran once, because it is not dynamic with user input
-function getLessons() {
-    fetch("/api.php", { // Gets the API script
-        method: "POST", // Post is used because it's more private
-        headers: {
-            "Content-Type": "application/json" // Determines the format to be JSON
-        },
-        body: JSON.stringify({request: "allLessons"}) // Requests all lessons from the api 
-    })
+// var subjectNames = []
+// getLessons() // Only needs to be ran once, because it is not dynamic with user input
+// function getLessons() {
+//     fetch("/api.php", { // Gets the API script
+//         method: "POST", // Post is used because it's more private
+//         headers: {
+//             "Content-Type": "application/json" // Determines the format to be JSON
+//         },
+//         body: JSON.stringify({request: "allLessons"}) // Requests all lessons from the api 
+//     })
 
-    .then(response => response.json()) // Returns the search response as an object named 'data'
-    .then(data => {
-        if (data.message) { // Checks if there is an error message
-            return;
-        }
-        else {
-            for (let i = 0; i < data.length; i ++) {
-                subjectNames.push(data[i].lesson_name)
-            }
-            subjectNames = removeDuplicates(subjectNames)
+//     .then(response => response.json()) // Returns the search response as an object named 'data'
+//     .then(data => {
+//         if (data.message) { // Checks if there is an error message
+//             return;
+//         }
+//         else {
+//             for (let i = 0; i < data.length; i ++) {
+//                 subjectNames.push(data[i].lesson_name)
+//             }
+//             subjectNames = removeDuplicates(subjectNames)
 
-            subjectDatalist.innerHTML = ""
-            for (let i = 0; i < subjectNames.length; i++) {
-                subjectDatalist.innerHTML += "<option value="+subjectNames[i]+"></option>" // Adds the option to the output
-            }
-        }
-    })
-}
+//             subjectDatalist.innerHTML = ""
+//             for (let i = 0; i < subjectNames.length; i++) {
+//                 subjectDatalist.innerHTML += "<option value="+subjectNames[i]+"></option>" // Adds the option to the output
+//             }
+//         }
+//     })
+// }
 
 function removeDuplicates(array) {
     const uniqueArray = [...new Set(array)];
