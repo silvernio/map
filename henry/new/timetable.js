@@ -8,6 +8,7 @@ var height = window.innerHeight - 250
 
 // Time is a placeholder for first iterations. Will later get from the server
 var timesString = ["08:40", "09:20", "10:00", "10:20", "11:00", "11:40", "12:00", "12:40", "13:20", "14:00", "14:40", "15:20"]
+var startTimeString = ["08:40", "09:20", "10:20", "11:00", "12:00", "12:40", "14:00", "14:40", "15:20"] // VERY jank solution. Could be implemented better
 var timesNum = [] // Stores the time as 'total number of minutes' as an integer
 
 for (let i = 0; i < timesString.length; i++) {
@@ -34,7 +35,7 @@ export async function getCellText() {
     for (let i = 0; i < lessons.length; i++) {
         for (let j = 0; j < timesNum.length; j++) {
             console.log(lessons[i])
-            if (lessons[i][1] == timesString[j]) {
+            if (lessons[i][1] == startTimeString[j]) {
                 lessons[i].unshift(j)
             }
         }
