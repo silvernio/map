@@ -12,7 +12,9 @@ var timesNum = [] // Stores the time as 'total number of minutes' as an integer
 
 for (let i = 0; i < timesString.length; i++) {
     var splitTimes = timesString[i].split(":") // Splits the time into hours and minutes
-    timesNum.push(parseInt(splitTimes[0]) * 60 + parseInt(splitTimes[1])) // Hours * 60 + minutes
+    if (timesString[i] != "10:00" && timesString[i] != "11:40" && timesString[i] != "13:20") {
+        timesNum.push(parseInt(splitTimes[0]) * 60 + parseInt(splitTimes[1])) // Hours * 60 + minutes
+    }
 }
 
 export const currentLessons = []
@@ -80,9 +82,7 @@ var cellHeights = [] // Uses totalTimeRatio to determine the cell heights
 for (let i = 1; i < timesNum.length; i++) {
     var startTime = timesNum[i - 1] - timesNum[0] // When the subject starts in relation to the start of the day
     var endTime = timesNum[i] - timesNum[0] // When the subject ends in relation to the start of the day
-    if (startTime != "10:00" && startTime != "11:40" && startTime != "13:20") {
-        cellHeights.push((endTime - startTime) / totalTimeRatio * (height - 80)) // Gets the ratio by using above variables
-    }
+    cellHeights.push((endTime - startTime) / totalTimeRatio * (height - 80)) // Gets the ratio by using above variables
     cellHeights.push((endTime - startTime) / totalTimeRatio * (height - 80)) // Gets the ratio by using above variables
 }
 
