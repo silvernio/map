@@ -34,11 +34,9 @@ export async function getCellText() {
 
     // Checks for the lesson time of all lessons by using nested FOR loops and saves it as a lesson number, e.g, lesson 1
     for (let i = 0; i < lessons.length; i++) {
-        for (let j = 0; j < startTimeString.length + 1; j++) {
+        for (let j = 0; j < startTimeString.length; j++) {
             if (lessons[i][1] == startTimeString[j]) {
-                console.log(lessons[i])
-                lessons[i].unshift(j)
-                console.log(lessons[i])
+                lessons[i].unshift(j + 1)
             }
         }
     }
