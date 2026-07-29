@@ -45,7 +45,7 @@ export async function getCellText() {
     lessonColours.length = 0;
 
     // Fill up the array with null so it can later be changed at specific indexes
-    for (let i = 0; i < startTimeString.length - 1; i++) {
+    for (let i = 0; i < startTimeString.length; i++) {
         allLessons.push(null)
         currentLessons.push(null)
         lessonColours.push(null)
@@ -98,7 +98,7 @@ export const hovered = {v: null};
 // Styling is important because things like colour coding are helpful for organisation apps like this
 async function styling() {
     // Adds all table cells to the table at the appropriate height. Cell has id "tableCell"+i and colour picker has id "tableColour"+i
-    for (let i = 0; i < startTimeString.length - 1; i++) {
+    for (let i = 0; i < startTimeString.length; i++) {
         tableHTML += `
         <tr style="height:` + cellHeights[i] + `px ">
             <td class="tableCell" id="tableCell`+ i + `" style = "width: ` + (width - 60) + `px;">
@@ -153,7 +153,7 @@ async function fillingCells() {
     var tableColours = []
     var tableCells = []
     var tableButtons = []
-    for (let i = 0; i < startTimeString.length - 1; i++) {
+    for (let i = 0; i < startTimeString.length; i++) {
         // All of these HTML IDs were made in styling
         tableColours.push(document.getElementById("tableColour" + i)) // The colour pickers.
         tableCells.push(document.getElementById("tableCell" + i)) // The table cells.
