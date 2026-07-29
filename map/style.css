@@ -70,3 +70,14 @@ input[type="color"]::-webkit-color-swatch-wrapper {
 input[type="color"]::-webkit-color-swatch {
     border: none;
 }
+
+/*  */
+
+.tableCell {
+    transition: all 0.1s ease;
+}
+
+.tableCell:hover {
+    filter: brightness(110%);
+    scale: 1.05;
+}

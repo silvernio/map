@@ -31,7 +31,7 @@
     else if ($request == 'lessons' && isset($data['student_id'])) {
         $student_id = $data['student_id'];
 
-        $sql = "SELECT * FROM attendance INNER JOIN lessons ON attendance.lesson_id = lessons.lesson_id WHERE student_id = " . $student_id;
+        $sql = "SELECT * FROM attendance INNER JOIN lessons ON attendance.lesson_id = lessons.lesson_id INNER JOIN rooms ON lessons.room_id = rooms.room_id WHERE student_id = " . $student_id;
     }
 
     else if ($request == 'rooms' && isset($data['map_id'])) {
@@ -81,7 +81,7 @@
     }
 
     else if ($request == 'getequipment') {
-    $sql = "SELECT subjects.subject_name,subjects.subject_year,equipment.item_name FROM subjects LEFT JOIN equipment ON subjects.subject_id=equipment.subject_id";
+    $sql = "SELECT subjects.subject_name,subjects.subject_year,equipment.item_name FROM subjects LEFT JOIN equipment ON subjects.subject_id=equipment.subject_id order by subjects.subject_id asc";
     // $subjects = [];
     // if ($result) {
     //     while ($row = $result->fetch_assoc()) {

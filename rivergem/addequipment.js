@@ -38,7 +38,8 @@ console.log(listName)
 
     const subjects=document.getElementById("subjects")  
 
-    function getsubjects (){
+    function getsubjects(){
+        console.log("getsubjects");
         fetch("/api.php", {
         method: "POST",
         headers: {
@@ -52,45 +53,39 @@ console.log(listName)
         .then(data => {
             console.log(data) 
             for (const subject of data){
-                subjects.innerHTML += `<option value="${subject.subject_id}">${subject.subject_name}</option>`
+                subjects.innerHTML += `<option value="${subject.subject_id}">Year   ${subject.subject_year} - ${subject.subject_name}</option>`
             }
         })
         //catch any errors and log them to the console
         .catch(error => console.error('Error:', error));
     } 
     getsubjects() 
+    showequipment()
 
-    function showewquipment() { 
-        etch("/api.php", {
+    function showequipment() { 
+       
+        fetch("/api.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ request: 'get equipment' })  // Send a request to get crash type data
+        body: JSON.stringify({ request: 'getequipment' })  // Send a request to get crash type data
     })
-        .then(response => response.JSON())
-        .then(data => {  
-
-            for (const of data) {
-
+          .then(response => response.json())
+        //then do something with the data
+        .then(data => {
+             let output =`<table border="1"><tr><th>Name</th><th>Equipment Lists</th></tr>`;
+            console.log(data) 
+            console.log("print table");
+           
+            for (const subject of data){
+                console.log(subject);
+                output+= `<tr><td>${subject.subject_name}</td><td>${subject.item_name}</td></tr>`;
             }
-            console.log(data);
-            if (data.message) {
-                dataOutput.innerHTML = '<tr><td colspan="3">' + data.message + '</td></tr>';
-                return;
-            } else {
-                printList(data);
-            }
-        }) 
-         data.forEach(row => {
-        console.log(row)
-     //apneds data into table cells(tr) expanding the table without reloading the page 
-        dataOutput.innerHTML += `
-        <tr>
-            <td>${row.Crash_Id}</td>
-            <td>${row.suburb}</td> 
-            <td>${row.Total_units}</td>  
-        <tr> `
-     });
-
-}
+            output+="</table>";
+            console.log(output);
+            document.getElementById("equipmenttable").innerHTML=output;
+        })
+        
+        
+    }

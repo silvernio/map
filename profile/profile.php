@@ -33,4 +33,4 @@
     </div>
 </div>
 
-<script src="/profile.js"></script>
+<script src="/profile/profile.js"></script>
