@@ -46,7 +46,7 @@ export async function getLessons(studentIds) {
     else {
         for (let i = 0; i < data.length; i++) {
             var teacherName = await getLessonTeacher(data[i].teacher_id)
-            lessons.push([data[i].lesson_name, data[i].start_time, data[i].finish_time, teacherName, data[i].room_name]) // Outputs relevant info for timetable
+            lessons.push([data[i].lesson_name, data[i].start_time, data[i].finish_time, teacherName, data[i].room_name, data[i].room_id]) // Outputs relevant info for timetable
         }
     }
 
@@ -65,10 +65,9 @@ async function getLessonTeacher(teacherIds) {
     const data = await response.json()
     
     if (data.message) {
-        console.log(data)
+        // console.log(data)
     }
     else {
-        console.log(data)
         return data[0].first_name + " " + data[0].last_name // Outputs the teacher name
     }
 }
