@@ -21,6 +21,8 @@
 
 </form>
 
+
+<h1>Equipment Lists</h1>
+<div id="equipmenttable"></div>
+
 <script src="addequipment.js"></script>
-
-
