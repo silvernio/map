@@ -127,6 +127,7 @@ function getRooms() {
             return;
         }
         else {
+            console.log(data)
             // console.log(data[0].classroom_name)
             for (let i = 0; i < data.length; i ++) {
                 roomNames.push(data[i].classroom_name)
