@@ -44,7 +44,7 @@
         $sql = "SELECT * FROM accounts WHERE account_id = " . $teacher_id;
     }
 
-    // Searches for data input page(s):
+    // Searches for data input page(s) start here:
     else if($request == "searchAccounts"){ // Searches the location with 'LIKE' commands
         if(isset($data["search"])){ // Check to see if value sent is set
 
@@ -59,18 +59,15 @@
             exit;
         }
     }
-
     else if ($request == 'allLessons') {
         $sql = "SELECT * FROM lessons";
     }
-
     else if ($request == 'getAccountId') {
         $first_name = $conn->real_escape_string($data["first_name"]);
         $last_name = $conn->real_escape_string($data["last_name"]);
 
         $sql = "SELECT account_id FROM accounts WHERE first_name = '" . $first_name . "' AND last_name = '" . $last_name . "'";
     }
-
     else if($request == 'getLessonId') {
         $lesson_name = $conn->real_escape_string($data["module"]);
         $teacher_id = $conn->real_escape_string($data["teacher_id"]);
@@ -79,6 +76,27 @@
 
         $sql = "SELECT lesson_id FROM lessons WHERE lesson_name = '" . $lesson_name . "' AND teacher_id = '" . $teacher_id . "' AND start_time = '" . $start_time . "' AND day = '" . $day . "'";
     }
+    else if($request == "searchMaps"){ // Searches the location with 'LIKE' commands
+        if(isset($data["search"])){ // Check to see if value sent is set
+
+            // Escape the search value to prevent SQL injection using db connection's real_escape_string method
+            $search = $conn->real_escape_string($data["search"]);
+
+            // Searches the DB for search value
+            $sql = "SELECT * FROM maps WHERE name LIKE '%$search%'";
+        }
+        else{ // If no value is set
+            echo json_encode(["message" => "Invalid request"]);
+            exit;
+        }
+    }
+    else if ($request == 'getRoomId') {
+        $classroom_name = $conn->real_escape_string($data["classroom_name"]);
+        $map_id = $conn->real_escape_string($data["map_id"]);
+        
+        $sql = "SELECT room_id FROM rooms WHERE classroom_name = '" . $classroom_name . "' AND map_id = '" . $map_id . "'";
+    }
+    // Searches for data input page(s) end here:
 
     else if ($request == 'getequipment') {
     $sql = "SELECT subjects.subject_name,subjects.subject_year,equipment.item_name FROM subjects LEFT JOIN equipment ON subjects.subject_id=equipment.subject_id order by subjects.subject_id asc";
@@ -109,7 +127,7 @@
         // Return the results as JSON back to fetch in the frontend
         echo json_encode($crashes);
     } else {
-        echo json_encode(["message" => "No data found"]);
+        echo json_encode(["message" => "No data found", 'query' => $sql]);
     }
     //close the database connection
     $conn->close();

@@ -108,6 +108,7 @@ if ($request === "addEquipment") {
         echo json_encode(["message" => "Map and rooms deleted successfully!"]);
     }
 
+    // Insertions for data input page(s) start here:
     else if ($request == 'updateTimetable' && isset($data['input'])) {
         $input = $data["input"];
 
@@ -123,6 +124,22 @@ if ($request === "addEquipment") {
             "message" => "Data successfully inserted",
         ]);
     }
+    else if ($request == 'updateLessons' && isset($data['input'])) {
+        $input = $data["input"];
+
+        $update = $conn->prepare("INSERT INTO lessons (lesson_name, teacher_id, start_time, finish_time, day, classroom_id) VALUES (?, ?)");
+        $update->bind_param("sisssi", $input[0], $input[1], $input[2], $input[3], $input[4], $input[5]);
+
+        $success = $update->execute();
+        if (!$success) {
+            echo json_encode(['message' => 'Data failed to insert']);
+        }
+        $update->close();
+        echo json_encode([ // Return a success message to the console as JSON, as well as info for debugging
+            "message" => "Data successfully inserted",
+        ]);
+    }
+    // Insertions for data input page(s) end here:
 
     else {
         echo json_encode(['message' => 'Invalid request']);

@@ -13,6 +13,18 @@
         </tr>
         
         <tr>
+            <th>Map</th>
+            <th>
+                <input list="mapDatalist" id="maps">
+                <datalist id="mapDatalist"></datalist>
+            </th>
+        </tr>
+
+        <tr> 
+            <th><br></th> 
+        </tr>
+
+        <tr>
             <th>Teacher Name</th>
             <th>
                 <input list="teacherDatalist" id="teachers">
