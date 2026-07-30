@@ -107,6 +107,7 @@ mapInput.addEventListener("input", function() { // Activates whenever the user t
             getRooms()
         }
     })
+    console.log(mapIdEntry)
 })
 
 var roomNames = []
