@@ -2,6 +2,8 @@ const allHTML = document.getElementById("everything")
 allHTML.remove()
 main()
 
+console.log("asdasd")
+
 // This function includes the entire script, because everything must wait for the document to be appended if it is to work
 async function main() {
     var account
