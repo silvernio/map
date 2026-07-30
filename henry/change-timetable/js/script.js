@@ -112,8 +112,6 @@ async function addToDB() {
     var lessonId
     let startTime = times[module.value-1]
 
-    console.log(subjectInput.value, teacherIdEntry, startTime, day.value)
-
     var data
     try {
         const response = await fetch("/api.php", { // Gets the API script
@@ -131,9 +129,6 @@ async function addToDB() {
         console.log(error)
     }
 
-    // WORKING HERE
-    console.log(data)
-
     if (data.message) { // Checks if there is an error message
         console.log(data)
         alert("Lesson does not exits in database. Ask teacher or admin for support, or try inputting data again.")
@@ -143,11 +138,7 @@ async function addToDB() {
         lessonId = data[0].lesson_id
     }
 
-    // console.log(accountId, lessonId)
-
     var input = [String(accountId), lessonId]
-    // console.log(input)
-    var errors
 
     await fetch("/insert.php", {
         method: "POST",
@@ -164,9 +155,4 @@ async function addToDB() {
     else {
         alert("Lesson failed to be added.")
     }
-
-    // .then(text => console.log(text)) // Log success or error message
-    // .catch(error => console.error("Error:", error));
-
-    // console.log(input)
 }

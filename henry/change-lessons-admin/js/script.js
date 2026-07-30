@@ -99,40 +99,6 @@ mapInput.addEventListener("input", function() { // Activates whenever the user t
     })
 })
 
-// Below function is copied from change-timetable.js
-// It would be better to have teachers select subjects with a datalist, but it is unnecesary for a MVP.
-// Teacher can be trusted to input the correct data.
-console.log("")
-// var subjectNames = []
-// getLessons() // Only needs to be ran once, because it is not dynamic with user input
-// function getLessons() {
-//     fetch("/api.php", { // Gets the API script
-//         method: "POST", // Post is used because it's more private
-//         headers: {
-//             "Content-Type": "application/json" // Determines the format to be JSON
-//         },
-//         body: JSON.stringify({request: "allLessons"}) // Requests all lessons from the api 
-//     })
-
-//     .then(response => response.json()) // Returns the search response as an object named 'data'
-//     .then(data => {
-//         if (data.message) { // Checks if there is an error message
-//             return;
-//         }
-//         else {
-//             for (let i = 0; i < data.length; i ++) {
-//                 subjectNames.push(data[i].lesson_name)
-//             }
-//             subjectNames = removeDuplicates(subjectNames)
-
-//             subjectDatalist.innerHTML = ""
-//             for (let i = 0; i < subjectNames.length; i++) {
-//                 subjectDatalist.innerHTML += "<option value="+subjectNames[i]+"></option>" // Adds the option to the output
-//             }
-//         }
-//     })
-// }
-
 var roomNames = []
 var roomIdEntry
 function getRooms() {
@@ -165,11 +131,13 @@ function getRooms() {
     })
 }
 
+// Runs in 'getRooms'
 function removeDuplicates(array) {
     const uniqueArray = [...new Set(array)];
     return uniqueArray
 }
 
+// Runs in 'addToDB'
 async function getAccountId(fName, lName) {
     const response = await fetch("/api.php", { // Gets the API script
         method: "POST", // Post is used because it's more private
@@ -181,14 +149,16 @@ async function getAccountId(fName, lName) {
     const data = await response.json()
     // console.log(data)
     if (data.message) { // Checks if there is an error message
+        alert("Error: account not saved")
         console.log(data)
         return;
     }
     else {
-        return data[0].account_id
+        return data[0].account_id // Returns account ID
     }
 }
 
+// Runs in 'addToDB'
 async function getRoomId(roomName, id) {
     const response = await fetch("/api.php", { // Gets the API script
         method: "POST", // Post is used because it's more private
@@ -205,61 +175,42 @@ async function getRoomId(roomName, id) {
         return;
     }
     else {
-        return data[0].room_id
+        return data[0].room_id // Returns room ID
     }
 }
 
-// async function getLessonId(name, teachId, start, day) {
-//     try {
-//         const response = await fetch("/api.php", { // Gets the API script
-//             method: "POST", // Post is used because it's more private
-//             headers: {
-//                 "Content-Type": "application/json" // Determines the format to be JSON
-//             },
-//             body: JSON.stringify({request: "getLessonId", module: lessonName.value, teacher_id: teacherId, start_time: startTime, day: day.value}) // Requests lesson ID from the api 
-//         })
-    
-//         data = await response.json()
-//     }
-//     catch (error) {
-//         alert("Lesson does not exits in database. Ask teacher or admin for support, or try inputting data again.")
-//         console.log(error)
-//         return
-//     }
-//     if (data.message) { // Checks if there is an error message
-//         console.log(data)
-//         console.log("ERROR HERE")
-//         alert("Lesson does not exits in database. Ask teacher or admin for support, or try inputting data again.")
-//         return;
-//     }
-//     else {
-//         return data[0].lesson_id
-//     }
-// }
-
+// FLAWS:
+// Teachers may have names which don't fit into a first name/last name format. e.g, more than two names.
+// It is cleanest to input data into 'map' first and everything else second, but users may not know this.
 async function addToDB() {
-    var teacherName = teacherInput.value.split(",")
+    var teacherName = teacherInput.value.split(",") // First name and last name must be seperated because they are stored seperately in the DB
     var teacherFirstName = teacherName[0]
     var teacherLastName = teacherName[1]
 
+    // Functions here for organization. They parse in the data which is neccesary to search for the ID in the appropriate table.
     let teacherId = await getAccountId(teacherFirstName, teacherLastName)
-    // let lessonId = await getLessonId(lessonName.value, teacherIdEntry, startTime, day.value)
     let classroomId = await getRoomId(classroomInput.value, roomIdEntry)
-    // let roomId = await getRoomId(classroomInput.value, mapIdEntry)
 
+    // The DB records start and end time seperately, so they both have to be inserted
     let startTime = times[module.value-1]
     let endTime = endTimes[module.value-1]
 
+    // Store all inputs in a single array for organization
     var input = [lessonName.value, teacherId, startTime, endTime, day.value, classroomId]
-    console.log(input)
 
-    fetch("/insert.php", {
+    fetch("/insert.php", { // Get insertion file
         method: "POST",
-        body: JSON.stringify({request: "updateLessons", input: input})
+        body: JSON.stringify({request: "updateLessons", input: input}) // Could just say 'input' instead of 'input: input' but this makes more sense to me.
     })
-    .then(response => response.text())
-    .then(text => console.log(text)) // Log success or error message
-    .catch(error => console.error("Error:", error));
-
-    // console.log(input)
+    .then(response => response.json()) // Output response so an error/success message can be sent. Is not neccesary for data insertion.
+    .then(text => {
+        errors = text
+    })
+    // Success/fail messages are present to prevent users from inserting into the db multiple times.
+    if (errors.message == `Data successfully inserted`) {
+        alert("Lesson added!")
+    }
+    else {
+        alert("Lesson failed to be added.")
+    }
 }
