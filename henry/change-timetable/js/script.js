@@ -1,9 +1,7 @@
-// const studentInput = document.getElementById("students");
-// const studentDatalist = document.getElementById("studentDatalist");
-
+// 'Input' is used to get user input
+// 'Datalist' is used to change datalist options
 const teacherInput = document.getElementById("teachers");
 const teacherDatalist = document.getElementById("teacherDatalist");
-
 
 const subjectInput = document.getElementById("subjects");
 const subjectDatalist = document.getElementById("subjectDatalist");
@@ -46,7 +44,6 @@ teacherInput.addEventListener("input", function() { // Activates whenever the us
     })
 })
 
-var subjectNames = []
 getLessons() // Only needs to be ran once, because it is not dynamic with user input
 function getLessons() {
     fetch("/api.php", { // Gets the API script
@@ -63,9 +60,11 @@ function getLessons() {
             return;
         }
         else {
+            var subjectNames = []
             for (let i = 0; i < data.length; i ++) {
                 subjectNames.push(data[i].lesson_name)
             }
+            // Removes duplicates to reduce datalist clutter
             subjectNames = removeDuplicates(subjectNames)
 
             subjectDatalist.innerHTML = ""

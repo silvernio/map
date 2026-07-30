@@ -1,8 +1,10 @@
 const allHTML = document.getElementById("everything")
-// allHTML.remove()
-setup()
-var account
-async function setup() {
+allHTML.remove()
+main()
+
+// This function includes the entire script, because everything must wait for the document to be appended if it is to work
+async function main() {
+    var account
     account = await getAccount()
     // console.log(account)
     if (!account.first_name) {
@@ -14,7 +16,7 @@ async function setup() {
     else if (account.is_teacher == 1) {
         document.body.appendChild(allHTML)
     }
-}
+
 
 const mapInput = document.getElementById("maps");
 const mapDatalist = document.getElementById("mapDatalist");
@@ -33,6 +35,7 @@ const times = ["8:40", "9:20", "10:20", "11:00", "12:00", "12:40", "14:00", "14:
 const endTimes = ["9:20", "10:20", "11:00", "12:00", "12:40", "14:00", "14:40", "15:20"]
 
 var teacherIdEntry // Output of the function below
+console.log(teacherInput)
 teacherInput.addEventListener("input", function() { // Activates whenever the user types in the searchbox for locations
     let search = teacherInput.value // User input
 
@@ -88,10 +91,17 @@ mapInput.addEventListener("input", function() { // Activates whenever the user t
 
             for (let i = 0; i < data.length; i++) { // Note that high number of options results in lag and user confusion
                 let name = data[i].name;
-                let displayName = name.split(" ")
+                let splitName = name.split(" ")
+                var displayName = ""
+                for (let i = 0; i < splitName.length; i++) {
+                    displayName += splitName[i]
+                    if (i < splitName.length - 1) {
+                        displayName += ","
+                    }
+                }
                 // console.log
 
-                mapDatalist.innerHTML += "<option value="+displayName[0]+","+displayName[1]+"></option>" // Adds the option to the output
+                mapDatalist.innerHTML += "<option value="+displayName+"></option>" // Adds the option to the output
             }
             mapIdEntry = data[0].id // Stores the current selection for later use
             getRooms()
@@ -213,4 +223,5 @@ async function addToDB() {
     else {
         alert("Lesson failed to be added.")
     }
+}
 }
