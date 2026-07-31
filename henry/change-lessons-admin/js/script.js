@@ -104,7 +104,7 @@ mapInput.addEventListener("input", function() { // Activates whenever the user t
                 mapDatalist.innerHTML += "<option value="+displayName+"></option>" // Adds the option to the output
             }
             mapIdEntry = data[0].id // Stores the current selection for later use
-            getRooms()
+            // getRooms()
         }
     })
     console.log(mapIdEntry)
@@ -112,37 +112,37 @@ mapInput.addEventListener("input", function() { // Activates whenever the user t
 
 var roomNames = []
 var roomIdEntry
-function getRooms() {
-    fetch("/api.php", { // Gets the API script
-        method: "POST", // Post is used because it's more private
-        headers: {
-            "Content-Type": "application/json" // Determines the format to be JSON
-        },
-        body: JSON.stringify({request: "rooms", map_id: mapIdEntry}) // Requests all lessons from the api 
-    })
+// function getRooms() {
+//     fetch("/api.php", { // Gets the API script
+//         method: "POST", // Post is used because it's more private
+//         headers: {
+//             "Content-Type": "application/json" // Determines the format to be JSON
+//         },
+//         body: JSON.stringify({request: "rooms", map_id: mapIdEntry}) // Requests all lessons from the api 
+//     })
 
-    .then(response => response.json()) // Returns the search response as an object named 'data'
-    .then(data => {
-        if (data.message) { // Checks if there is an error message
-            return;
-        }
-        else {
-            console.log(data)
-            // console.log(data[0].classroom_name)
-            for (let i = 0; i < data.length; i ++) {
-                roomNames.push(data[i].room_name)
-            }
-            roomNames = removeDuplicates(roomNames)
+//     .then(response => response.json()) // Returns the search response as an object named 'data'
+//     .then(data => {
+//         if (data.message) { // Checks if there is an error message
+//             return;
+//         }
+//         else {
+//             console.log(data)
+//             // console.log(data[0].classroom_name)
+//             for (let i = 0; i < data.length; i ++) {
+//                 roomNames.push(data[i].room_name)
+//             }
+//             roomNames = removeDuplicates(roomNames)
 
-            classroomDatalist.innerHTML = ""
-            for (let i = 0; i < roomNames.length; i++) {
-                classroomDatalist.innerHTML += "<option value="+roomNames[i]+"></option>" // Adds the option to the output
-            }
-            roomIdEntry = data[0].map_id
-        }
-    })
-}
-console.log("mmmmmm production, delicious")
+//             classroomDatalist.innerHTML = ""
+//             for (let i = 0; i < roomNames.length; i++) {
+//                 classroomDatalist.innerHTML += "<option value="+roomNames[i]+"></option>" // Adds the option to the output
+//             }
+//             roomIdEntry = data[0].map_id
+//         }
+//     })
+// }
+console.log("mmmmmm production, even more delicious")
 var mapIdEntry // Output of the function below
 classroomInput.addEventListener("input", function() { // Activates whenever the user types in the searchbox for locations
     let search = classroomInput.value // User input
