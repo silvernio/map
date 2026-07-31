@@ -142,7 +142,7 @@ var roomIdEntry
 //         }
 //     })
 // }
-console.log("mmmmmm production, even more delicious")
+console.log("mmmmmm production, the most delicious")
 var mapIdEntry // Output of the function below
 classroomInput.addEventListener("input", function() { // Activates whenever the user types in the searchbox for locations
     let search = classroomInput.value // User input
@@ -167,7 +167,7 @@ classroomInput.addEventListener("input", function() { // Activates whenever the 
                 roomNames.push(data[i].room_name)
             }
             roomNames = removeDuplicates(roomNames)
-
+            console.log(roomNames)
             classroomDatalist.innerHTML = ""
             for (let i = 0; i < roomNames.length; i++) {
                 classroomDatalist.innerHTML += "<option value="+roomNames[i]+"></option>" // Adds the option to the output
