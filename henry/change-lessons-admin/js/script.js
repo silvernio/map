@@ -193,7 +193,7 @@ async function getRoomId(roomName, id) {
 // FLAWS:
 // Teachers may have names which don't fit into a first name/last name format. e.g, more than two names.
 // It is cleanest to input data into 'map' first and everything else second, but users may not know this.
-
+console.log("seryusdfhh")
 // button.addEventListener("click", addToDB)
 async function addToDB() {
     var teacherName = teacherInput.value.split(",") // First name and last name must be seperated because they are stored seperately in the DB
@@ -219,17 +219,18 @@ async function addToDB() {
         method: "POST",
         body: JSON.stringify({request: "updateLessons", input: input}) // Could just say 'input' instead of 'input: input' but this makes more sense to me.
     })
-    .then(response => response.json()) // Output response so an error/success message can be sent. Is not neccesary for data insertion.
+    .then(response => response.text()) // Output response so an error/success message can be sent. Is not neccesary for data insertion.
     .then(text => {
+        console.log(text)
         errors = text
+        // Success/fail messages are present to prevent users from inserting into the db multiple times.
+        if (errors.message == `Data successfully inserted`) {
+            alert("Lesson added!")
+        }
+        else {
+            alert("Lesson failed to be added.")
+        }
     })
-    // Success/fail messages are present to prevent users from inserting into the db multiple times.
-    if (errors.message == `Data successfully inserted`) {
-        alert("Lesson added!")
-    }
-    else {
-        alert("Lesson failed to be added.")
-    }
 }
 button.addEventListener("click", addToDB)
 }
