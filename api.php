@@ -96,6 +96,12 @@
         
         $sql = "SELECT room_id FROM rooms WHERE classroom_name = '" . $classroom_name . "' AND map_id = '" . $map_id . "'";
     }
+    else if ($request == 'searchRooms' && isset($data['map_id']) && isset($data["search"])) {
+        $map_id = $data['map_id'];
+        $search = $conn->real_escape_string($data["search"]);
+
+        $sql = "SELECT * FROM rooms WHERE map_id = '" . $map_id ."' AND room_name = '" . $search . "'";
+    }
     // Searches for data input page(s) end here:
 
     else if ($request == 'getequipment') {
