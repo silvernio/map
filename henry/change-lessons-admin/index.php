@@ -86,7 +86,7 @@
 
         <tr>
             <th>
-                <button class="button" onclick="addToDB()">Add to Database</button>
+                <button id="button" onclick="addToDB()">Add to Database</button>
             </th>
         </tr>
 </table>

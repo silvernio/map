@@ -16,6 +16,7 @@ async function main() {
         document.body.appendChild(allHTML)
     }
 
+const button = document.getElementById("button");
 
 const mapInput = document.getElementById("maps");
 const mapDatalist = document.getElementById("mapDatalist");
@@ -192,6 +193,9 @@ async function getRoomId(roomName, id) {
 // FLAWS:
 // Teachers may have names which don't fit into a first name/last name format. e.g, more than two names.
 // It is cleanest to input data into 'map' first and everything else second, but users may not know this.
+
+button.addEventListener("click", addToDB)
+console.log("prA")
 async function addToDB() {
     var teacherName = teacherInput.value.split(",") // First name and last name must be seperated because they are stored seperately in the DB
     var teacherFirstName = teacherName[0]
