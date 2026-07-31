@@ -46,21 +46,40 @@ h1 {
     margin-left: auto;
     margin-right: auto;
     display: none;
+    border-radius: 10px;
+    background-color: rgb(140, 140, 140);
+    animation: ease show 0.5s;
+}
+
+@keyframes show {
+    from {
+        opacity: 0;
+        scale: 0.5;
+        translate: 0 50px;
+    }
+    50% {
+        translate: 0 0;
+    }
+    to {
+        opacity: 1
+    }
 }
 
 th {
     position: sticky;
-    top: 0;
-    background-color: grey;
-
-    box-shadow:
-        inset 0 1px 0 black,
-        inset 0 -1px 0 black,
-        inset 1px 0 0 black,
-        inset -1px 0 0 black;
+    top: 0px;
+    background-color: rgb(188, 188, 188);
+    border-radius: 5px 5px 0 0;
+    filter:
+        drop-shadow(-5px 0 3px rgb(188, 188, 188));
 }
 tr, td {
-    border: 1px solid black;
+    /* border: 1px solid black; */
+    border-radius: 10px;
+}
+
+td {
+    translate: 0 2.5px;
 }
 
 input[type="color"]::-webkit-color-swatch-wrapper {
@@ -69,15 +88,24 @@ input[type="color"]::-webkit-color-swatch-wrapper {
 
 input[type="color"]::-webkit-color-swatch {
     border: none;
+    border-radius: 5px;
 }
 
 /*  */
 
 .tableCell {
-    transition: all 0.1s ease;
+    transition: all 0.1s ease, background-color 0s ease;
+    z-index: 1;
+    position: relative;
+    scale: 0.98;
+    /* display: ; */
 }
 
 .tableCell:hover {
     filter: brightness(110%);
-    scale: 1.05;
+    scale: 1.02;
+    /* box-shadow: 0 0 10px black; */
+    filter: drop-shadow(0 0 5px rgb(0, 0, 0, 0.5));
+    overflow: visible;
+    z-index: 10;
 }

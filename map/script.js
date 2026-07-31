@@ -125,10 +125,11 @@ function update(timestamp) {
 
         // console.log(roo)
         const isHovered = hoveredRoom == room.id;
+        const index = currentLessons.findIndex(lesson => lesson != null && lesson[6] == room.id);
 
-        if (isHovered) room.colour = lessonColours[hovered.v];
+        room.colour = lessonColours[index];
 
-        room.hovered = lerp5(room.hovered, isHovered ? 1 : 0, dt * 15);
+        room.hovered = lerp5(room.hovered, isHovered ? 1 : (index != -1 ? 0.6 : 0), dt * 15);
 
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
