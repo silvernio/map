@@ -214,7 +214,7 @@ async function addToDB() {
     var input = [lessonName.value, teacherId, startTime, endTime, day.value, classroomId]
 
     // console.log(input)
-
+    var errors
     fetch("/insert.php", { // Get insertion file
         method: "POST",
         body: JSON.stringify({request: "updateLessons", input: input}) // Could just say 'input' instead of 'input: input' but this makes more sense to me.
