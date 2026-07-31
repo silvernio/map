@@ -94,7 +94,7 @@
         $classroom_name = $conn->real_escape_string($data["classroom_name"]);
         $map_id = $conn->real_escape_string($data["map_id"]);
         
-        $sql = "SELECT room_id FROM rooms WHERE classroom_name = '" . $classroom_name . "' AND map_id = '" . $map_id . "'";
+        $sql = "SELECT room_id FROM rooms WHERE room_name = '" . $classroom_name . "' AND map_id = '" . $map_id . "'";
     }
     else if ($request == 'searchRooms' && isset($data['map_id']) && isset($data["search"])) {
         $map_id = $data['map_id'];

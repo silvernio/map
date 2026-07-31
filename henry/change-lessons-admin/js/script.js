@@ -194,8 +194,7 @@ async function getRoomId(roomName, id) {
 // Teachers may have names which don't fit into a first name/last name format. e.g, more than two names.
 // It is cleanest to input data into 'map' first and everything else second, but users may not know this.
 
-button.addEventListener("click", addToDB)
-console.log("prA")
+// button.addEventListener("click", addToDB)
 async function addToDB() {
     var teacherName = teacherInput.value.split(",") // First name and last name must be seperated because they are stored seperately in the DB
     var teacherFirstName = teacherName[0]
@@ -203,7 +202,9 @@ async function addToDB() {
 
     // Functions here for organization. They parse in the data which is neccesary to search for the ID in the appropriate table.
     let teacherId = await getAccountId(teacherFirstName, teacherLastName)
+    console.log(classroomInput.value, roomIdEntry)
     let classroomId = await getRoomId(classroomInput.value, roomIdEntry)
+    console.log(classroomId)
 
     // The DB records start and end time seperately, so they both have to be inserted
     let startTime = times[module.value-1]
@@ -211,6 +212,8 @@ async function addToDB() {
 
     // Store all inputs in a single array for organization
     var input = [lessonName.value, teacherId, startTime, endTime, day.value, classroomId]
+
+    // console.log(input)
 
     fetch("/insert.php", { // Get insertion file
         method: "POST",
@@ -228,4 +231,5 @@ async function addToDB() {
         alert("Lesson failed to be added.")
     }
 }
+button.addEventListener("click", addToDB)
 }
