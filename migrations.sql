@@ -80,4 +80,10 @@ COMMIT;
 UPDATE `rooms` SET `points` = '\"[[5, 3], [2, 3], [2, 1], [5, 1]]\"' WHERE `rooms`.`room_id` = 1;
 
 -- 29/07/26 - Silver - Rename classroom column
-ALTER TABLE `lessons` CHANGE `classroom_id` `room_id` INT(11) NOT NULL;
+ALTER TABLE `lessons` CHANGE `classroom_id` `room_id` INT(11) NOT NULL; 
+
+--30/07/26 - Andrew showed equipment database on page 
+else if ($request == 'getequipment') {
+    $sql = "SELECT subjects.subject_name,subjects.subject_year,equipment.item_name FROM subjects LEFT JOIN equipment ON subjects.subject_id=equipment.subject_id order by subjects.subject_id asc";
+}
+
