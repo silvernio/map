@@ -161,6 +161,8 @@ async function fillingCells() {
     }
 
 
+
+
     for (let i = 0; i < tableColours.length; i++) {
         tableColours[i].value = "#cccccc";
         tableColours[i].addEventListener("input", function () { // Adds an event listener to every colour picker
@@ -173,6 +175,9 @@ async function fillingCells() {
             let hex = tableColours[i].value
             let rgb = hexToRGBConverter(hex)
 
+            
+            localStorage.setItem('colour' + i, hex);
+
             // Detect brightness of rgb. Formula gotten from online.
             if (0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2] >= 100) {
                 tableButtons[i].style.color = "rgb(0, 0, 0)"
@@ -181,6 +186,7 @@ async function fillingCells() {
                 tableButtons[i].style.color = "rgb(255, 255, 255)"
             }
         })
+        tableColours[i].value = localStorage.getItem('colour' + i) || '#ffffff';
         tableColours[i].dispatchEvent(new Event("input"));
     }
 
