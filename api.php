@@ -105,7 +105,8 @@
     // Searches for data input page(s) end here:
 
     else if ($request == 'getequipment') {
-    $sql = "SELECT subjects.subject_name,subjects.subject_year,equipment.item_name FROM subjects LEFT JOIN equipment ON subjects.subject_id=equipment.subject_id order by subjects.subject_id asc";
+        $sql = "SELECT subjects.subject_name,subjects.subject_year,equipment.item_name FROM subjects LEFT JOIN equipment ON subjects.subject_id=equipment.subject_id order by subjects.subject_id asc";
+    }
     // $subjects = [];
     // if ($result) {
     //     while ($row = $result->fetch_assoc()) {
@@ -116,9 +117,9 @@
     // exit;
     // } 
 
-    // else {
-    //     echo json_encode(['message' => 'Invalid request']);
-    //     exit;
+    else {
+        echo json_encode(['message' => 'Invalid request']);
+        exit;
     }
 
     $result = $conn->query($sql);
