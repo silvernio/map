@@ -135,7 +135,8 @@ classroomInput.addEventListener("input", function() { // Activates whenever the 
 
             classroomDatalist.innerHTML = ""
             for (let i = 0; i < roomNames.length; i++) {
-                classroomDatalist.innerHTML += "<option value="+roomNames[i]+"></option>" // Adds the option to the output
+                let name = roomNames[i].replaceAll(" ", ",")
+                classroomDatalist.innerHTML += "<option value="+name+"></option>" // Adds the option to the output
             }
             roomIdEntry = data[0].map_id
         }
@@ -176,7 +177,7 @@ async function getRoomId(roomName, id) {
         headers: {
             "Content-Type": "application/json" // Determines the format to be JSON
         },
-        body: JSON.stringify({request: "getRoomId", classroom_name: roomName, map_id: id}) // Requests room ID from the api 
+        body: JSON.stringify({request: "getRoomId", classroom_name: roomName.replaceAll(",", " "), map_id: id}) // Requests room ID from the api 
     })
     const data = await response.json()
 
@@ -193,8 +194,6 @@ async function getRoomId(roomName, id) {
 // FLAWS:
 // Teachers may have names which don't fit into a first name/last name format. e.g, more than two names.
 // It is cleanest to input data into 'map' first and everything else second, but users may not know this.
-console.log("seryusdfhh")
-// button.addEventListener("click", addToDB)
 async function addToDB() {
     var teacherName = teacherInput.value.split(",") // First name and last name must be seperated because they are stored seperately in the DB
     var teacherFirstName = teacherName[0]
@@ -224,7 +223,7 @@ async function addToDB() {
         console.log(text)
         errors = text
         // Success/fail messages are present to prevent users from inserting into the db multiple times.
-        if (errors.message == `Data successfully inserted`) {
+        if (errors.includes(`Data successfully inserted`)) {
             alert("Lesson added!")
         }
         else {

@@ -52,9 +52,9 @@
       <!-- <a href="/sam/" class="navbar-item">
         Sam
       </a> -->
-      <!-- <a href="/rivergem/" class="navbar-item">
-        Andrew
-      </a> -->
+      <a href="/rivergem/addequipment.php" class="navbar-item">
+        Equipment
+      </a>
     </div>
 
     <div class="navbar-end">
