@@ -218,10 +218,10 @@ async function addToDB() {
         method: "POST",
         body: JSON.stringify({request: "updateLessons", input: input}) // Could just say 'input' instead of 'input: input' but this makes more sense to me.
     })
-    .then(response => response.text()) // Output response so an error/success message can be sent. Is not neccesary for data insertion.
-    .then(text => {
-        console.log(text)
-        errors = text
+    .then(response => response.json()) // Output response so an error/success message can be sent. Is not neccesary for data insertion.
+    .then(json => {
+        console.log(json)
+        errors = json
         // Success/fail messages are present to prevent users from inserting into the db multiple times.
         if (errors.message == `Data successfully inserted`) {
             alert("Lesson added!")
@@ -233,3 +233,4 @@ async function addToDB() {
 }
 button.addEventListener("click", addToDB)
 }
+console.log("asdhuiuy")
