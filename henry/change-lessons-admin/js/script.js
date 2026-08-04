@@ -135,7 +135,8 @@ classroomInput.addEventListener("input", function() { // Activates whenever the 
 
             classroomDatalist.innerHTML = ""
             for (let i = 0; i < roomNames.length; i++) {
-                classroomDatalist.innerHTML += "<option value="+roomNames[i]+"></option>" // Adds the option to the output
+                let name = roomNames[i].replaceAll(" ", ",")
+                classroomDatalist.innerHTML += "<option value="+name+"></option>" // Adds the option to the output
             }
             roomIdEntry = data[0].map_id
         }
