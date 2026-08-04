@@ -37,6 +37,7 @@ nav a:hover {
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
 }
 
 nav h1 {
@@ -61,4 +62,54 @@ nav h1 {
 
 #main-img {
     scale: 0.5;
+}
+
+.notif {
+  position: relative; /* Establishes positioning context for the absolute icon */
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  height: max-content;
+  padding: 10px; /* Increased padding so content doesn't overlap the icon */
+  background-color: white;
+  border: 2px solid antiquewhite;
+}
+
+#notif-template {
+    display: none;
+}
+
+.is-urgent {
+  position: absolute; /* Removed from normal flow */
+  top: 8px;
+  right: 8px;
+  border-radius: 50%;
+  color: white;
+  background-color: red;
+  height: 1.5rem;
+  width: 1.5rem;
+  font-weight: bold;
+  display: flex; /* Centers the icon character (e.g., "!") within the circle */
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.title {
+  font-weight: bolder;
+  margin: 0; /* Prevents default heading margins from breaking flex gap */
+}
+
+.text {
+  margin: 0;
+}
+
+#notif-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }

@@ -14,8 +14,6 @@ const profileWindow = document.getElementById('profileWindow');
 
 const profileMessage = document.getElementById('profileMessage');
 
-document.body.style.overflowX = 'hidden';
-
 // Set up window toggle
 let isHidden = false;
 
