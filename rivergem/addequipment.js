@@ -73,14 +73,31 @@ console.log(listName)
     })
           .then(response => response.json())
         //then do something with the data
-        .then(data => {
-             let output =`<table border="1"><tr><th>Name</th><th>Equipment Lists</th></tr>`;
-            console.log(data) 
-            console.log("print table");
+        
+        .then(data => { 
+        
+        const groupeddata = {}; 
+                
+        data.forEach(item => { 
+        if (!groupeddata[item.subject_name]) {
+        (groupeddata)[item.subject_name] = [];
+        } 
+        groupeddata[item.subject_name].push(item.item_name);
+        });
+         
+
+        let output =`<table border="1"><tr><th>Name</th><th>Equipment Lists</th></tr>`; 
+                
+        for (const subjectName in groupeddata) {
+        const itemsList = groupeddata[subjectName].join(', ');  
+        output += `<tr><td>${subjectName}</td><td>${itemsList}</td></tr>`;
+     }
+        console.log(data) 
+        console.log("print table");
            
             for (const subject of data){
                 console.log(subject);
-                output+= `<tr><td>${subject.subject_name}</td><td>${subject.item_name}</td></tr>`;
+                //output+= `<tr><td>${subject.subject_name}</td><td>${subject.item_name}</td></tr>`;
             }
             output+="</table>";
             console.log(output);
@@ -88,4 +105,6 @@ console.log(listName)
         })
         
         
-    }
+    } 
+    
+        

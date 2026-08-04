@@ -32,9 +32,9 @@
         Map
       </a>
 
-      <a href="/henry/" class="navbar-item">
+      <!-- <a href="/henry/" class="navbar-item">
         Timetable
-      </a>
+      </a> -->
 
       <a href="/editor/" class="navbar-item">
         Map Editor
