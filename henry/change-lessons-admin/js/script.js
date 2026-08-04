@@ -177,7 +177,7 @@ async function getRoomId(roomName, id) {
         headers: {
             "Content-Type": "application/json" // Determines the format to be JSON
         },
-        body: JSON.stringify({request: "getRoomId", classroom_name: roomName, map_id: id}) // Requests room ID from the api 
+        body: JSON.stringify({request: "getRoomId", classroom_name: roomName.replaceAll(",", " "), map_id: id}) // Requests room ID from the api 
     })
     const data = await response.json()
 
