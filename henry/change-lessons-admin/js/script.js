@@ -132,7 +132,7 @@ classroomInput.addEventListener("input", function() { // Activates whenever the 
                 roomNames.push(data[i].room_name)
             }
             roomNames = removeDuplicates(roomNames)
-
+            console.log(roomNames)
             classroomDatalist.innerHTML = ""
             for (let i = 0; i < roomNames.length; i++) {
                 let name = roomNames[i].replaceAll(" ", ",")
@@ -172,6 +172,8 @@ async function getAccountId(fName, lName) {
 
 // Runs in 'addToDB'
 async function getRoomId(roomName, id) {
+    console.log(roomName)
+    console.log(roomName.replaceAll(",", " "))
     const response = await fetch("/api.php", { // Gets the API script
         method: "POST", // Post is used because it's more private
         headers: {
