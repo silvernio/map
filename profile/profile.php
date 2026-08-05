@@ -8,7 +8,7 @@
 
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-<div id="profileWindow" style="position: absolute; right: -500px; top: 60px; border: 2px solid black; border-radius: 5px; padding: 10px; aspect-ratio: 0.6; transition: all 1s; background-color:white; z-index: 100;">
+<div id="profileWindow" style="position: absolute; right: -500px; top: 60px; border: 2px solid black; border-radius: 5px; padding: 10px; transition: all 1s; background-color:white; z-index: 100; text-align: center;">
     <h2 id="profileTitle">Log In / Sign Up</h2>
 
     <p id="profileMessage" style="display: none; border-radius: 5px; background-color:antiquewhite; padding: 5px; border: 2px solid bisque;">Successfully logged in!</p>
@@ -31,6 +31,8 @@
         id="signInBtn"
     >
     </div>
+    <div id="logOutButton" style="background-color: #999; color: white; border: 2px solid #bbb; display: none; align-items: center; justify-content: center; padding: 10px; margin-top: 20px; border-radius: 5px; font-weight:bold; cursor: pointer;">Log Out</div>
+
 </div>
 
 <script src="/profile/profile.js"></script>

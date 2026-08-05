@@ -14,6 +14,8 @@ const profileWindow = document.getElementById('profileWindow');
 
 const profileMessage = document.getElementById('profileMessage');
 
+const logOutButton = document.getElementById('logOutButton')
+
 // Set up window toggle
 let isHidden = false;
 
@@ -36,6 +38,44 @@ bigButton.onclick = () => {
 
         profileWindow.style.right = (-10 - w) + 'px';
     }
+}
+
+logOutButton.onclick = () => {
+    fetch("/account.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ request: 'logout' }) 
+    })
+        //convert the response to json
+        .then(response => response.json())
+        //then do something with the data
+        .then(data => {
+            console.log(data)
+            if (data.message) {
+                // Show response message for 5 seconds
+                profileMessage.innerText = data.message;
+                profileMessage.style.display = 'block';
+
+                setTimeout(() => {profileMessage.style.display = 'none'; profileMessage.innerText = ''}, 5_000)
+            }
+            if (data.logout) {
+                signInBtn.style.display = 'inline';
+
+                profileName.style.color = 'red';
+
+                profileName.innerText = 'Not Logged In'
+
+                profileInfo.style.display = 'none';
+
+                logOutButton.style.display = 'none';
+
+                profileImg.src = '/default_pfp.png';
+            }
+        })
+        //catch any errors and log them to the console
+        .catch(error => console.error('Error:', error));
 }
 
 // This function runs after the user signs in with the Google popup window
@@ -76,6 +116,8 @@ function googleLogIn(response) {
                 profileInfo.innerText = `${account.first_name} ${account.last_name} (${isTeacherString})`
 
                 profileInfo.style.display = 'block';
+
+                logOutButton.style.display = 'flex';
             }
             if (data.picture) {
                 // Use the account's profile picture given by Google

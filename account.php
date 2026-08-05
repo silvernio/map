@@ -6,6 +6,15 @@
     $raw = file_get_contents("php://input");
     $data = json_decode($raw, true);
 
+    // Quick check if requesting a logout
+    if (isset($data['request']) && $data['request'] == 'logout') {
+        setcookie('profile', '', time() - 3600, '/');
+        unset($_COOKIE['profile']);
+        echo json_encode(['message' => 'Successfully logged out.', 'logout' => true]);
+        exit;
+    }
+
+    // Check if input contains required information
     if (!isset($data['token'])) {
         echo json_encode(['message' => 'No token provided.']);
         exit;
@@ -25,12 +34,11 @@
     if ($provider == 'google') {
         $tokenParts = explode('.', $token);
 
+        // Check if result is a standard Google token (header, payload, signature)
         if (count($tokenParts) != 3) {
             echo json_encode(['message' => 'Invalid Google token provided.']);
             exit;
         }
-
-        // Google token is formatted as Header.Payload.Signature
         // (payload is for info, signature is for verification)
 
         $payloadToken = $tokenParts[1];
@@ -41,8 +49,7 @@
 
         $payload = json_decode($payloadJSON, true); // true makes it an array rather than type 'stdClass'
 
-        // echo json_encode(['message' => $payload]);
-        // exit;
+       // Get user details from decoded information
 
         $google_id = $payload['sub'];
 
@@ -71,6 +78,7 @@
             
             setcookie('profile', json_encode($profile), time() + 3600, '/');
 
+            // Reuse profile array to send as response for debugging
             $profile['message'] = 'Successfully logged in!';
 
             echo json_encode($profile);
