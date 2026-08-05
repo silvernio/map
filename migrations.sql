@@ -158,3 +158,73 @@ else if ($request == 'getequipment') {
     $sql = "SELECT subjects.subject_name,subjects.subject_year,equipment.item_name FROM subjects LEFT JOIN equipment ON subjects.subject_id=equipment.subject_id order by subjects.subject_id asc";
 }
 
+-- 05/08/2026 - Sam - Notifications table
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Aug 05, 2026 at 07:48 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.0.30
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `map`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `notification_id` int(11) NOT NULL,
+  `topic` varchar(20) NOT NULL,
+  `text` varchar(200) DEFAULT NULL,
+  `is_urgent` int(1) NOT NULL DEFAULT 0,
+  `colour` varchar(50) NOT NULL DEFAULT 'white'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`notification_id`, `topic`, `text`, `is_urgent`, `colour`) VALUES
+(1, 'PE', 'Just a quick reminder that laptops will be needed for all PE lessons in the afternoon.', 0, 'cornflowerblue'),
+(2, 'Behaviour', 'There\'s been a lot of littering going on recently, and it\'s not acceptable. Please ensure that any packaging or other rubbish is placed in the appropriate bin, or there will be further consequences.', 1, 'orangered');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`notification_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
