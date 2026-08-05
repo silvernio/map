@@ -29,13 +29,23 @@ export async function getAllStudents() {
 export async function getLessons(studentIds) {
     var account
     account = await getAccount()
+    const accountResponse = await fetch("/api.php", {
+    method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({request: 'getAccountId', first_name: account.first_name, last_name: account.last_name})  // Send a request to get data for the FIRST STUDENT IN THE DB (CHANGE LATER)
+    })
+
+    const accountData = await accountResponse.json()
+    let id = accountData[0].account_id
 
     const response = await fetch("/api.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({request: 'lessons', student_id: account})  // Send a request to get data for the FIRST STUDENT IN THE DB (CHANGE LATER)
+        body: JSON.stringify({request: 'lessons', student_id: id})  // Send a request to get data for the FIRST STUDENT IN THE DB (CHANGE LATER)
     })
 
     const data = await response.json()
