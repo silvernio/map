@@ -9,7 +9,7 @@ const subjectDatalist = document.getElementById("subjectDatalist");
 const module = document.getElementById("module");
 const day = document.getElementById("day");
 
-const times = ["8:40", "9:20", "10:20", "11:00", "12:00", "12:40", "14:00", "14:40"]
+const times = ["08:40", "09:20", "10:20", "11:00", "12:00", "12:40", "14:00", "14:40"]
 
 var teacherIdEntry // Output of the function below
 teacherInput.addEventListener("input", function() { // Activates whenever the user types in the searchbox for locations

@@ -4,7 +4,7 @@ const styleHTML = document.getElementById("style");
 const timetableHTML = document.getElementById("timetable")
 
 var width = 280
-var height = window.innerHeight - 250
+var height = 622.5
 
 // Time is a placeholder for first iterations. Will later get from the server
 var timesString = ["08:40", "09:20", "10:00", "10:20", "11:00", "11:40", "12:00", "12:40", "13:20", "14:00", "14:40", "15:20"]
@@ -56,9 +56,8 @@ export async function getCellText() {
         for (let j = 0; j < lessons.length; j++) {
             if (lessons[j][0] == i+1) {
                 allLessons[i] = `
-                Module ${lessons[j][0]} <br> 
-                ${lessons[j][1]} <strong> ${lessons[j][5]} </strong> <br> 
-                ${lessons[j][2]} - ${lessons[j][3]} <br> 
+                Module ${lessons[j][0]}, ${lessons[j][2]} - ${lessons[j][3]} <br> 
+                ${lessons[j][1]} <strong> ${lessons[j][5]} </strong> <br>  
                 ${lessons[j][4]}
                 `
                 currentLessons[i] = lessons[j];
@@ -84,8 +83,8 @@ var cellHeights = [] // Uses totalTimeRatio to determine the cell heights
 for (let i = 1; i < timesNum.length; i++) {
     var startTime = timesNum[i - 1] - timesNum[0] // When the subject starts in relation to the start of the day
     var endTime = timesNum[i] - timesNum[0] // When the subject ends in relation to the start of the day
-    cellHeights.push((endTime - startTime) / totalTimeRatio * (height - 80)) // Gets the ratio by using above variables
-    cellHeights.push((endTime - startTime) / totalTimeRatio * (height - 80)) // Gets the ratio by using above variables
+    cellHeights.push(50)//(endTime - startTime) / totalTimeRatio * (height - 80)) // Gets the ratio by using above variables
+    cellHeights.push(50)//(endTime - startTime) / totalTimeRatio * (height - 80)) // Gets the ratio by using above variables
 }
 
 var tableHTML = ''
@@ -100,9 +99,9 @@ async function styling() {
     // Adds all table cells to the table at the appropriate height. Cell has id "tableCell"+i and colour picker has id "tableColour"+i
     for (let i = 0; i < startTimeString.length; i++) {
         tableHTML += `
-        <tr style="height:` + cellHeights[i] + `px ">
-            <td class="tableCell" id="tableCell`+ i + `" style = "width: ` + (width - 60) + `px;">
-                <button class="tableButton" id="tableButton`+ i + `" style = "width: ` + (width - 70) + `px; height:` + (cellHeights[i]) + `; border:none; float:left; text-align: left; overflow-y: auto; outline: none; padding: 0;">` + allLessons[i] + `</button>
+        <tr style="height:` + cellHeights[i] + `px; overflow: hidden;">
+            <td class="tableCell" id="tableCell`+ i + `" style = "width: ` + (width - 70) + `px;">
+                <button class="tableButton" id="tableButton`+ i + `" style = "width: ` + (width - 80) + `px; height:` + (cellHeights[i]) + `px; border:none; float:left; text-align: left; font-size: 14px; outline: none; padding: 0; display: block; overflow: hidden;">` + allLessons[i] + `</button>
             </td>
             <td>
                 <input type="color" id="tableColour`+ i + `"style="width:100%; height:100%; margin:0; padding:0; border:none; appearance:none; -webkit-appearance:none; background:none;"></input>
@@ -130,7 +129,7 @@ async function styling() {
     // Adds all css styling
     styles = `
     .tableWrapper {
-        height:`+ String(height - 10) + `px;
+        height:`+ String(height - 20) + `px;
         width: `+ width + `px;
 
         overflow-y: auto;
@@ -138,7 +137,7 @@ async function styling() {
         display: block;
     }
     table {
-        height:`+ String(height - 80) + `px;
+        height:`+ String(height - 90) + `px;
         width:`+ String(width) + `px;
         
         border-collapse: collapse;
@@ -164,7 +163,6 @@ async function fillingCells() {
 
 
     for (let i = 0; i < tableColours.length; i++) {
-        tableColours[i].value = "#cccccc";
         tableColours[i].addEventListener("input", function () { // Adds an event listener to every colour picker
             lessonColours[i] = tableColours[i].value;
 
@@ -186,7 +184,7 @@ async function fillingCells() {
                 tableButtons[i].style.color = "rgb(255, 255, 255)"
             }
         })
-        tableColours[i].value = localStorage.getItem('colour' + i) || '#ffffff';
+        tableColours[i].value = localStorage.getItem('colour' + i) || '#cccccc';
         tableColours[i].dispatchEvent(new Event("input"));
     }
 

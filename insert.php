@@ -127,7 +127,7 @@ if ($request === "addEquipment") {
     else if ($request == 'updateLessons' && isset($data['input'])) {
         $input = $data["input"];
 
-        $update = $conn->prepare("INSERT INTO lessons (lesson_name, teacher_id, start_time, finish_time, day, classroom_id) VALUES (?, ?, ?, ?, ?, ?)");
+        $update = $conn->prepare("INSERT INTO lessons (lesson_name, teacher_id, start_time, finish_time, day, room_id) VALUES (?, ?, ?, ?, ?, ?)");
         $update->bind_param("sssssi", $input[0], $input[1], $input[2], $input[3], $input[4], $input[5]);
 
         $success = $update->execute();

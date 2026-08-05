@@ -28,12 +28,14 @@ async function getAllStudents() {
 
 async function getLessons(studentIds) {
     // Put this in a FOR loop later, so it's not just the first student being checked
+    var account
+    account = await getAccount()
     const response = await fetch("/api.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({request: 'lessons', student_id: studentIds[0]})  // Send a request to get data for the FIRST STUDENT IN THE DB (CHANGE LATER)
+        body: JSON.stringify({request: 'lessons', student_id: account})  // Send a request to get data for the FIRST STUDENT IN THE DB (CHANGE LATER)
     })
 
     const data = await response.json()

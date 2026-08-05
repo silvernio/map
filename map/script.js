@@ -106,7 +106,7 @@ function update(timestamp) {
 
     ctx.drawImage(bg, -dimensions.width / 2, -dimensions.height / 2, dimensions.width, dimensions.height);
 
-    const hoveredRoom = hovered.v != null ? currentLessons[hovered.v][6] : null
+    const hoveredRoom = (hovered.v != null && currentLessons[hovered.v]) ? currentLessons[hovered.v][6] : null
 
     let hoverCentre = null;
 

@@ -31,8 +31,8 @@ const lessonName = document.getElementById("lessonName");
 const module = document.getElementById("module");
 const day = document.getElementById("day");
 
-const times = ["8:40", "9:20", "10:20", "11:00", "12:00", "12:40", "14:00", "14:40"]
-const endTimes = ["9:20", "10:20", "11:00", "12:00", "12:40", "14:00", "14:40", "15:20"]
+const times = ["08:40", "09:20", "10:20", "11:00", "12:00", "12:40", "14:00", "14:40"]
+const endTimes = ["09:20", "10:20", "11:00", "12:00", "12:40", "14:00", "14:40", "15:20"]
 
 var teacherIdEntry // Output of the function below
 teacherInput.addEventListener("input", function() { // Activates whenever the user types in the searchbox for locations
@@ -132,7 +132,7 @@ classroomInput.addEventListener("input", function() { // Activates whenever the 
                 roomNames.push(data[i].room_name)
             }
             roomNames = removeDuplicates(roomNames)
-
+            console.log(roomNames)
             classroomDatalist.innerHTML = ""
             for (let i = 0; i < roomNames.length; i++) {
                 let name = roomNames[i].replaceAll(" ", ",")
@@ -172,6 +172,8 @@ async function getAccountId(fName, lName) {
 
 // Runs in 'addToDB'
 async function getRoomId(roomName, id) {
+    console.log(roomName)
+    console.log(roomName.replaceAll(",", " "))
     const response = await fetch("/api.php", { // Gets the API script
         method: "POST", // Post is used because it's more private
         headers: {
