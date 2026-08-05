@@ -163,7 +163,6 @@ async function fillingCells() {
 
 
     for (let i = 0; i < tableColours.length; i++) {
-        tableColours[i].value = "#cccccc";
         tableColours[i].addEventListener("input", function () { // Adds an event listener to every colour picker
             lessonColours[i] = tableColours[i].value;
 
@@ -185,7 +184,7 @@ async function fillingCells() {
                 tableButtons[i].style.color = "rgb(255, 255, 255)"
             }
         })
-        tableColours[i].value = localStorage.getItem('colour' + i) || '#ffffff';
+        tableColours[i].value = localStorage.getItem('colour' + i) || '#cccccc';
         tableColours[i].dispatchEvent(new Event("input"));
     }
 
