@@ -103,7 +103,7 @@
         $sql = "SELECT * FROM rooms WHERE map_id = '" . $map_id ."' AND room_name = '" . $search . "'";
     }
     else if ($request == 'notifications') {
-        $sql = "SELECT * FROM notifications";
+        $sql = "SELECT * FROM notifications ORDER BY is_urgent DESC, notification_id DESC";
     }
     // Searches for data input page(s) end here:
 
