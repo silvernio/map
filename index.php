@@ -6,6 +6,9 @@
 
     <img id="main-img" src="/htmlads.png" alt="">
 
+    <div style="text-align: center; color: #555; font-weight: bolder;">NOTIFICATIONS</div>
+    <hr>
+
     <div id="notif-container">
         <div id="notif-template" class = 'notif'>
             <label class="is-urgent">!</label>

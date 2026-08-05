@@ -102,6 +102,9 @@
 
         $sql = "SELECT * FROM rooms WHERE map_id = '" . $map_id ."' AND room_name = '" . $search . "'";
     }
+    else if ($request == 'notifications') {
+        $sql = "SELECT * FROM notifications";
+    }
     // Searches for data input page(s) end here:
 
     else if ($request == 'getequipment') {
