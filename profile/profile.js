@@ -157,6 +157,8 @@ async function onLoad() {
 
     profileInfo.style.display = 'block';
     profileImg.src = account.picture;
+
+    logOutButton.style.display = 'flex';
 }
 
 // Run function on startup
