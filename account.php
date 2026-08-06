@@ -8,7 +8,9 @@
 
     // Quick check if requesting a logout
     if (isset($data['request']) && $data['request'] == 'logout') {
+        // Setting a cookie with an expiry date in the past clears it immediately
         setcookie('profile', '', time() - 3600, '/');
+        // Ensure that the current session also clears the current profile
         unset($_COOKIE['profile']);
         echo json_encode(['message' => 'Successfully logged out.', 'logout' => true]);
         exit;
@@ -20,18 +22,19 @@
         exit;
     }
 
-    $token = $data['token'];
-
     if (!isset($data['provider'])) {
         echo json_encode(['message' => 'No provider given.']);
         exit;
     }
+
+    $token = $data['token'];
 
     $provider = $data['provider'];
 
     // Google token
 
     if ($provider == 'google') {
+        // Split by periods - standard token layout
         $tokenParts = explode('.', $token);
 
         // Check if result is a standard Google token (header, payload, signature)
@@ -76,7 +79,8 @@
 
             $profile = ['account' => $account, 'picture' => $picture];
             
-            setcookie('profile', json_encode($profile), time() + 3600, '/');
+            // Save profile for 1 day (in seconds)
+            setcookie('profile', json_encode($profile), time() + 24 * 60 * 60, '/');
 
             // Reuse profile array to send as response for debugging
             $profile['message'] = 'Successfully logged in!';
@@ -105,7 +109,8 @@
 
         $profile = ['account' => $account, 'picture' => $picture];
 
-        setcookie('profile', json_encode($profile), time() + 3600, '/');
+        // Save profile for 1 day (in seconds)
+        setcookie('profile', json_encode($profile), time() + 24 * 60 * 60, '/');
 
         $profile['message'] = 'Successfully signed up!';
 

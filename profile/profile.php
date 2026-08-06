@@ -11,9 +11,11 @@
 <div id="profileWindow" style="position: absolute; right: -500px; top: 60px; border: 2px solid black; border-radius: 5px; padding: 10px; transition: all 1s; background-color:white; z-index: 100; text-align: center;">
     <h2 id="profileTitle">Log In / Sign Up</h2>
 
+    <img src="/default_pfp.png" alt="" id="pf2" style="aspect-ratio: 1; width: 50px; border-radius:50%;">
+
     <p id="profileMessage" style="display: none; border-radius: 5px; background-color:antiquewhite; padding: 5px; border: 2px solid bisque;">Successfully logged in!</p>
 
-    <p id="profileInfo" style="display: none;">John Smith</p>
+    <p id="profileInfo" style="display: block;">Not Logged In</p>
 
     <div id="g_id_onload"
          data-client_id="339013531173-ifepgkm2cbseplot0e7ds804p0kceces.apps.googleusercontent.com"
