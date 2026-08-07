@@ -4,7 +4,7 @@ const styleHTML = document.getElementById("style");
 const timetableHTML = document.getElementById("timetable")
 
 var width = 280
-var height = 622.5
+var height = 625
 
 // Time is a placeholder for first iterations. Will later get from the server
 var timesString = ["08:40", "09:20", "10:00", "10:20", "11:00", "11:40", "12:00", "12:40", "13:20", "14:00", "14:40", "15:20"]
