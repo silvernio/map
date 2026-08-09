@@ -19,8 +19,8 @@ for (let i = 0; i < timesString.length; i++) {
     timesNum.push(parseInt(splitTimes[0]) * 60 + parseInt(splitTimes[1])) // Hours * 60 + minutes
 }
 
-export const currentLessons = []
-export const lessonColours = []
+export const currentLessons = [] // stores current lesson data
+export const lessonColours = [] // stores current lesson colours
 let allLessons = [] // The text which is stored in the table cells
 
 getCellText()
@@ -47,6 +47,7 @@ export async function getCellText() {
     // Fill up the array with null so it can later be changed at specific indexes
     for (let i = 0; i < startTimeString.length; i++) {
         allLessons.push(null)
+        // also init lessons and colours
         currentLessons.push(null)
         lessonColours.push(null)
     }
@@ -110,10 +111,10 @@ async function styling() {
         `
 
         setTimeout(() => {
+            // update the hovered state with the index on hover
             document.getElementById(`tableButton${i}`).onpointerover = () => {
                 hovered.v = i;
             }
-
              document.getElementById(`tableButton${i}`).onpointerout = () => {
                 hovered.v = null;
             }
@@ -164,6 +165,7 @@ async function fillingCells() {
 
     for (let i = 0; i < tableColours.length; i++) {
         tableColours[i].addEventListener("input", function () { // Adds an event listener to every colour picker
+            // update the lesson colours state
             lessonColours[i] = tableColours[i].value;
 
             tableCells[i].style.backgroundColor = tableColours[i].value // Sets the table cell's background to the colour picked in the colour picker
