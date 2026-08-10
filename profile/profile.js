@@ -2,6 +2,8 @@
 
 const profileImg = document.getElementById('profileImg');
 
+const profileImg2 = document.getElementById('pf2');
+
 const profileName = document.getElementById('profileName');
 
 const profileTitle = document.getElementById('profileTitle');
@@ -32,7 +34,7 @@ bigButton.onclick = () => {
         profileWindow.style.right = '10px';
     }
     else {
-        let w = Number(profileWindow.clientWidth);''
+        let w = Number(profileWindow.clientWidth);
 
         // 10px offscreen
 
@@ -65,13 +67,13 @@ logOutButton.onclick = () => {
 
                 profileName.style.color = 'red';
 
-                profileName.innerText = 'Not Logged In'
+                profileName.innerText = profileInfo.innerText = 'Not Logged In'
 
-                profileInfo.style.display = 'none';
+                profileInfo.style.display = 'block';
 
                 logOutButton.style.display = 'none';
 
-                profileImg.src = '/default_pfp.png';
+                profileImg.src = profileImg2.src = '/default_pfp.png';
             }
         })
         //catch any errors and log them to the console
@@ -89,7 +91,7 @@ function googleLogIn(response) {
     })
         //convert the response to json
         .then(response => response.json())
-        //then do something with the data
+        //then use the data
         .then(data => {
             console.log(data)
             if (data.message) {
@@ -121,7 +123,8 @@ function googleLogIn(response) {
             }
             if (data.picture) {
                 // Use the account's profile picture given by Google
-                profileImg.src = data.picture;
+                profileImg.src = profileImg2.src = data.picture;
+                console.log(profileImg2.src);
             }
         })
         //catch any errors and log them to the console
@@ -156,7 +159,9 @@ async function onLoad() {
     profileInfo.innerText = `${account.first_name} ${account.last_name} (${isTeacherString})`;
 
     profileInfo.style.display = 'block';
-    profileImg.src = account.picture;
+    profileImg.src = profileImg2.src = account.picture;
+
+    logOutButton.style.display = 'flex';
 }
 
 // Run function on startup

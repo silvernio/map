@@ -67,44 +67,57 @@ if ($request === "addEquipment") {
     exit;
 }
 
-
+    // given a map name, and rooms, insert a new map
     if ($request == 'map' && isset($data['map_name']) && isset($data['map_rooms'])) {
         // first, insert a new map
         $sql = "INSERT INTO `maps` (`id`, `name`, `image_path`) VALUES (NULL, '" . $data['map_name'] . "', '/');";
         $conn->query($sql);
 
+        // get it's row id
         $map_id = $conn->insert_id;
-    
+
+        // now, using the map id, create and link all new rooms
         foreach ($data['map_rooms'] as $room) {
             $sql = "INSERT INTO `rooms` (`room_id`, `room_name`, `points`, `map_id`) VALUES (NULL, '" . $room['name'] . "', '" . $room['points'] . "', '" . $map_id . "');";
             $conn->query($sql);
         }
 
+        // return sucess
         echo json_encode(["message" => "Map and rooms created successfully!", "map_id" => $map_id]);
     }
 
+    // given a map id, and it's new name, and new rooms, update it's data
     else if ($request == 'map_update' && isset($data['map_id']) && isset($data['map_name']) && isset($data['map_rooms'])) {
+        // update map name
         $sql = "UPDATE `maps` SET name = '" . $data['map_name'] . "' WHERE id = " . $data['map_id'];
         $conn->query($sql);
 
+        // delete all rooms from the map in the database
         $sql = "DELETE FROM rooms WHERE map_id = " . $data['map_id'];
         $conn->query($sql);
 
+
+        // replace with new rooms
          foreach ($data['map_rooms'] as $room) {
             $sql = "INSERT INTO `rooms` (`room_id`, `room_name`, `points`, `map_id`) VALUES (NULL, '" . $room['name'] . "', '" . $room['points'] . "', '" . $data['map_id'] . "');";
             $conn->query($sql);
         }
 
+        // return success
         echo json_encode(["message" => "Map and rooms updated successfully!"]);
     }
 
+    // given a map id, delete the map
     else if ($request == 'map_delete' && isset($data['map_id'])) {
+        // delete all room rows using the map id
         $sql = "DELETE FROM rooms WHERE map_id = " . $data['map_id'];
         $conn->query($sql);
-    
+
+        // delete the map row using the map id
         $sql = "DELETE FROM `maps` WHERE id = " . $data['map_id'];
         $conn->query($sql);
 
+        // return success
         echo json_encode(["message" => "Map and rooms deleted successfully!"]);
     }
 

@@ -16,11 +16,14 @@ function createNotifHTML(title, text, is_urgent, colour) {
     notif.style.display = 'flex';
     notif.style.backgroundColor = colour;
     notifContainer.appendChild(notif);
+
+    // After appending, HTML converts any format into an rgb string
     let rgb = getComputedStyle(notif).backgroundColor;
     const match = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
     
-    let [thing, r, g, b] = match;
+    let [string, r, g, b] = match;
 
+    // Helper function to ensure text visibility
     if (0.2126 * r + 0.7152 * g + 0.0722 * b >= 100) {
         titleEl.style.color = textEl.style.color = 'black';
     }
@@ -43,12 +46,16 @@ fetch("/api.php", {
         //then do something with the data
         .then(data => {
             console.log(data);
-            if (data.length && data.length > 0) {
+            console.log('new stuff')
+            if (data.length && data.length > 0 && false) {
                 for (let notif of data) {
                     const {topic, text, is_urgent, colour} = notif;
 
                     createNotifHTML(topic, text, is_urgent, colour);
                 }
+            }
+            else {
+                createNotifHTML('Nothing new here...', '', false, 'white');
             }
         })
         //catch any errors and log them to the console
