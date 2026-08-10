@@ -26,12 +26,13 @@ let allLessons = [] // The text which is stored in the table cells
 getCellText()
 
 export async function getCellText() {
-    let lessons = await getLessons()
+    let lessons = await getLessons() // Get the lessons which are part of the current user's timetable
 
     // Checks for the lesson time of all lessons by using nested FOR loops and saves it as a lesson number, e.g, lesson 1
     for (let i = 0; i < lessons.length; i++) {
         for (let j = 0; j < startTimeString.length; j++) {
             if (lessons[i][1] == startTimeString[j]) {
+                // 'unshift' is like 'push', but adds to the front of the function, which is more organized in this case.
                 lessons[i].unshift(j + 1)
             }
         }
@@ -76,7 +77,6 @@ export async function getCellText() {
 var totalTimeRatio = timesNum[timesNum.length - 1] - timesNum[0]
 
 var cellHeights = [] // Uses totalTimeRatio to determine the cell heights
-// var cellText = []
 for (let i = 1; i < timesNum.length; i++) {
     var startTime = timesNum[i - 1] - timesNum[0] // When the subject starts in relation to the start of the day
     var endTime = timesNum[i] - timesNum[0] // When the subject ends in relation to the start of the day
