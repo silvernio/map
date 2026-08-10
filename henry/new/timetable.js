@@ -27,7 +27,7 @@ getCellText()
 
 export async function getCellText() {
     // var studentIds = await getAllStudents()
-    let lessons = await getLessons(studentIds)
+    let lessons = await getLessons()
 
     // Checks for the lesson time of all lessons by using nested FOR loops and saves it as a lesson number, e.g, lesson 1
     for (let i = 0; i < lessons.length; i++) {
