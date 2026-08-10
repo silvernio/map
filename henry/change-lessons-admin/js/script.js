@@ -1,19 +1,20 @@
 const allHTML = document.getElementById("everything")
+// Removes all HTML when page loads. HTML is re-added later when user is verified as an admin 
 allHTML.remove()
 main()
 
 // This function includes the entire script, because everything must wait for the document to be appended if it is to work
 async function main() {
     var account
-    account = await getAccount()
-    if (!account.first_name) {
+    account = await getAccount() // Function from member C
+    if (!account.first_name) { // If user is signed in, they will always have a first name.
         alert("You are not signed in.")
     }
-    else if (account.is_teacher == 0) {
+    else if (account.is_teacher == 0) { // 0 is false in this data scheme
         alert("You not an admin/teacher.")
     }
-    else if (account.is_teacher == 1) {
-        document.body.appendChild(allHTML)
+    else if (account.is_teacher == 1) { // 1 is true in this data scheme
+        document.body.appendChild(allHTML) // Re-adds HTML to page
     }
 
 const button = document.getElementById("button");
@@ -31,6 +32,7 @@ const lessonName = document.getElementById("lessonName");
 const module = document.getElementById("module");
 const day = document.getElementById("day");
 
+// These two could be put into a single array, but it was easier to keep them seperate.
 const times = ["08:40", "09:20", "10:20", "11:00", "12:00", "12:40", "14:00", "14:40"]
 const endTimes = ["09:20", "10:20", "11:00", "12:00", "12:40", "14:00", "14:40", "15:20"]
 
@@ -110,7 +112,6 @@ mapInput.addEventListener("input", function() { // Activates whenever the user t
 
 var roomNames = []
 var roomIdEntry
-var mapIdEntry // Output of the function below
 classroomInput.addEventListener("input", function() { // Activates whenever the user types in the searchbox for locations
     let search = classroomInput.value // User input
 
@@ -119,7 +120,7 @@ classroomInput.addEventListener("input", function() { // Activates whenever the 
         headers: {
             "Content-Type": "application/json" // Determines the format to be JSON
         },
-        body: JSON.stringify({request: "rooms", map_id: mapIdEntry, search: search}) // Requests all lessons from the api 
+        body: JSON.stringify({request: "rooms", map_id: mapIdEntry, search: search}) // Searches db for 'search'  
     })
 
     .then(response => response.json()) // Returns the search response as an object named 'data'
@@ -131,61 +132,42 @@ classroomInput.addEventListener("input", function() { // Activates whenever the 
             for (let i = 0; i < data.length; i ++) {
                 roomNames.push(data[i].room_name)
             }
+            // Cleans 'roomNames' to only include each room name once. Probably unnecesary, but better safe than sorry!
             roomNames = removeDuplicates(roomNames)
-            console.log(roomNames)
-            classroomDatalist.innerHTML = ""
+            classroomDatalist.innerHTML = "" // Removes everything from the datalist to later add things to it.
+            
+            // Adds all room names to the datalist
             for (let i = 0; i < roomNames.length; i++) {
                 let name = roomNames[i].replaceAll(" ", ",")
                 classroomDatalist.innerHTML += "<option value="+name+"></option>" // Adds the option to the output
             }
+            // Saves the current mapId
             roomIdEntry = data[0].map_id
         }
     })
 })
 
-// Runs in 'getRooms'. Probably unnecesary
+// Runs in 'getRooms', to remove duplicate room names.
 function removeDuplicates(array) {
     const uniqueArray = [...new Set(array)];
     return uniqueArray
 }
 
 // Runs in 'addToDB'
-async function getAccountId(fName, lName) {
-    const response = await fetch("/api.php", { // Gets the API script
-        method: "POST", // Post is used because it's more private
-        headers: {
-            "Content-Type": "application/json" // Determines the format to be JSON
-        },
-        body: JSON.stringify({request: "getAccountId", first_name: fName, last_name: lName}) // Requests account ID from the api 
-    })
-    const data = await response.json()
-    // console.log(data)
-    if (data.message) { // Checks if there is an error message
-        alert("Error: account not saved")
-        console.log(data)
-        return;
-    }
-    else {
-        return data[0].account_id // Returns account ID
-    }
-}
-
-// Runs in 'addToDB'
 async function getRoomId(roomName, id) {
-    console.log(roomName)
-    console.log(roomName.replaceAll(",", " "))
+
     const response = await fetch("/api.php", { // Gets the API script
         method: "POST", // Post is used because it's more private
         headers: {
             "Content-Type": "application/json" // Determines the format to be JSON
         },
+        // Because datalists don't accept spaces, the user input uses commas instead. When the data is inserted, the commas are replaced.
         body: JSON.stringify({request: "getRoomId", classroom_name: roomName.replaceAll(",", " "), map_id: id}) // Requests room ID from the api 
     })
     const data = await response.json()
 
     if (data.message) { // Checks if there is an error message
         alert("Please insert map name before room name")
-        console.log(data)
         return;
     }
     else {
@@ -197,15 +179,9 @@ async function getRoomId(roomName, id) {
 // Teachers may have names which don't fit into a first name/last name format. e.g, more than two names.
 // It is cleanest to input data into 'map' first and everything else second, but users may not know this.
 async function addToDB() {
-    var teacherName = teacherInput.value.split(",") // First name and last name must be seperated because they are stored seperately in the DB
-    var teacherFirstName = teacherName[0]
-    var teacherLastName = teacherName[1]
-
-    // Functions here for organization. They parse in the data which is neccesary to search for the ID in the appropriate table.
-    let teacherId = await getAccountId(teacherFirstName, teacherLastName)
-    console.log(classroomInput.value, roomIdEntry)
+    // Functions and variables are here for organization. They use in the data which is neccesary to search for the ID in the appropriate table.
+    let teacherId = teacherIdEntry
     let classroomId = await getRoomId(classroomInput.value, roomIdEntry)
-    console.log(classroomId)
 
     // The DB records start and end time seperately, so they both have to be inserted
     let startTime = times[module.value-1]
@@ -214,7 +190,6 @@ async function addToDB() {
     // Store all inputs in a single array for organization
     var input = [lessonName.value, teacherId, startTime, endTime, day.value, classroomId]
 
-    // console.log(input)
     var errors
     fetch("/insert.php", { // Get insertion file
         method: "POST",
@@ -222,7 +197,6 @@ async function addToDB() {
     })
     .then(response => response.text()) // Output response so an error/success message can be sent. Is not neccesary for data insertion.
     .then(text => {
-        console.log(text)
         errors = text
         // Success/fail messages are present to prevent users from inserting into the db multiple times.
         if (errors.includes(`Data successfully inserted`)) {
@@ -233,5 +207,5 @@ async function addToDB() {
         }
     })
 }
-button.addEventListener("click", addToDB)
+button.addEventListener("click", addToDB) // Makes 'addToDB' run when button gets clicked
 }
