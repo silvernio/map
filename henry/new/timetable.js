@@ -1,4 +1,4 @@
-import { getAllStudents, getLessons } from "./timetable_api.js";
+import { getLessons } from "./timetable_api.js";
 
 const styleHTML = document.getElementById("style");
 const timetableHTML = document.getElementById("timetable")
