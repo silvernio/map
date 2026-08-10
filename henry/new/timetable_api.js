@@ -1,31 +1,6 @@
 var lessons = []
 
 // Functions are async because data is not fetched instantly. This is also why every other function in the project must be async.
-// export async function getAllStudents() {
-//     var studentIds = [] // Where the output of the function is stored
-
-//     const response = await fetch("/api.php", {
-//         method: "POST", // POST allows parameters to be put in the request
-//         headers: {
-//             "Content-Type": "application/json" // Type is JSON because that's how it is in the API
-//         },
-//         body: JSON.stringify({request: 'students'})  // Send a request to get student data
-//     })
-
-//     const data = await response.json() // Save the output of the request as 'data'
-    
-//     if (data.message) { // If request failed
-//         console.log(data)
-//     }
-//     else {
-//         for (let i = 0; i < data.length; i++) {
-//             studentIds.push(data[i].account_id) // Adds Ids to the function output
-//         }
-//     }
-
-//     return studentIds
-// }
-
 export async function getLessons(studentIds) {
     var account
     account = await getAccount()
