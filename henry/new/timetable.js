@@ -3,12 +3,14 @@ import { getAllStudents, getLessons } from "./timetable_api.js";
 const styleHTML = document.getElementById("style");
 const timetableHTML = document.getElementById("timetable")
 
+// Formerly used window.innerWidth and window.innerHeight, but it was scrapped after integrating the map into the timetable.
 var width = 280
 var height = 625
 
-// Time is a placeholder for first iterations. Will later get from the server
+// Time is a placeholder from the first iteration. Could be improved, but it works.
 var timesString = ["08:40", "09:20", "10:00", "10:20", "11:00", "11:40", "12:00", "12:40", "13:20", "14:00", "14:40", "15:20"]
 var startTimeString = ["08:40", "09:20", "10:20", "11:00", "12:00", "12:40", "14:00", "14:40"] // VERY jank solution. Could be implemented better
+// 'timesNum' is an artefact leftover from when the table cell height was reliant of lesson length.
 var timesNum = [] // Stores the time as 'total number of minutes' as an integer
 
 for (let i = 0; i < timesString.length; i++) {
@@ -16,7 +18,7 @@ for (let i = 0; i < timesString.length; i++) {
     timesNum.push(parseInt(splitTimes[0]) * 60 + parseInt(splitTimes[1])) // Hours * 60 + minutes
 }
 
-// 
+// All uses of 'currentLessons' and 'lessonColours' are done by the map dev, not the timetable dev.
 export const currentLessons = [] // stores current lesson data
 export const lessonColours = [] // stores current lesson colours
 let allLessons = [] // The text which is stored in the table cells
@@ -64,7 +66,7 @@ export async function getCellText() {
     for (let i = 0; i < allLessons.length; i++) {
         // Only runs if the DB had no data, because all indexes with data have already been changed to have text
         if (allLessons[i] == null) {
-            allLessons[i] = "" //"NO DATA"
+            allLessons[i] = "" // Convert to a string to make it valid HTML
         }
     }
 
@@ -119,9 +121,8 @@ async function styling() {
                 console.log("cell " + i)
             }
         })
-
+        // DONE BY MAP DEV - END
     }
-    // DONE BY MAP DEV - END
 
     timetableHTML.innerHTML += tableHTML
 
@@ -170,11 +171,12 @@ async function fillingCells() {
             tableColours[i].style.backgroundColor = tableColours[i].value
             tableButtons[i].style.backgroundColor = tableColours[i].value
 
+            // HTML stores colour as a hex code, so a hexToRGBConverter is used.
             let hex = tableColours[i].value
             let rgb = hexToRGBConverter(hex)
 
             
-            localStorage.setItem('colour' + i, hex);
+            localStorage.setItem('colour' + i, hex); // Mapdev
 
             // Detect brightness of rgb. Formula gotten from online.
             if (0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2] >= 100) {
@@ -187,10 +189,10 @@ async function fillingCells() {
         // DONE BY MAP DEV - START
         tableColours[i].value = localStorage.getItem('colour' + i) || '#cccccc';
         tableColours[i].dispatchEvent(new Event("input"));
-        // DONE BY MAP DEV - END
     }
 
     styleHTML.innerHTML = styles
+    // DONE BY MAP DEV - END
 }
 
 // Function copied from a previous project
