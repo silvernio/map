@@ -181,8 +181,16 @@ async function getRoomId(roomName, id) {
 async function addToDB() {
     // Functions and variables are here for organization. They use in the data which is neccesary to search for the ID in the appropriate table.
     let teacherId = teacherIdEntry
-    let classroomId = await getRoomId(classroomInput.value, roomIdEntry)
-
+    let classroomId
+    try {
+        classroomId = await getRoomId(classroomInput.value, roomIdEntry)
+    }
+    catch (error) {
+        alert("There was an error. Try making sure that all fields have valid data inserted.")
+        console.error(error)
+        return
+    }
+    
     // The DB records start and end time seperately, so they both have to be inserted
     let startTime = times[module.value-1]
     let endTime = endTimes[module.value-1]
@@ -198,6 +206,7 @@ async function addToDB() {
     .then(response => response.text()) // Output response so an error/success message can be sent. Is not neccesary for data insertion.
     .then(text => {
         errors = text
+        console.log(errors)
         // Success/fail messages are present to prevent users from inserting into the db multiple times.
         if (errors.includes(`Data successfully inserted`)) {
             alert("Lesson added!")
