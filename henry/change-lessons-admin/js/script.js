@@ -37,16 +37,16 @@ const times = ["08:40", "09:20", "10:20", "11:00", "12:00", "12:40", "14:00", "1
 const endTimes = ["09:20", "10:20", "11:00", "12:00", "12:40", "14:00", "14:40", "15:20"]
 
 var teacherIdEntry // Output of the function below
-teacherInput.addEventListener("input", function() { // Activates whenever the user types in the searchbox for locations
+teacherInput.addEventListener("input", function() { // Activates whenever the user types in the searchbox for 'Teacher Name'
     let search = teacherInput.value // User input
 
     fetch("/api.php", {
-        method: "POST",
+        method: "POST", // POST is more secure
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({request: "searchAccounts", search: search})  // Sends an api request to get all locations which contain 'search'
-    })
+    })  
 
     .then(response => response.json())
     .then(data => {
@@ -54,7 +54,6 @@ teacherInput.addEventListener("input", function() { // Activates whenever the us
             return;
         }
         else { // If there is no error message
-            // console.log(data)
             teacherDatalist.innerHTML = "" // Resets the output, because '+=' is used later.
 
             for (let i = 0; i < data.length; i++) { // Note that high number of options results in lag and user confusion
@@ -70,7 +69,7 @@ teacherInput.addEventListener("input", function() { // Activates whenever the us
 })
 
 var mapIdEntry // Output of the function below
-mapInput.addEventListener("input", function() { // Activates whenever the user types in the searchbox for locations
+mapInput.addEventListener("input", function() { // Activates whenever the user types in the searchbox for 'Map'
     let search = mapInput.value // User input
 
     fetch("/api.php", {
@@ -87,32 +86,30 @@ mapInput.addEventListener("input", function() { // Activates whenever the user t
             return;
         }
         else { // If there is no error message
-            // console.log(data)
             mapDatalist.innerHTML = "" // Resets the output, because '+=' is used later.
 
             for (let i = 0; i < data.length; i++) { // Note that high number of options results in lag and user confusion
                 let name = data[i].name;
                 let splitName = name.split(" ")
                 var displayName = ""
+
                 for (let i = 0; i < splitName.length; i++) {
                     displayName += splitName[i]
                     if (i < splitName.length - 1) {
                         displayName += ","
                     }
                 }
-                // console.log
 
                 mapDatalist.innerHTML += "<option value="+displayName+"></option>" // Adds the option to the output
             }
             mapIdEntry = data[0].id // Stores the current selection for later use
-            // getRooms()
         }
     })
 })
 
 var roomNames = []
 var roomIdEntry
-classroomInput.addEventListener("input", function() { // Activates whenever the user types in the searchbox for locations
+classroomInput.addEventListener("input", function() { // Activates whenever the user types in the searchbox for 'Room'
     let search = classroomInput.value // User input
 
     fetch("/api.php", { // Gets the API script
@@ -179,7 +176,7 @@ async function getRoomId(roomName, id) {
 // Teachers may have names which don't fit into a first name/last name format. e.g, more than two names.
 // It is cleanest to input data into 'map' first and everything else second, but users may not know this.
 async function addToDB() {
-    // Functions and variables are here for organization. They use in the data which is neccesary to search for the ID in the appropriate table.
+    // Functions and variables are here for organization. They use the data which is neccesary to search for the ID in the appropriate table.
     let teacherId = teacherIdEntry
     let classroomId
     try {
@@ -190,7 +187,7 @@ async function addToDB() {
         console.error(error)
         return
     }
-    
+
     // The DB records start and end time seperately, so they both have to be inserted
     let startTime = times[module.value-1]
     let endTime = endTimes[module.value-1]
