@@ -13,9 +13,6 @@ var timesNum = [] // Stores the time as 'total number of minutes' as an integer
 
 for (let i = 0; i < timesString.length; i++) {
     var splitTimes = timesString[i].split(":") // Splits the time into hours and minutes
-    // if (timesString[i] != "10:00" && timesString[i] != "11:40" && timesString[i] != "13:20") {
-    //     timesNum.push(parseInt(splitTimes[0]) * 60 + parseInt(splitTimes[1])) // Hours * 60 + minutes
-    // }
     timesNum.push(parseInt(splitTimes[0]) * 60 + parseInt(splitTimes[1])) // Hours * 60 + minutes
 }
 
@@ -28,9 +25,6 @@ getCellText()
 export async function getCellText() {
     var studentIds = await getAllStudents()
     let lessons = await getLessons(studentIds)
-
-    // console.log(studentIds)
-    // console.log(lessons)
 
     // Checks for the lesson time of all lessons by using nested FOR loops and saves it as a lesson number, e.g, lesson 1
     for (let i = 0; i < lessons.length; i++) {
@@ -109,6 +103,7 @@ async function styling() {
         </tr>
         `
 
+        // DONE BY MAP DEV - START
         setTimeout(() => {
             document.getElementById(`tableButton${i}`).onpointerover = () => {
                 hovered.v = i;
@@ -124,6 +119,8 @@ async function styling() {
         })
 
     }
+    // DONE BY MAP DEV - END
+
     timetableHTML.innerHTML += tableHTML
 
     // Adds all css styling
@@ -184,8 +181,10 @@ async function fillingCells() {
                 tableButtons[i].style.color = "rgb(255, 255, 255)"
             }
         })
+        // DONE BY MAP DEV - START
         tableColours[i].value = localStorage.getItem('colour' + i) || '#cccccc';
         tableColours[i].dispatchEvent(new Event("input"));
+        // DONE BY MAP DEV - END
     }
 
     styleHTML.innerHTML = styles
