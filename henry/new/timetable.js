@@ -26,7 +26,7 @@ let allLessons = [] // The text which is stored in the table cells
 getCellText()
 
 export async function getCellText() {
-    var studentIds = await getAllStudents()
+    // var studentIds = await getAllStudents()
     let lessons = await getLessons(studentIds)
 
     // Checks for the lesson time of all lessons by using nested FOR loops and saves it as a lesson number, e.g, lesson 1
