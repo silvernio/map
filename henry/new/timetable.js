@@ -16,6 +16,7 @@ for (let i = 0; i < timesString.length; i++) {
     timesNum.push(parseInt(splitTimes[0]) * 60 + parseInt(splitTimes[1])) // Hours * 60 + minutes
 }
 
+// 
 export const currentLessons = [] // stores current lesson data
 export const lessonColours = [] // stores current lesson colours
 let allLessons = [] // The text which is stored in the table cells
