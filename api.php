@@ -46,7 +46,7 @@
         $sql = "SELECT * FROM accounts WHERE account_id = " . $teacher_id;
     }
 
-    // Searches for data input page(s) start here:
+    // Searches made by member A start here:
     else if($request == "searchAccounts"){ // Searches the location with 'LIKE' commands
         if(isset($data["search"])){ // Check to see if value sent is set
 
@@ -104,10 +104,11 @@
 
         $sql = "SELECT * FROM rooms WHERE map_id = '" . $map_id ."' AND room_name = '" . $search . "'";
     }
+    // Searches made by member A end here:
+
     else if ($request == 'notifications') {
         $sql = "SELECT * FROM notifications ORDER BY is_urgent DESC, notification_id DESC";
     }
-    // Searches for data input page(s) end here:
 
     else if ($request == 'getequipment') {
         $sql = "SELECT subjects.subject_name,subjects.subject_year,equipment.item_name FROM subjects LEFT JOIN equipment ON subjects.subject_id=equipment.subject_id order by subjects.subject_id asc";

@@ -19,10 +19,7 @@ getCellText()
 
 async function getCellText() {
     var studentIds = await getAllStudents()
-    await getLessons(studentIds)
-
-    // console.log(studentIds)
-    // console.log(lessons)
+    await getLessons(studentIds) // Changes the 'lessons' array
 
     // Checks for the lesson time of all lessons by using nested FOR loops and saves it as a lesson number, e.g, lesson 1
     for (let i=0; i < lessons.length; i++) {
@@ -42,6 +39,7 @@ async function getCellText() {
     for (let i = 0; i < allLessons.length; i++) {
         for (let j = 0; j < lessons.length; j++) {
             if (lessons[j][0] == i) {
+                // Converts 'lessons' into valid HTML
                 allLessons[i] = ("Module " + lessons[j][0] + "<br>" + lessons[j][1] + "<br>" + lessons[j][2] + " - " + lessons[j][3] + "<br>" + lessons[j][4])
             }
         }
