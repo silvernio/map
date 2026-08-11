@@ -28,6 +28,8 @@
         $sql = "SELECT * FROM subjects";
     }
 
+    // and more...
+
     else if ($request == 'lessons' && isset($data['student_id'])) {
         $student_id = $data['student_id'];
 
@@ -130,12 +132,12 @@
     //check if there are results
     if ($result && $result->num_rows > 0) {
         // Loop through the results storing them in an array to be returned as JSON
-        $crashes = [];
+        $response = [];
         while ($row = $result->fetch_assoc()) {
-            $crashes[] = $row; // Add each row to the crashes array
+            $response[] = $row; // Add each row to the response array
         }
         // Return the results as JSON back to fetch in the frontend
-        echo json_encode($crashes);
+        echo json_encode($response);
     } else {
         echo json_encode(["message" => "No data found", 'query' => $sql]);
     }

@@ -126,6 +126,7 @@ function googleLogIn(response) {
                 profileImg.src = profileImg2.src = data.picture;
                 console.log(profileImg2.src);
             }
+            else console.log('no picture :(')
         })
         //catch any errors and log them to the console
         .catch(error => console.error('Error:', error));

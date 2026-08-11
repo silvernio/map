@@ -15,7 +15,7 @@
          data-auto_prompt="false">
     </div>
 
-    <input type="checkbox" name="admin" id="isAdminCheckbox">
+    <div id="name" style="font-size: 20px;"></div>
     <br>
     <img id="pfpImage" src="../default_pfp.png" alt="User profile picture" style="aspect-ratio: 1; border-radius: 50%; width: 50px;">
 

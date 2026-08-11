@@ -47,7 +47,7 @@ fetch("/api.php", {
         .then(data => {
             console.log(data);
             console.log('new stuff')
-            if (data.length && data.length > 0 && false) {
+            if (data.length && data.length > 0) {
                 for (let notif of data) {
                     const {topic, text, is_urgent, colour} = notif;
 
